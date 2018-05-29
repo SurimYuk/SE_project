@@ -5,7 +5,7 @@
 <title>Gachon Score Management System</title>
 </head>
 <body>
-
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
 <script src="https://www.gstatic.com/firebase/4.10.1/firebase-app.js"></script>
 <script src="https://www.gstatic.com/firebase/4.10.1/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebase/4.10.1/firebase-database.js"></script>
@@ -23,7 +23,8 @@
   firebase.initializeApp(config);
 </script>
 
-<h1 align="center"> <b>Gachon University Score Management11111 </b></h1>
+
+<h1 align="center"> <b>Gachon University Score Management</b></h1>
 <hr> 
 
 <table width=50% align="center">
@@ -47,8 +48,8 @@
 <!-- buttons -->
 <tr>
 <td>
-<form action="Manager.html">
-<input type="submit" name="LoginBtn" value="Log in"> 
+<form action="Manager.html"> 
+<input type="submit" name="LoginBtn" value="Log in" id="loginBtn"> 
 </form>
 
 <form action="GCSignup.html"> 

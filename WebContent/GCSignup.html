@@ -6,7 +6,57 @@
 </head>
 
 <body>
-<h2 align="center"> Gachon University </h2>
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+<script src="https://www.gstatic.com/firebase/4.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebase/4.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebase/4.10.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebase/4.10.1/firebase-messaging.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCx0MniEWhgYchvmEaJjg1iVh_V5AgjWJ4",
+    authDomain: "seproject-5d1c4.firebaseapp.com",
+    databaseURL: "https://seproject-5d1c4.firebaseio.com",
+    projectId: "seproject-5d1c4",
+    storageBucket: "seproject-5d1c4.appspot.com",
+    messagingSenderId: "633807614764"
+  };
+  firebase.initializeApp(config);
+  
+  
+  var userId = document.getElementById('userid');
+  var userName = document.getElementById('user_name');
+  var password = document.getElementById('pwd');
+  var selectedId;
+  document.getElementsByName("identification").forEach(function(elm) {
+	  if(elm.checked) {
+		  selectedId = elm.value;
+	  }
+  });
+
+  
+  function saveData(){
+	  var id = userId.value;
+	  var pw = password.value;
+	  var name = userName.value;
+	  var identify = selectedId.value;
+	  
+      var database = firebase.database();
+      var userRef = firebaseDB.ref('Users');
+     
+	  var result = userRef.push({
+		  name:name,
+		  id:id,
+		  password:pw,
+		  identify: identify
+	  });
+
+  }
+
+
+  
+</script>
+<h2 align="center"> Gachon University 11 </h2>
 
 <table width=50% align="center">
 
@@ -15,7 +65,7 @@
 <td>Name</td>
 </tr>
 <tr>
-<td><input type="text" size=35 name="user_name"></td>
+<td><input type="text" size=35 id="user_name"></td>
 </tr>
 
 <!-- user id -->
@@ -24,7 +74,7 @@
 </tr>
 
 <tr>
-<td><input type="text" size=35 name="userid"></td>
+<td><input type="text" size=35 id="userid"></td>
 </tr>
 
 <!-- password -->
@@ -33,12 +83,12 @@
 </tr>
 
 <tr>
-<td><input type="Password" size=35 name="pwd"></td>
+<td><input type="Password" size=35 id="pwd"></td>
 </tr>
 
 <!-- Identification -->
 <tr>  
-<td>Identification__modified</td>
+<td>Identification</td>
 </tr>
 <tr>
 <td><input type="radio" id="id1" name="identification" value="Student">Student</td>
@@ -51,7 +101,11 @@
 </tr>
 
 <tr>
-<td><input type="submit" name="SignUp" value="Sign up"></td>
+<td>
+<!--<form id="signupDone" action="GCSMS.html">-->
+<input type="submit" name="SignUp" value="Sign up" onclick="saveData()">
+<!--</form>-->
+</td>
 </tr>
 
 </table>
