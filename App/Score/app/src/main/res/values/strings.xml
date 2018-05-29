@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Score</string>
+    <string name="title_activity_input_grade">InputGradeActivity</string>
 </resources>
