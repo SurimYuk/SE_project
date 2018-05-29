@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:stretchColumns="*">
+
+        <TableRow>
+            <TextView
+                android:id="@+id/subject"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:gravity="center"
+                android:textSize="30dp" />
+
+            <TextView
+                android:id="@+id/score"
+                android:layout_width="50dp"
+                android:layout_height="wrap_content"
+                android:textColor="#000000"
+                android:textSize="30dp" />
+        </TableRow>
+
+    </TableLayout>
+</android.support.constraint.ConstraintLayout>

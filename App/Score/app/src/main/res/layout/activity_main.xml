@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--login page.1-->
+<!--1.login page-->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+    <TableLayout
+        android:id="@+id/loginTable"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="150dp"
+        android:layout_centerHorizontal="true">
+
+        <TableRow>
+            <TextView android:text="ID"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/loginId"
+                android:inputType="textEmailAddress"/>
+        </TableRow>
+
+        <TableRow>
+            <TextView android:text="PW"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"/>
+
+            <EditText
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/loginPw"
+                android:inputType="textPassword"/>
+        </TableRow>
+    </TableLayout>
+
+
+    <Button
+        android:id="@+id/loginBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loginTable"
+        android:layout_marginEnd="11dp"
+        android:layout_marginRight="11dp"
+        android:layout_toLeftOf="@+id/signupBtn"
+        android:layout_toStartOf="@+id/signupBtn"
+        android:text="Login" />
+
+    <Button
+        android:id="@+id/signupBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/loginTable"
+        android:layout_alignRight="@+id/loginTable"
+        android:layout_below="@+id/loginTable"
+        android:layout_marginEnd="12dp"
+        android:layout_marginRight="12dp"
+        android:text="Sign up" />
+
+
+</RelativeLayout>
