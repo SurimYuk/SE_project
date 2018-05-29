@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
@@ -16,6 +17,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     String inputId, inputPw;
+    String user;
 
     //private FirebaseDatabase database;
     //private DatabaseReference databaseReference;
@@ -46,9 +48,26 @@ public class MainActivity extends AppCompatActivity {
                 }
                 //로그인 성공시
                 else {
-                    Intent intent = new Intent(getApplicationContext(), StudentActivity.class);
-                    startActivity(intent);
-                    finish();
+                    user="manager"; //디비 연결 전 임시로
+
+                    if(user.equals("student")){
+                        Intent intent = new Intent(getApplicationContext(), StudentActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                    else if(user.equals("professor")){
+                        Intent intent = new Intent(getApplicationContext(), ProfessorActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                    //매니저일 때
+                    else{
+                        Intent intent = new Intent(getApplicationContext(), ManagerActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
                 }
             }
         });
