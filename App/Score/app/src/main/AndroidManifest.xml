@@ -23,7 +23,10 @@
         <activity android:name=".ManagerActivity" />
         <activity android:name=".InputGradeActivity" />
         <activity android:name=".ModifyInfoActivity" />
-        <activity android:name=".AddInfoActivity"></activity>
+        <activity android:name=".AddInfoActivity" />
+        <activity android:name=".ManagerMainActivity" />
+        <activity android:name=".ListStudentActivity" />
+        <activity android:name=".ListProfessorActivity"></activity>
     </application>
 
 </manifest>

@@ -11,6 +11,43 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:textSize="20dp"
+                android:id="@+id/year"/>
+
+            <Spinner
+                android:id="@+id/select_year"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"></Spinner>
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp"
+                android:id="@+id/semester"/>
+
+            <Spinner
+                android:id="@+id/select_semester"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"></Spinner>
+
+            <Button
+                android:id="@+id/select"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="30dp"
+                android:text="조회" />
+
+        </LinearLayout>
+
         <ListView
             android:id="@+id/listView3"
             android:layout_width="match_parent"
