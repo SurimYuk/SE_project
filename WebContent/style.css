@@ -1,0 +1,14 @@
+@charset "UTF-8";
+/*CSS Document*/
+
+#show {
+	display: true;
+}
+
+#hide {
+	display: none;
+}
+
+#data {
+	display:none;
+}

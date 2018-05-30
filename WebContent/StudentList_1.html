@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<p><b>15635904 컴퓨터 프로그래밍 </b></p>
+
+<p id="studentList"></p>
+
+<script>
+var students, text, sLength, i;
+
+students = ["김서연", "김민준", "박서현", "박민서", "배준서", "신서윤", "모하은",
+			"이예준", "이시우", "장지민", "장지후", "장현우", "정현우", "정지윤", "차수빈", "차지훈",
+			"하서준", "하건우", "황건우", "황하은"];
+
+sLength = students.length;
+text = "<ul>";
+
+for (i = 0; i < sLength; i++) {
+	text += "<li>" + students[i] + "</li>";
+}
+document.getElementById("studentList").innerHTML = text;
+</script>
+
+</body>
+</html>

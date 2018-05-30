@@ -3,14 +3,24 @@
 <head>
 <meta charset="UTF-8">
 <title>Student</title>
+<style = "text/css>
+table {
+	border: 1px solid #444444;
+	border-collapse: collapse;
+}
+
+th, td {
+	border: 1px solid #444444;
+}
+</style>
 </head>
 
 <body>
 
-<h1 align="center">student_name</h1>
+<h1 align="center">홍길동 </h1>
 <br>
 <br>
-<p>
+<p align="center">
 Year:
 <select name="year">
 <option value="select">Select Year</option>
@@ -35,31 +45,31 @@ Semester:
 
 &nbsp;
 &nbsp;
-<input type="submit" name="managerSubmit" value="Search">
-
+<input type="button" id="show" value="Search">
 </p>
 
-<h3>Score</h3>
-<br>
-<table sytle="width:100%">
+<!-- database information needed! -->
+<h3 align="center">Score</h3>
+
+<table style="width:50%; height:100px; text-align:center; margin:auto;" align="center">
 <tr>
-<th id="subjectType">Subject</th>
-<th id="scoreTpe">Score</th>
+<th id="subjectType">과목명 </th>
+<th id="scoreTpe">성적 </th>
 </tr>
 
 <tr>
-<td id="subject1">subject_1</th>
-<td id="score1">score_1</th>
+<td id="subject1">소프트웨어 공학  </th>
+<td id="score1">A+</th>
 </tr>
 
 <tr>
-<td id="subject2">subject_2</th>
-<td id="score2">score_2</th>
+<td id="subject2"> 컴퓨터 프로그래밍  </th>
+<td id="score2"> B </th>
 </tr>
 
 <tr>
-<td id="subject3">subject_3</th>
-<td id="score3">score_3</th>
+<td id="subject3"> 모바일 프로그래밍  </th>
+<td id="score3">A</th>
 </tr>
 </table>
 
