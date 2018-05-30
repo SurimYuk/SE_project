@@ -3,14 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <title>Student</title>
-<style = "text/css>
-table {
-	border: 1px solid #444444;
-	border-collapse: collapse;
-}
-
-th, td {
-	border: 1px solid #444444;
+<style>
+tr.borderBottom td {
+   border-bottom: 1pt solid black;
 }
 </style>
 </head>
@@ -36,42 +31,36 @@ th, td {
   firebaseDatabase=firebase.database();
 
   function thanksList(){
-	   
-	  var subjectRef = firebaseDatabase.ref('subject/2018/1학기');
-	  subjectRef.on('child_added', on_subject_list);
-	  
+      
+     var subjectRef = firebaseDatabase.ref('users/student/201635835/grade/2018/spring');
+     subjectRef.on('child_added', on_subject_list);
+     
   }
   
   function on_subject_list(data){
-	  var key = data.key;
-	  
-	  var Data = data.val();
-	  var number = Data.number;
-	  var professor = Data.professor;
-	  var subject = Data.subject;
-	  
-	  alert(number +"/"+ professor + "/"+subject);
-	  
-	  
-	  var text =    
-		    "<div class=\"media\" id='"+number+"' onclick=\"show_user_page(this.id)\">" +
-		    "<div class=\"media-body\">" +
-		    "<h4 class=\"media-heading\">" + professor +
-		    " <span STYLE=\"color: green; font-size: 5pt\">" + subject + "</span></h4>" + 
-		    "<p>" + number + "</p></div></div>" +
-		    "<hr>";
-		      
-	  document.getElementById("subjectList").innerHTML += text;
+     var key = data.key;
+     
+     var Data = data.val();
+     var name = Data.name;
+     var number = Data.number;
+     var score = Data.score;
+     
+     //alert(name +"/"+ number + "/"+score);     
+     
+     var text = 
+        "<tr class=\"borderBottom\"><td>"+name+"</td><td>"+score+"</td></tr>";  
+     document.getElementById("subjectList").innerHTML += text;
 
   }
   
   
 </script>
 
-<h1 align="center">홍길동 </h1>
+
+<h1 align="center">이수정</h1>
 <br>
 <br>
-<p align="center">
+<p>
 Year:
 <select name="year" id="year">
 <option value="select">Select Year</option>
@@ -96,18 +85,17 @@ Semester:
 
 &nbsp;
 &nbsp;
-
 <input type="button" name="managerSubmit" value="Search" onclick="thanksList()">
+
 </p>
+  <h3>성적조회</h3>
+  <table id="subjectList" align="center"><tr><td>과목명</td><td>점수</td></tr></table>
 
-<!-- database information needed! -->
-<h3 align="center">Score</h3>
 
-<!-- 성적리스트 출력하기-->
 
-    <hr>
-  <h3>subject list</h3>
-  <p id="subjectList"></p>
+
+
+
 
 </body>
 </html>
