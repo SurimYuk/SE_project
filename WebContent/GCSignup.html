@@ -44,11 +44,11 @@
 		  identify='manager';
 	  }
 	  
-      var usersRef = firebase.database().ref('users/'+identify+'/\''+id+'\'');
+      var usersRef = firebase.database().ref('users/'+identify+'/'+id);
       var data = {
-		  name:'\''+name+'\'',
-		  id:'\''+id+'\'',
-		  password:'\''+pw+'\'',
+		  NAME:'\''+name+'\'',
+		  ID:'\''+id+'\'',
+		  PW:'\''+pw+'\'',
 		  type:identify
 	  }
 	  usersRef.set(data);
@@ -56,7 +56,7 @@
   }
     
 </script>
-<h2 align="center"> Gachon University 111 </h2>
+<h2 align="center"> Gachon University 11111111</h2>
 
 <table width=50% align="center">
 
@@ -102,9 +102,9 @@
 
 <tr>
 <td>
-<!--<form id="signupDone" action="GCSMS.html">-->
+<!-- <form id="signupDone" action="index.html"> -->
 <input type="submit" name="SignUp" value="Sign up" onclick="saveData()">
-<!--</form>-->
+<!-- </form>-->
 </td>
 </tr>
 
