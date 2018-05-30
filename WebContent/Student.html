@@ -3,6 +3,12 @@
 <head>
 <meta charset="UTF-8">
 <title>Student</title>
+<style>
+tr.borderBottom td {
+	border-bottom: 1pt solid black;
+	font-size:25px;
+}
+</style>
 </head>
 
 <body>
@@ -27,7 +33,7 @@
 
   function thanksList(){
 	   
-	  var subjectRef = firebaseDatabase.ref('subject/2018/1학기');
+	  var subjectRef = firebaseDatabase.ref('users/student/201635835/grade/2018/spring');
 	  subjectRef.on('child_added', on_subject_list);
 	  
   }
@@ -36,21 +42,14 @@
 	  var key = data.key;
 	  
 	  var Data = data.val();
+	  var name = Data.name;
 	  var number = Data.number;
-	  var professor = Data.professor;
-	  var subject = Data.subject;
+	  var score = Data.score;
 	  
-	  alert(number +"/"+ professor + "/"+subject);
+	  //alert(name +"/"+ number + "/"+score);	  
 	  
-	  
-	  var text =    
-		    "<div class=\"media\" id='"+number+"' onclick=\"show_user_page(this.id)\">" +
-		    "<div class=\"media-body\">" +
-		    "<h4 class=\"media-heading\">" + professor +
-		    " <span STYLE=\"color: green; font-size: 5pt\">" + subject + "</span></h4>" + 
-		    "<p>" + number + "</p></div></div>" +
-		    "<hr>";
-		      
+	  var text = 
+		  "<tr class=\"borderBottom\" align=\"center\"><td>"+name+"</td><td>"+score+"</td></tr>";  
 	  document.getElementById("subjectList").innerHTML += text;
 
   }
@@ -59,8 +58,7 @@
 </script>
 
 
-<h1 align="center">student_name1</h1>
-<br>
+<h1 align="center">성적조회</h1>
 <br>
 <p>
 Year:
@@ -74,7 +72,6 @@ Year:
 <option value="2018">2018</option>
 </select>
 &nbsp;
-&nbsp;
 
 Semester:
 <select name="semester" id="semester">
@@ -84,48 +81,11 @@ Semester:
 <option value="summer">여름학기</option>
 <option value="winter">겨울학기</option>
 </select>
-
-&nbsp;
 &nbsp;
 <input type="button" name="managerSubmit" value="Search" onclick="thanksList()">
 
 </p>
+<br><br>
+  <table id="subjectList" align="center"></table>
 
-<h3>Score</h3>
-<br>
-<table sytle="width:100%">
-<tr>
-<th id="subjectType">Subject</th>
-<th id="scoreTpe">Score</th>
-</tr>
-
-<tr>
-<td id="subject1">subject_1</th>
-<td id="score1">score_1</th>
-</tr>
-
-<tr>
-<td id="subject2">subject_2</th>
-<td id="score2">score_2</th>
-</tr>
-
-<tr>
-<td id="subject3">subject_3</th>
-<td id="score3">score_3</th>
-</tr>
-</table>
-
-<!-- 감사리스트 출력하기-->
-
-    <hr>
-  <h3>subject list</h3>
-  <p id="subjectList"></p>
-
-
-
-
-
-
-
-</body>
 </html>
