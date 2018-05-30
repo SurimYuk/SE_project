@@ -2,27 +2,34 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>Students list</title>
 </head>
 <body>
 
 <p><b>15635904 컴퓨터 프로그래밍 </b></p>
 
-<p id="studentList"></p>
+<p id="studentList">
+
+</p>
 
 <script>
-var students, text, sLength, i;
+var students, text, sLength, i, textBox, Button;
 
 students = ["김서연", "김민준", "박서현", "박민서", "배준서", "신서윤", "모하은",
 			"이예준", "이시우", "장지민", "장지후", "장현우", "정현우", "정지윤", "차수빈", "차지훈",
 			"하서준", "하건우", "황건우", "황하은"];
 
 sLength = students.length;
-text = "<ul>";
+text = "<table>";
+textBox = "<input type=\"text\">";
+Button = "<input type=\"button\" value=\"enter\">";
 
 for (i = 0; i < sLength; i++) {
-	text += "<li>" + students[i] + "</li>";
+	text += "<tr>"+"<td>"+students[i]+"</td>" +
+					"<td>" + textBox + "</td>" +
+					"<td>" + Button + "</tr>";
 }
+	text+="</table>";
 document.getElementById("studentList").innerHTML = text;
 </script>
 
