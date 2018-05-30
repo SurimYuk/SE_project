@@ -7,7 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -16,10 +23,15 @@ public class ManagerActivity extends AppCompatActivity {
     ListView listView3;
     ManageAdapter adapter;
 
+    Button addButton;
+
     int line = 4; //디비 속 row 개수
     String[] number = new String[line];
     String[] subject = new String[line];
     String[] professor = new String[line];
+
+    FirebaseDatabase database;
+    DatabaseReference databaseReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,28 +40,34 @@ public class ManagerActivity extends AppCompatActivity {
 
         listView3 = (ListView) findViewById(R.id.listView3);
 
+        addButton = (Button)findViewById(R.id.addButton);
+
         adapter = new ManageAdapter();
 
-        number[0] = "201515";
-        number[1] = "201516";
-        number[2] = "201517";
-        number[3] = "201518";
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference("subject");
 
-        subject[0] = "소프트웨어 공학";
-        subject[1] = "컴퓨터 그래픽스";
-        subject[2] = "모바일 프로그래밍";
-        subject[3] = "경영학원론";
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int num = (int)dataSnapshot.getChildrenCount();
+                String idx = String.valueOf(num);
 
-        professor[0] = "정옥란";
-        professor[1] = "최진우";
-        professor[2] = "이주형";
-        professor[3] = "김학진";
+                for(int i=1; i<=num;i++){
+                    String Index = String.valueOf(i);
+                    String number = (String)dataSnapshot.child(Index).child("number").getValue();
+                    String subject = (String)dataSnapshot.child(Index).child("subject").getValue();
+                    String professor = (String)dataSnapshot.child(Index).child("professor").getValue();
 
+                    adapter.addItem(new ManageItem(number, subject,professor));
+                }
+            }
 
-        //여기서 디비 값 읽어서 출력하면 됨
-        for (int i = 0; i < 4; i++) {
-            adapter.addItem(new ManageItem(number[i], subject[i],professor[i]));
-        }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         listView3.setAdapter(adapter);
 
@@ -65,6 +83,23 @@ public class ManagerActivity extends AppCompatActivity {
                 number_value.putString("Number", item.getManage_Number());
                 intent.putExtras(number_value);
 
+                Bundle subject_value = new Bundle();
+                subject_value.putString("Subject", item.getManage_Subject());
+                intent.putExtras(subject_value);
+
+                Bundle professor_value = new Bundle();
+                professor_value.putString("Professor", item.getManage_Professor());
+                intent.putExtras(professor_value);
+
+                startActivity(intent);
+            }
+        });
+
+        addButton.setOnClickListener(new View.OnClickListener(){
+
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), AddInfoActivity.class);
                 startActivity(intent);
             }
         });

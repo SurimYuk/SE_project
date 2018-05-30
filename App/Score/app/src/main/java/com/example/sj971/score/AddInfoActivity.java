@@ -1,6 +1,5 @@
 package com.example.sj971.score;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,7 +12,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-public class ModifyInfoActivity extends AppCompatActivity {
+public class AddInfoActivity extends AppCompatActivity {
 
     EditText numberEdit;
     EditText subjectEdit;
@@ -34,25 +33,12 @@ public class ModifyInfoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_modify_info);
+        setContentView(R.layout.activity_add_info);
 
-        storeButton=(Button)findViewById(R.id.store);
+        storeButton = (Button) findViewById(R.id.store);
         numberEdit = (EditText) findViewById(R.id.number);
         subjectEdit = (EditText) findViewById(R.id.subject_name);
         professorEdit = (EditText) findViewById(R.id.professor_name);
-
-        Intent intent = getIntent();
-
-        Bundle bundle = new Bundle();
-        bundle = intent.getExtras();
-
-        number_value = bundle.getString("Number");
-        subject_value = bundle.getString("Subject");
-        professor_value = bundle.getString("Professor");
-
-        numberEdit.setText(number_value);
-        subjectEdit.setText(subject_value);
-        professorEdit.setText(professor_value);
 
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("subject");
@@ -67,9 +53,9 @@ public class ModifyInfoActivity extends AppCompatActivity {
                         Index = (int) dataSnapshot.getChildrenCount();
                         idx = String.valueOf(Index + 1);
 
-                        number_value=(String)numberEdit.getText().toString();
-                        subject_value=(String)subjectEdit.getText().toString();
-                        professor_value=(String)professorEdit.getText().toString();
+                        number_value = (String) numberEdit.getText().toString();
+                        subject_value = (String) subjectEdit.getText().toString();
+                        professor_value = (String) professorEdit.getText().toString();
 
                         databaseReference.child(idx).child("number").setValue(number_value);
                         databaseReference.child(idx).child("subject").setValue(subject_value);

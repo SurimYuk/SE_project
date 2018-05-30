@@ -156,7 +156,7 @@ public class StudentActivity extends AppCompatActivity {
             ScoreItem item = items.get(position);
 
             view.setSubject(item.getSubject());
-            view.setSubject(item.getSubject());
+            view.setScore(item.getScore());
 
 
             return view;
