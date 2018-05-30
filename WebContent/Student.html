@@ -35,9 +35,6 @@ th, td {
   var firebaseDatabase;
   firebaseDatabase=firebase.database();
 
-<<<<<<< HEAD
-<h1 align="center">홍길동 </h1>
-=======
   function thanksList(){
 	   
 	  var subjectRef = firebaseDatabase.ref('subject/2018/1학기');
@@ -71,9 +68,7 @@ th, td {
   
 </script>
 
-
-<h1 align="center">student_name1</h1>
->>>>>>> 7992567d674fe4219c33ae7f44b1b49e85a83db5
+<h1 align="center">홍길동 </h1>
 <br>
 <br>
 <p align="center">
@@ -101,50 +96,18 @@ Semester:
 
 &nbsp;
 &nbsp;
-<<<<<<< HEAD
-<input type="button" id="show" value="Search">
-=======
-<input type="button" name="managerSubmit" value="Search" onclick="thanksList()">
 
->>>>>>> 7992567d674fe4219c33ae7f44b1b49e85a83db5
+<input type="button" name="managerSubmit" value="Search" onclick="thanksList()">
 </p>
 
 <!-- database information needed! -->
 <h3 align="center">Score</h3>
 
-<table style="width:50%; height:100px; text-align:center; margin:auto;" align="center">
-<tr>
-<th id="subjectType">과목명 </th>
-<th id="scoreTpe">성적 </th>
-</tr>
-
-<tr>
-<td id="subject1">소프트웨어 공학  </th>
-<td id="score1">A+</th>
-</tr>
-
-<tr>
-<td id="subject2"> 컴퓨터 프로그래밍  </th>
-<td id="score2"> B </th>
-</tr>
-
-<tr>
-<td id="subject3"> 모바일 프로그래밍  </th>
-<td id="score3">A</th>
-</tr>
-</table>
-
-<!-- 감사리스트 출력하기-->
+<!-- 성적리스트 출력하기-->
 
     <hr>
   <h3>subject list</h3>
   <p id="subjectList"></p>
-
-
-
-
-
-
 
 </body>
 </html>
