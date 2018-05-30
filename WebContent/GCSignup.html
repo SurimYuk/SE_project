@@ -24,43 +24,40 @@
   firebase.initializeApp(config);
   
   function saveData(){
+      
 	  var userId = document.getElementById('userid');
-	  alert(userid);
+	  var userName = document.getElementById('user_name');
+	  var password = document.getElementById('pwd');
 	  
-  }
-  /*var userId = document.getElementById('userid');
-  var userName = document.getElementById('user_name');
-  var password = document.getElementById('pwd');
-  var selectedId;
-  document.getElementsByName("identification").forEach(function(elm) {
-	  if(elm.checked) {
-		  selectedId = elm.value;
-	  }
-  });
-
-  
-  function saveData(){
 	  var id = userId.value;
 	  var pw = password.value;
 	  var name = userName.value;
-	  var identify = selectedId.value;
 	  
-      var database = firebase.database();
-      var userRef = firebaseDB.ref('Users');
-     
-	  var result = userRef.push({
-		  name:name,
-		  id:id,
-		  password:pw,
-		  identify: identify
+	  var identify;
+	  if(document.all["identification"][0].checked){
+		  identify='student';
+	  }
+	  if(document.all["identification"][1].checked){
+		  identify='professor';
+	  }
+	  if(document.all["identification"][2].checked){
+		  identify='manager';
+	  }
+	  
+	  var database = firebase.database();
+      var userRef = database.ref('Users');
+      
+      var result = userRef.push({
+		  name:'\''+name+'\'',
+		  id:'\''+id+'\'',
+		  password:'\''+pw+'\'',
+		  type:identify
 	  });
-
-  }*/
-
-
-  
+      
+  }
+    
 </script>
-<h2 align="center"> Gachon University 11 </h2>
+<h2 align="center"> Gachon University 0312d1232 </h2>
 
 <table width=50% align="center">
 
@@ -95,13 +92,13 @@
 <td>Identification</td>
 </tr>
 <tr>
-<td><input type="radio" id="id1" name="identification" value="Student">Student</td>
+<td><input type="radio" id="id1" name=identification value="Student">Student</td>
 </tr>
 <tr>
-<td><input type="radio" id="id2" name="identification" value="Professor">Professor</td>
+<td><input type="radio" id="id2" name=identification value="Professor">Professor</td>
 </tr>
 <tr>
-<td><input type="radio" id="id3" name="identification" value="Manager">Manager</td>
+<td><input type="radio" id="id3" name=identification value="Manager">Manager</td>
 </tr>
 
 <tr>
