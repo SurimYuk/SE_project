@@ -3,6 +3,35 @@
 <head>
 <meta charset="UTF-8">
 <title>Manager</title>
+<style>
+#first {
+	width:100%;
+	height:100%;
+	POSITION:absolute;
+	top:0;
+	display:none;
+	}
+	#second {
+	background:rgba(0,0,0,0.7);
+	height:100%;
+	width:100%;
+	position:fixed;
+	top:0;
+	}
+	#third {
+		position:fixed;
+		width:50%;
+		height:400px;
+		background:#fff;
+		border-radius:6px;
+		top:4%;
+		left:24%;
+		x-index:1;
+		display:none;
+	}
+	
+</style>
+<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
 </head>
 
 <body>
@@ -13,13 +42,13 @@
 <table align="center">
 <td><input type="radio" id="selectStudent" value="STUDENT">STUDENT&nbsp;&nbsp;
 <input type="radio" id="selectProf" value="PROFESSOR"> PROFESSOR&nbsp;&nbsp;
-<input type="radio" id="selectCourse" value="COURSES"> COURESES</td>
+<input type="radio" id="selectCourse" value="COURSES"> COURSES</td>
 </table>
 </p>
 <br><br>
 
 <!--<form action="#">-->
-<p>
+<p align="center">
 Year:
 <select name="year">
 <option value="select">Select Year</option>
@@ -47,15 +76,76 @@ Semester:
 <input type="submit" name="managerSubmit" value="Search">
 
 </p>
-<!--</form>-->
 <br>
 
+<!--call from database -->
 <p>
-Software Engineering<br>
-Software Industry Seminar<br>
-Computer Graphics<br>
+<table align="center" style="width:50%">
+<tr>
+<td>20180000</td>
+<td>소프트웨어 공학 </td>
+<td>홍길동</td>
+<td align="center">&#10005</td>
+</tr>
+
+<tr>
+<td>20180001</td>
+<td>컴퓨터 프로그래밍 </td>
+<td>홍길동</td>
+<td align="center">&#10005</td>
+</tr>
+
+<tr>
+<td>20180002</td>
+<td>모바일 프로그래밍  </td>
+<td>홍길동</td>
+<td align="center">&#10005</td>
+</tr>
+
+<tr>
+<td>&nbsp;</td>
+<td>&nbsp; </td>
+<td>&nbsp; </td>
+<td><button id="call_add">추가하기</button></td>
+</tr>
+
+</table>
 <br>
-<input type="submit" id="addCourse" value="추가하기">
 </p>
+<div id="first">
+<div id="second">
+<div id="third">
+
+<h3 align="center">추가하기 </h1>
+<table align="center">
+<tr>
+<td>학수번호: </td>
+<td><input type="text" id="added_course_id" name="new_id"></td>
+</tr>
+<tr>
+<td>과목명: </td>
+<td><input type="text" id="added_course_name" name="new_name"></td>
+</tr>
+<tr>
+<td>교수 성함: </td>
+<td><input type="text" id="added_course_prof" name="new_prof"></td>
+</tr>
+</table>
+<input type="submit" id="close" value="추가하기" style="float: right;">
+</div>
+</div>
+</div>
+
+<script>
+$(document.call_add).click(function() {
+	$("div:hidden:first").fadeIn("slow");
+	$("div:hidden:second").fadeIn("slow");
+	$("div:hidden:third").fadeIn("slow");
+});
+
+
+</script>
+
+
 </body>
 </html>
