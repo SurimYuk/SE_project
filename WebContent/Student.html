@@ -3,9 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <title>Student</title>
+<<<<<<< HEAD
 <style>
 tr.borderBottom td {
    border-bottom: 1pt solid black;
+=======
+<<<<<<< HEAD
+<style>
+tr.borderBottom td {
+	border-bottom: 1pt solid black;
+	font-size:25px;
+=======
+<style = "text/css>
+table {
+	border: 1px solid #444444;
+	border-collapse: collapse;
+}
+
+th, td {
+	border: 1px solid #444444;
+>>>>>>> b5553a5a39c2a055ce919f895a41df6a56105d6e
+>>>>>>> faf4db7b57e6198aff738d4c67d293600939c52d
 }
 </style>
 </head>
@@ -31,6 +49,7 @@ tr.borderBottom td {
   firebaseDatabase=firebase.database();
 
   function thanksList(){
+<<<<<<< HEAD
       
      var subjectRef = firebaseDatabase.ref('users/student/201635835/grade/2018/spring');
      subjectRef.on('child_added', on_subject_list);
@@ -50,15 +69,45 @@ tr.borderBottom td {
      var text = 
         "<tr class=\"borderBottom\"><td>"+name+"</td><td>"+score+"</td></tr>";  
      document.getElementById("subjectList").innerHTML += text;
+=======
+	   
+	  var subjectRef = firebaseDatabase.ref('users/student/201635835/grade/2018/spring');
+	  subjectRef.on('child_added', on_subject_list);
+	  
+  }
+  
+  function on_subject_list(data){
+	  var key = data.key;
+	  
+	  var Data = data.val();
+	  var name = Data.name;
+	  var number = Data.number;
+	  var score = Data.score;
+	  
+	  //alert(name +"/"+ number + "/"+score);	  
+	  
+	  var text = 
+		  "<tr class=\"borderBottom\" align=\"center\"><td>"+name+"</td><td>"+score+"</td></tr>";  
+	  document.getElementById("subjectList").innerHTML += text;
+>>>>>>> faf4db7b57e6198aff738d4c67d293600939c52d
 
   }
   
   
 </script>
 
+<<<<<<< HEAD
 
 <h1 align="center">이수정</h1>
+=======
+<<<<<<< HEAD
+
+<h1 align="center">성적조회</h1>
+=======
+<h1 align="center">홍길동 </h1>
+>>>>>>> faf4db7b57e6198aff738d4c67d293600939c52d
 <br>
+>>>>>>> b5553a5a39c2a055ce919f895a41df6a56105d6e
 <br>
 <p>
 Year:
@@ -72,7 +121,6 @@ Year:
 <option value="2018">2018</option>
 </select>
 &nbsp;
-&nbsp;
 
 Semester:
 <select name="semester" id="semester">
@@ -82,20 +130,29 @@ Semester:
 <option value="summer">여름학기</option>
 <option value="winter">겨울학기</option>
 </select>
-
-&nbsp;
 &nbsp;
 <input type="button" name="managerSubmit" value="Search" onclick="thanksList()">
 
 </p>
+<<<<<<< HEAD
   <h3>성적조회</h3>
   <table id="subjectList" align="center"><tr><td>과목명</td><td>점수</td></tr></table>
 
 
 
 
+=======
+<br><br>
+  <table id="subjectList" align="center"></table>
+
+<<<<<<< HEAD
+=======
+<!-- database information needed! -->
+<h3 align="center">Score</h3>
+>>>>>>> faf4db7b57e6198aff738d4c67d293600939c52d
 
 
 
 </body>
+>>>>>>> b5553a5a39c2a055ce919f895a41df6a56105d6e
 </html>
