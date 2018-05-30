@@ -44,20 +44,19 @@
 		  identify='manager';
 	  }
 	  
-	  var database = firebase.database();
-      var userRef = database.ref('Users');
-      
-      var result = userRef.push({
+      var usersRef = firebase.database().ref('users/'+identify+'/\''+id+'\'');
+      var data = {
 		  name:'\''+name+'\'',
 		  id:'\''+id+'\'',
 		  password:'\''+pw+'\'',
 		  type:identify
-	  });
+	  }
+	  usersRef.set(data);
       
   }
     
 </script>
-<h2 align="center"> Gachon University 0312d1232 </h2>
+<h2 align="center"> Gachon University 111 </h2>
 
 <table width=50% align="center">
 
