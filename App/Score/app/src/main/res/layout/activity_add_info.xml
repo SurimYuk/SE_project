@@ -5,60 +5,103 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.sj971.score.AddInfoActivity">
-    <RelativeLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_height="match_parent"
-        android:layout_width="match_parent">
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/layout1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/year"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:textSize="20dp" />
+
+            <Spinner
+                android:id="@+id/select_year"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"></Spinner>
+
+            <TextView
+                android:id="@+id/semester"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textSize="20dp" />
+
+            <Spinner
+                android:id="@+id/select_semester"
+                android:layout_width="30dp"
+                android:layout_height="wrap_content"></Spinner>
+        </LinearLayout>
 
         <TableLayout
             android:id="@+id/signupTable"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
-            android:layout_centerHorizontal="true">
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dp"
+            android:layout_below="@+id/layout1">
 
             <TableRow>
-                <TextView android:text="학수번호"
+
+                <TextView
                     android:layout_width="60dp"
-                    android:layout_height="wrap_content"/>
-                <EditText
-                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/number" />
+                    android:text="학수번호" />
+
+                <EditText
+                    android:id="@+id/number"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content" />
             </TableRow>
 
             <TableRow>
-                <TextView android:text="과목명"
+
+                <TextView
                     android:layout_width="60dp"
-                    android:layout_height="wrap_content"/>
-                <EditText
-                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/subject_name" />
+                    android:text="과목명" />
+
+                <EditText
+                    android:id="@+id/subject_name"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content" />
             </TableRow>
 
             <TableRow>
-                <TextView android:text="교수명"
+
+                <TextView
                     android:layout_width="60dp"
-                    android:layout_height="wrap_content"/>
-                <EditText
-                    android:layout_width="200dp"
                     android:layout_height="wrap_content"
-                    android:id="@+id/professor_name" />
+                    android:text="교수명" />
+
+                <EditText
+                    android:id="@+id/professor_name"
+                    android:layout_width="200dp"
+                    android:layout_height="wrap_content" />
             </TableRow>
 
 
         </TableLayout>
 
         //DB랑 연동하기!
+
         <Button
             android:id="@+id/store"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:text="저장"
             android:layout_below="@+id/signupTable"
-            android:layout_centerHorizontal="true"/>
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:text="저장" />
 
 
     </RelativeLayout>

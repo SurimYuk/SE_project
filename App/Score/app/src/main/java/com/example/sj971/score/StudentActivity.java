@@ -28,7 +28,7 @@ public class StudentActivity extends AppCompatActivity {
     Spinner year_spinner;
     Spinner semester_spinner;
 
-    String[] year_value = {"2014","2015","2016","2017"};
+    String[] year_value = {"2015","2016","2017","2018"};
     String[] semester_value={"1학기", "여름학기","2학기","겨울학기"};
 
     String year;
@@ -62,12 +62,12 @@ public class StudentActivity extends AppCompatActivity {
         subject[0] = "소프트웨어 공학";
         subject[1] = "컴퓨터 그래픽스";
         subject[2] = "모바일 프로그래밍";
-        subject[3] = "경영학원론";
+        subject[3] = "산업세미나";
 
         score[0] = "A+";
-        score[1] = "A";
-        score[2] = "B+";
-        score[3] = "B";
+        score[1] = "B";
+        score[2] = "A";
+        score[3] = "B+" ;
 
         ArrayAdapter<String> adapter_year = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, year_value);
         adapter_year.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

@@ -68,10 +68,12 @@ public class SignupActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                databaseReference.child(id.getText().toString()).child("ID").setValue(id.getText().toString());
-                databaseReference.child(id.getText().toString()).child("PW").setValue(pw.getText().toString());
-                databaseReference.child(id.getText().toString()).child("NAME").setValue(name.getText().toString());
-                databaseReference.child(id.getText().toString()).child("type").setValue(user);
+                String id_num = id.getText().toString();
+
+                databaseReference.child(user).child(id_num).child("ID").setValue(id.getText().toString());
+                databaseReference.child(user).child(id_num).child("PW").setValue(pw.getText().toString());
+                databaseReference.child(user).child(id_num).child("NAME").setValue(name.getText().toString());
+                databaseReference.child(user).child(id_num).child("type").setValue(user);
 
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);

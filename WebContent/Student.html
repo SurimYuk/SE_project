@@ -16,36 +16,97 @@ th, td {
 </head>
 
 <body>
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+<script src="https://www.gstatic.com/firebase/4.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebase/4.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebase/4.10.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebase/4.10.1/firebase-messaging.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCx0MniEWhgYchvmEaJjg1iVh_V5AgjWJ4",
+    authDomain: "seproject-5d1c4.firebaseapp.com",
+    databaseURL: "https://seproject-5d1c4.firebaseio.com",
+    projectId: "seproject-5d1c4",
+    storageBucket: "seproject-5d1c4.appspot.com",
+    messagingSenderId: "633807614764"
+  };
+  firebase.initializeApp(config);
+  var firebaseDatabase;
+  firebaseDatabase=firebase.database();
 
+<<<<<<< HEAD
 <h1 align="center">홍길동 </h1>
+=======
+  function thanksList(){
+	   
+	  var subjectRef = firebaseDatabase.ref('subject/2018/1학기');
+	  subjectRef.on('child_added', on_subject_list);
+	  
+  }
+  
+  function on_subject_list(data){
+	  var key = data.key;
+	  
+	  var Data = data.val();
+	  var number = Data.number;
+	  var professor = Data.professor;
+	  var subject = Data.subject;
+	  
+	  alert(number +"/"+ professor + "/"+subject);
+	  
+	  
+	  var text =    
+		    "<div class=\"media\" id='"+number+"' onclick=\"show_user_page(this.id)\">" +
+		    "<div class=\"media-body\">" +
+		    "<h4 class=\"media-heading\">" + professor +
+		    " <span STYLE=\"color: green; font-size: 5pt\">" + subject + "</span></h4>" + 
+		    "<p>" + number + "</p></div></div>" +
+		    "<hr>";
+		      
+	  document.getElementById("subjectList").innerHTML += text;
+
+  }
+  
+  
+</script>
+
+
+<h1 align="center">student_name1</h1>
+>>>>>>> 7992567d674fe4219c33ae7f44b1b49e85a83db5
 <br>
 <br>
 <p align="center">
 Year:
-<select name="year">
+<select name="year" id="year">
 <option value="select">Select Year</option>
-<option value="2013" id="2013">2013</option>
-<option value="2014" id="2014">2014</option>
-<option value="2015" id="2015">2015</option>
-<option value="2016" id="2016">2016</option>
-<option value="2017" id="2017">2017</option>
-<option value="2018" id="2018">2018</option>
+<option value="2013">2013</option>
+<option value="2014">2014</option>
+<option value="2015">2015</option>
+<option value="2016">2016</option>
+<option value="2017">2017</option>
+<option value="2018">2018</option>
 </select>
 &nbsp;
 &nbsp;
 
 Semester:
-<select name="semester">
+<select name="semester" id="semester">
 <option value="select">Select Semester</option>
-<option value="sem1">1학기</option>
-<option value="sem2">2학기</option>
+<option value="sprint">1학기</option>
+<option value="fall">2학기</option>
 <option value="summer">여름학기</option>
 <option value="winter">겨울학기</option>
 </select>
 
 &nbsp;
 &nbsp;
+<<<<<<< HEAD
 <input type="button" id="show" value="Search">
+=======
+<input type="button" name="managerSubmit" value="Search" onclick="thanksList()">
+
+>>>>>>> 7992567d674fe4219c33ae7f44b1b49e85a83db5
 </p>
 
 <!-- database information needed! -->
@@ -72,6 +133,18 @@ Semester:
 <td id="score3">A</th>
 </tr>
 </table>
+
+<!-- 감사리스트 출력하기-->
+
+    <hr>
+  <h3>subject list</h3>
+  <p id="subjectList"></p>
+
+
+
+
+
+
 
 </body>
 </html>

@@ -1,47 +1,218 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="match_parent"
-    android:layout_width="match_parent">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <TableLayout
         android:id="@+id/signupTable"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="100dp"
-        android:layout_centerHorizontal="true">
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="50dp">
 
         <TableRow>
-            <TextView android:text="학수번호"
+
+            <TextView
                 android:layout_width="60dp"
-                android:layout_height="wrap_content"/>
-            <EditText
-                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/number" />
+                android:text="학수번호" />
+
+            <EditText
+                android:id="@+id/number"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content" />
         </TableRow>
 
         <TableRow>
-            <TextView android:text="과목명"
+
+            <TextView
                 android:layout_width="60dp"
-                android:layout_height="wrap_content"/>
-            <EditText
-                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/subject_name" />
+                android:text="과목명" />
+
+            <EditText
+                android:id="@+id/subject_name"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content" />
         </TableRow>
 
         <TableRow>
-            <TextView android:text="교수명"
+
+            <TextView
                 android:layout_width="60dp"
-                android:layout_height="wrap_content"/>
-            <EditText
-                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:id="@+id/professor_name" />
+                android:text="교수명" />
+
+            <EditText
+                android:id="@+id/professor_name"
+                android:layout_width="200dp"
+                android:layout_height="wrap_content" />
         </TableRow>
 
+        <!--
+        <TableRow>
 
+            <TextView
+                android:id="@+id/habit_type"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:text="습관 종류: " />
+
+            <RadioGroup
+                android:id="@+id/habit_type_group"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/good_habit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="좋은 습관" />
+
+                <RadioButton
+                    android:id="@+id/bad_habit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="나쁜 습관" />
+            </RadioGroup>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="15dp"
+                android:text="수업 시간: " />
+
+            <RadioGroup
+                android:id="@+id/days"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <RadioButton
+                    android:id="@+id/Monday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="월요일" />
+
+                <RadioButton
+                    android:id="@+id/Tuesday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="화요일" />
+
+
+                <RadioButton
+                    android:id="@+id/Wednesday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="수요일" />
+
+                <RadioButton
+                    android:id="@+id/Thursday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="목요일" />
+
+                <RadioButton
+                    android:id="@+id/Friday"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="금요일" />
+            </RadioGroup>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/time_Mon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="15dp"
+                android:layout_span="1"
+                android:text="월요일: "
+                android:visibility="invisible" />
+
+            <LinearLayout
+                android:visibility="invisible">
+
+                <CheckBox
+                    android:id="@+id/time_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:text="1교시" />
+
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/time_tue"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="15dp"
+                android:layout_span="1"
+                android:text="화요일:"
+                android:visibility="invisible" />
+
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/time_wed"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="15dp"
+                android:layout_span="1"
+                android:text="수요일:"
+                android:visibility="invisible" />
+        </TableRow>
+
+        <TableRow>
+
+            <TextView
+                android:id="@+id/time_thu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="15dp"
+                android:layout_span="1"
+                android:text="목요일:"
+                android:visibility="invisible" />
+        </TableRow>
+
+        <TableRow>
+            <TextView
+                android:id="@+id/time_fri"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_column="1"
+                android:layout_marginTop="15dp"
+                android:layout_span="1"
+                android:text="금요일:"
+                android:visibility="invisible" />
+        </TableRow>
+        -->
     </TableLayout>
 
     //DB랑 연동하기!
@@ -49,10 +220,10 @@
         android:id="@+id/store"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:text="저장"
         android:layout_below="@+id/signupTable"
-        android:layout_centerHorizontal="true"/>
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="저장" />
 
 
 </RelativeLayout>
