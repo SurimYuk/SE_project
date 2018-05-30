@@ -22,7 +22,8 @@
         <activity android:name=".ProfessorActivity" />
         <activity android:name=".ManagerActivity" />
         <activity android:name=".InputGradeActivity" />
-        <activity android:name=".ModifyInfoActivity"></activity>
+        <activity android:name=".ModifyInfoActivity" />
+        <activity android:name=".AddInfoActivity"></activity>
     </application>
 
 </manifest>
