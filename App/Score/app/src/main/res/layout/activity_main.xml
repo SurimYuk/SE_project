@@ -22,7 +22,7 @@
                 android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:id="@+id/loginId"
-                android:inputType="textEmailAddress"/>
+                android:inputType="number"/>
         </TableRow>
 
         <TableRow>

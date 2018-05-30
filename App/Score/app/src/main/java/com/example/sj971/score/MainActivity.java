@@ -28,7 +28,9 @@ public class MainActivity extends AppCompatActivity {
     String user;
 
     private FirebaseDatabase database;
-    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReference1;
+    private DatabaseReference databaseReference2;
+    private DatabaseReference databaseReference3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +43,9 @@ public class MainActivity extends AppCompatActivity {
         signupBtn = (Button) findViewById(R.id.signupBtn);
 
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("users");
+        databaseReference1 = database.getReference("users/manager");
+        databaseReference2 = database.getReference("users/student");
+        databaseReference3 = database.getReference("users/professor");
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,10 +57,45 @@ public class MainActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "please enter your ID", Toast.LENGTH_SHORT).show();
                 } else if (inputPw.equals("")) {
                     Toast.makeText(getApplicationContext(), "please enter your password", Toast.LENGTH_SHORT).show();
-                }
+                } else {
+                    databaseReference1.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
 
-                else {
-                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                            Iterator<DataSnapshot> userList = dataSnapshot.getChildren().iterator();
+
+                            while (userList.hasNext()) {
+                                DataSnapshot data = userList.next();
+
+                                if (data.getKey().equals(inputId)) {
+                                    String userID = (String) data.getKey();
+                                    String storedPw = (String) data.child("PW").getValue();
+
+                                    if (storedPw.equals(inputPw)) {
+                                        String userName = (String) data.child("NAME").getValue();
+                                        Toast.makeText(getApplicationContext(), "login success", Toast.LENGTH_SHORT).show();
+
+
+                                        Intent intent = new Intent(getApplicationContext(), ManagerMainActivity.class);
+                                        startActivity(intent);
+                                        finish();
+
+                                        return;
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "wrong password", Toast.LENGTH_SHORT).show();
+                                        return;
+                                    }
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+
+                    databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             Iterator<DataSnapshot> userList = dataSnapshot.getChildren().iterator();
@@ -71,27 +110,8 @@ public class MainActivity extends AppCompatActivity {
                                         String userName = (String) data.child("NAME").getValue();
                                         Toast.makeText(getApplicationContext(), "login success", Toast.LENGTH_SHORT).show();
 
-                                        user= (String) data.child("type").getValue();; //디비 연결 전 임시로
-
-                                        if(user.equals("student")){
-                                            Intent intent = new Intent(getApplicationContext(), StudentActivity.class);
-                                            startActivity(intent);
-                                            finish();
-                                        }
-
-                                        else if(user.equals("professor")){
-                                            Intent intent = new Intent(getApplicationContext(), ProfessorActivity.class);
-                                            startActivity(intent);
-                                            finish();
-                                        }
-
-                                        //매니저일 때
-                                        else{
-                                            Intent intent = new Intent(getApplicationContext(), ManagerActivity.class);
-                                            startActivity(intent);
-                                            finish();
-                                        }
-
+                                        Intent intent = new Intent(getApplicationContext(), StudentActivity.class);
+                                        startActivity(intent);
                                         finish();
 
                                         return;
@@ -101,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 }
                             }
-                            Toast.makeText(getApplicationContext(), "존재하지 않는 아이디", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
@@ -110,6 +129,40 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }
+
+                databaseReference3.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Iterator<DataSnapshot> userList = dataSnapshot.getChildren().iterator();
+                        while (userList.hasNext()) {
+                            DataSnapshot data = userList.next();
+
+                            if (data.getKey().equals(inputId)) {
+                                String userID = (String) data.getKey();
+                                String storedPw = (String) data.child("PW").getValue();
+
+                                if (storedPw.equals(inputPw)) {
+                                    String userName = (String) data.child("NAME").getValue();
+                                    Toast.makeText(getApplicationContext(), "login success", Toast.LENGTH_SHORT).show();
+
+                                    Intent intent = new Intent(getApplicationContext(), ProfessorActivity.class);
+                                    startActivity(intent);
+                                    finish();
+
+                                    return;
+                                } else {
+                                    Toast.makeText(getApplicationContext(), "wrong password", Toast.LENGTH_SHORT).show();
+                                    return;
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
 

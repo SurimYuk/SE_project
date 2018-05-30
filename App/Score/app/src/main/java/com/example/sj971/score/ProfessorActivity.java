@@ -28,14 +28,14 @@ public class ProfessorActivity extends AppCompatActivity {
         setContentView(R.layout.activity_professor);
 
         subject[0] = "소프트웨어 공학";
-        subject[1] = "컴퓨터 그래픽스";
-        subject[2] = "모바일 프로그래밍";
-        subject[3] = "경영학원론";
+        subject[1] = "소프트웨어 공학";
+        subject[2] = "웹 프로그래밍";
+        subject[3] = "컴퓨터 프로그래밍";
 
-        number[0] = "201524";
-        number[1] = "201525";
-        number[2] = "201526";
-        number[3] = "201527";
+        number[0] = "09392003";
+        number[1] = "09392004";
+        number[2] = "29802003";
+        number[3] = "15635904";
 
         listView = (ListView) findViewById(R.id.listView);
 
@@ -58,7 +58,10 @@ public class ProfessorActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), InputGradeActivity.class);
 
                 Bundle select_number = new Bundle();
+
                 select_number.putString("Number", item.getNumber());
+                select_number.putString("Subject", item.getSubject());
+
                 intent.putExtras(select_number);
 
                 startActivity(intent);
