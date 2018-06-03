@@ -12,6 +12,10 @@ public class StudentItem{
     String student_score;
     String[] student_grade;
 
+    public StudentItem(){
+
+    }
+
     public StudentItem(String student_name ,String student_score) {
         this.student_name = student_name;
         this.student_score=student_score;

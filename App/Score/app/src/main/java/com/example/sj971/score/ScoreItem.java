@@ -9,6 +9,9 @@ public class ScoreItem {
     String subject;
     String score;
 
+    public ScoreItem(){
+    }
+
     public ScoreItem(String subject, String score) {
         this.subject = subject;
         this.score = score;

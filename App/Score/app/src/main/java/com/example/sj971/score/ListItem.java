@@ -1,5 +1,7 @@
 package com.example.sj971.score;
 
+import java.util.List;
+
 /**
  * Created by sj971 on 2018-05-30.
  */
@@ -7,6 +9,10 @@ package com.example.sj971.score;
 public class ListItem {
     String number;
     String name;
+
+    public ListItem(){
+
+    }
 
     public ListItem(String number, String name) {
         this.number = number;

@@ -6,10 +6,22 @@
     android:layout_height="match_parent"
     tools:context="com.example.sj971.score.ListStudentActivity">
 
-    <ListView
-        android:id="@+id/listView5"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp" />
+        android:orientation="vertical">
 
+        <ListView
+            android:id="@+id/listView5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" />
+
+        <Button
+            android:layout_marginTop="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="추가"/>
+    </LinearLayout>
 </android.support.constraint.ConstraintLayout>

@@ -9,6 +9,10 @@ public class SubjectItem {
     String number; //.학수번호
     String subject; //.과목 이름
 
+    public SubjectItem(){
+
+    }
+
     public SubjectItem(String number, String subject) {
         this.number = number;
         this.subject = subject;
