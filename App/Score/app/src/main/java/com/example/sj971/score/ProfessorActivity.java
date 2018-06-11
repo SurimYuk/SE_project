@@ -6,11 +6,23 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ProfessorActivity extends AppCompatActivity {
 
@@ -21,6 +33,26 @@ public class ProfessorActivity extends AppCompatActivity {
     String[] number = new String[line];
     String[] subject = new String[line];
 
+    FirebaseDatabase database;
+    DatabaseReference databaseReference;
+
+    TextView textYear;
+    TextView textSemester;
+
+    Button selectButton;
+    Spinner year_spinner;
+    Spinner semester_spinner;
+
+    String[] year_value = {"2015", "2016", "2017", "2018"};
+    String[] semester_value = {"1학기", "여름학기", "2학기", "겨울학기"};
+
+    String year;
+    String semester;
+
+    private final int DYNAMIC_VIEW_ID = 0x8000;
+    private LinearLayout dynamicLayout;
+
+    String id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +69,72 @@ public class ProfessorActivity extends AppCompatActivity {
         number[2] = "29802003";
         number[3] = "15635904";
 
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        id = bundle.getString("ID");
+
         listView = (ListView) findViewById(R.id.listView);
+
+        ArrayAdapter<String> adapter_year = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, year_value);
+        adapter_year.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        year_spinner.setAdapter(adapter_year);
+
+        year_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView adapterView, View view, int i, long id) {
+                year = year_value[i];
+                textYear.setText(year);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        ArrayAdapter<String> adapter_semester = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, semester_value);
+        adapter_semester.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        semester_spinner.setAdapter(adapter_semester);
+
+        semester_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView adapterView, View view, int i, long id) {
+                semester = semester_value[i];
+                textSemester.setText(semester);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
 
         adapter = new SubjectAdapter();
 
-        //여기서 디비 값 읽어서 출력하면 됨
-        for (int i = 0; i < 4; i++) {
-            adapter.addItem(new SubjectItem(number[i], subject[i]));
-        }
+        //사용자가 선택한 연도와 학기에 따른 디비 값을 읽어서 출력
+        databaseReference = database.getReference("users/professor/" + id + "/subject/" + year + "/" + semester);
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> userList = dataSnapshot.getChildren().iterator();
+                while (userList.hasNext()) {
+                    DataSnapshot data = userList.next();
+
+                    //과목 아이디를 가져와서 그 child의 값인 과목 아이디와 과목 이름을 적어서 리스트뷰 생성
+                    //subjectNum++;
+
+                    //subjectName = databaseReference.child();
+
+                    // adapter.addItem(new ScoreItem(subjectName, subjectScore));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         listView.setAdapter(adapter);
 
@@ -61,6 +151,8 @@ public class ProfessorActivity extends AppCompatActivity {
 
                 select_number.putString("Number", item.getNumber());
                 select_number.putString("Subject", item.getSubject());
+                select_number.putString("Year", year);
+                select_number.putString("Semester", semester);
 
                 intent.putExtras(select_number);
 

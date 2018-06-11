@@ -1,5 +1,6 @@
 package com.example.sj971.score;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,11 +16,19 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class StudentActivity extends AppCompatActivity {
-    // FirebaseDatabase database;
-    //DatabaseReference databaseReference;
+
+    FirebaseDatabase database;
+    DatabaseReference databaseReference;
 
     TextView textYear;
     TextView textSemester;
@@ -28,14 +37,16 @@ public class StudentActivity extends AppCompatActivity {
     Spinner year_spinner;
     Spinner semester_spinner;
 
-    String[] year_value = {"2015","2016","2017","2018"};
-    String[] semester_value={"1학기", "여름학기","2학기","겨울학기"};
+    String[] year_value = {"2015", "2016", "2017", "2018"};
+    String[] semester_value = {"1학기", "여름학기", "2학기", "겨울학기"};
 
     String year;
     String semester;
 
     private final int DYNAMIC_VIEW_ID = 0x8000;
     private LinearLayout dynamicLayout;
+
+    String id;
 
     int line = 4; //디비 속 row 개수
     String[] subject = new String[line];
@@ -44,20 +55,32 @@ public class StudentActivity extends AppCompatActivity {
     ListView listView;
     ScoreAdapter adapter;
 
+    String path;
+    int subjectNum=0;
+
+    String subjectID;
+    String subjectName;
+    String subjectScore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student);
 
-        textYear=(TextView)findViewById(R.id.year);
-        textSemester  =(TextView)findViewById(R.id.semester);
+        textYear = (TextView) findViewById(R.id.year);
+        textSemester = (TextView) findViewById(R.id.semester);
 
-        selectButton = (Button)findViewById(R.id.select);
-        year_spinner = (Spinner)findViewById(R.id.select_year);
-        semester_spinner = (Spinner)findViewById(R.id.select_semester);
+        selectButton = (Button) findViewById(R.id.select);
+        year_spinner = (Spinner) findViewById(R.id.select_year);
+        semester_spinner = (Spinner) findViewById(R.id.select_semester);
 
-        //database = FirebaseDatabase.getInstance();
-        //databaseReference = database.getReference("users/"+UserID+"/habits");
+        listView = (ListView) findViewById(R.id.listView);
+
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
+        id = bundle.getString("ID");
+
+        database = FirebaseDatabase.getInstance();
 
         subject[0] = "소프트웨어 공학";
         subject[1] = "컴퓨터 그래픽스";
@@ -67,7 +90,7 @@ public class StudentActivity extends AppCompatActivity {
         score[0] = "A+";
         score[1] = "B";
         score[2] = "A";
-        score[3] = "B+" ;
+        score[3] = "B+";
 
         ArrayAdapter<String> adapter_year = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, year_value);
         adapter_year.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -103,21 +126,40 @@ public class StudentActivity extends AppCompatActivity {
             }
         });
 
-        selectButton.setOnClickListener(new View.OnClickListener(){
+        selectButton.setOnClickListener(new View.OnClickListener() {
 
             @Override
             public void onClick(View view) {
 
                 //여기서 사용자가 선택한 year와 semester에 따라 디비 값 읽도록 설정해주면 됨!
 
-                listView = (ListView) findViewById(R.id.listView);
-
                 adapter = new ScoreAdapter();
 
-                //여기서 디비 값 읽어서 출력하면 됨
-                for (int i = 0; i < 4; i++) {
-                    adapter.addItem(new ScoreItem(subject[i], score[i]));
-                }
+                path="users/" + id + "/subject/"+year+"/"+semester;
+
+                //사용자가 선택한 연도와 학기에 따른 디비 값을 읽어서 출력
+                databaseReference = database.getReference("users/student/" + id + "/subject/"+year+"/"+semester);
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Iterator<DataSnapshot> userList = dataSnapshot.getChildren().iterator();
+                        while (userList.hasNext()) {
+                            DataSnapshot data = userList.next();
+
+                            //과목 아이디를 가져와서 그 child의 값인 과목 이름과 성적을 적어서 리스트뷰 생성
+                            subjectNum++;
+
+                            //subjectName = databaseReference.child();
+
+                            adapter.addItem(new ScoreItem(subjectName, subjectScore));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
                 listView.setAdapter(adapter);
             }

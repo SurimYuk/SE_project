@@ -12,13 +12,19 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class ListProfessorActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    int line=5; //디비 속 row 개수
-    String[] number = new String[line];
-    String[] professor = new String[line];
+    FirebaseDatabase database;
+    DatabaseReference databaseReference;
 
     ProfessorAdapter adapter;
     ListView listView4;
@@ -34,24 +40,26 @@ public class ListProfessorActivity extends AppCompatActivity implements AdapterV
 
         adapter = new ProfessorAdapter();
 
-        number[0]="1009001";
-        professor[0]="홍길동1";
+        databaseReference = database.getReference("users/professor/");
 
-        number[1]="1009002";
-        professor[1]="홍길동2";
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> userList = dataSnapshot.getChildren().iterator();
+                while (userList.hasNext()) {
+                    DataSnapshot data = userList.next();
 
-        number[2]="1009003";
-        professor[2]="홍길동3";
+                    //교수 아이디 읽고 그 안에 name을 가져와서 출력
 
-        number[3]="1009004";
-        professor[3]="홍길동4";
+                    // adapter.addItem(new ScoreItem(subjectName, subjectScore));
+                }
+            }
 
-        number[4]="1009005";
-        professor[4]="홍길동5";
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
 
-        for(int i=0; i<5; i++){
-            adapter.addItem(new ListItem(number[i],professor[i]));
-        }
+            }
+        });
 
         listView4.setAdapter(adapter);
 
