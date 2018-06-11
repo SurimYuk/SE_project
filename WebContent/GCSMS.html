@@ -17,6 +17,30 @@
     messagingSenderId: "633807614764"
   };
   firebase.initializeApp(config);
+  
+function loginCheck(){
+      
+	  var userId = document.getElementById('userid');
+	  var password = document.getElementById('pwd');
+	  
+	  var id = userId.value;
+	  var pw = password.value;
+	  
+	  var messageRef = firebase.database().ref("users/student/201800001");
+		//messageRef.on('child_added', function(snapshot) {
+			messageRef.on('ID', function(snapshot) {
+			var data = snapshot.val();
+			alert(data);
+			var message = data.PW;
+			if(message == '12345'){
+				//result.value += message + "\n";
+				alert(message);
+			}
+		});
+
+	  
+      
+  }
 </script>
 
 
@@ -30,7 +54,7 @@
 <td>User<i>id</i></td>
 
 <tr>
-<td><input type="text" size=35 name="userid"></td>
+<td><input type="text" size=35 name="userid" id="userid"></td>
 </tr>
 <!-- password -->
 <tr>
@@ -38,14 +62,14 @@
 </tr>
 
 <tr>
-<td><input type="Password" size=35 name="pwd"></td>
+<td><input type="Password" size=35 name="pwd" id="pw"></td>
 </tr>
 
 <!-- buttons -->
 <tr>
 <td>
-<form action="Manager.html"> 
-<input type="submit" name="LoginBtn" value="Log in" id="loginBtn"> 
+<!-- <form action="Manager.html"> -->
+<input type="submit" name="LoginBtn" value="Log in" id="loginBtn" onclick="loginCheck()"> 
 </form>
 
 <form action="GCSignup.html"> 
