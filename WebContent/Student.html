@@ -32,11 +32,45 @@ tr.borderBottom td {
   
   var firebaseDatabase;
   firebaseDatabase=firebase.database();
+  
+  
+  <!-- bring data from database -->
+  /** 여기서 select box에서 선택된 값들을 가져온다.**/
+	var yearTarget = document.getElementById("year"); //year 의 select box 지
+	var year_text = yearTarget.option[yearTarget.selectedIndex].text; //year box의 값을 가져온다. 
+	
+	var semesterTarget = document.getElementById("semester"); //semester 의 select box 지
+	var semester_text = semesterTarget.option[semesterTarget.selectedIndex].text; //semester box의 값을 가져온다.
+	
+	<!-- 과목들 저장  -->
+	var subject1 = '소프트웨어 공학';
+	var subject2 = '컴퓨터 그래픽스';
+	var subject3 = '모바일 프로그래밍';
+	var subject4 = '산업세미나';
+	
+	<!-- student data 저장  -->
+	var usersRef = firebaseDatabase.ref('WEBusers/'+id +'/subjects');
+	//var usersRef = firebase.database().ref('WEBusers/'+id +'/subjects');
+	var data = {
+		  year:year_text,
+		  semester:semester_text
+		  subject1:subject1
+		  subject2:subject2
+		  subject3:subject3
+		  subject4:subject4
+	}
+	usersRef.set(data);
+	
+	<!-- 교수가 성적을 입력함과 동시에 student 디비가 업데이트 됨!: 성적 업데이트! -->
 
+	
+	
+  <!-- 학생이 들은 과목과 성적 불러오기!  --> 
+  
   function thanksList(){
       
-     var subjectRef = firebaseDatabase.ref('users/student/201635835/grade/2018/spring');
-     subjectRef.on('child_added', on_subject_list);
+     var subjectRef = firebaseDatabase.ref('WEBusers/'+id+'/subjects');
+     subjectRef.on('child_added', on_subject_list); //과목 다 불러오기!
      
   }
   
@@ -44,15 +78,18 @@ tr.borderBottom td {
      var key = data.key;
      
      var Data = data.val();
-     var name = Data.name;
-     var number = Data.number;
+     
+     var year = Data.year;
+     var semester = Data.semester;
+     var subject = Data.subject;
      var score = Data.score;
      
      //alert(name +"/"+ number + "/"+score);     
-     
-     var text = 
-        "<tr class=\"borderBottom\" align=\"center\"><td>"+name+"</td><td>"+score+"</td></tr>";  
-     document.getElementById("subjectList").innerHTML += text;
+     if((year == year_text) && (semester == semester_text)) { //만약 년도랑 학기가 맞으면 정보를 불러와서 띄워줌.  
+     	var text = 
+        	"<tr class=\"borderBottom\" align=\"center\"><td>"+name+"</td><td>"+score+"</td></tr>";  
+     	document.getElementById("subjectList").innerHTML += text;
+     }
 
   }
   
@@ -85,10 +122,10 @@ Semester:
 </select>
 &nbsp;
 <input type="button" name="managerSubmit" value="Search" onclick="thanksList()">
-
-
-</p>
 <br><br>
-  <table id="subjectList" align="center"></table>
+
+<table id="subjectList" align="center"></table>
+
+</body>
 
 </html>

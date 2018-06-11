@@ -22,41 +22,101 @@ a {
 
 <body>
 
+<!-- bring data from database -->
+<script type="text/javascript">
+	var yearTarget = document.getElementById("year"); //year 의 select box 지
+	var year_text = yearTarget.option[yearTarget.selectedIndex].text; //year box의 값을 가져온다. 
+	
+	var semesterTarget = document.getElementById("semester"); //semester 의 select box 지
+	var semester_text = semesterTarget.option[semesterTarget.selectedIndex].text; //semester box의 값을 가져온다. 
+	
+	<!-- 과목들 저장  -->
+	var subject1 = '소프트웨어 공학';
+	var subject1_id='09392003';
+	var subject2 = '컴퓨터 그래픽스';	
+	var subject2_id='09392004';
+	var subject3 = '모바일 프로그래밍';
+	var subject3_id = '29802003';
+	var subject4 = '산업세미나';
+	var subject4_id='15635904';
+	
+	<!-- professor data 저장  -->
+	var usersRef = firebaseDatabase.ref('WEBusers/'+id +'/subjects');
+	//var usersRef = firebase.database().ref('WEBusers/'+id +'/subjects');
+	var data = {
+		  year:year_text,
+		  semester:semester_text
+		  subject1:subject1
+		  subject1_id:subject1_id
+		  subject2:subject2
+		  subject2_id:subject2_id
+		  subject3:subject3
+		  subject3_id:subject3_id
+		  subject4:subject4
+		  subject4_id:subject4_id
+	}
+	usersRef.set(data);
+	
+	function list(){
+	      
+	     var subjectRef = firebaseDatabase.ref('WEBusers/'+id+'/subjects');
+	     subjectRef.on('child_added', on_subject_list); //과목 다 불러오기!
+	     
+	  }
+	  
+	  function on_subject_list(data){
+	     var key = data.key;
+	     
+	     var Data = data.val();
+	     
+	     var year = Data.year;
+	     var semester = Data.semester;
+	     var subject_id = Data.subject_id;
+	     var subject = Data.subject;
+	     
+	     //alert(name +"/"+ number + "/"+score);     
+	     if((year == year_text) && (semester == semester_text)) { //만약 년도랑 학기가 맞으면 정보를 불러와서 띄워줌.  
+	     	var text = 
+	        	"<tr class=\"borderBottom\" align=\"center\"><td>"+subject_id+"</td><td>"+subject+"</td></tr>";  
+	     	document.getElementById("subjectList").innerHTML += text;
+	     }
+
+	  }
+
+</script>
+
 <h1 id="profName" align="center">홍길동 </h1>
 <br>
 
 <p align="center">
 Year:
 <select name="year">
-<option value="select">Select Year</option>
-<option value="2013" id="2013">2013</option>
-<option value="2014" id="2014">2014</option>
-<option value="2015" id="2015">2015</option>
-<option value="2016" id="2016">2016</option>
-<option value="2017" id="2017">2017</option>
-<option value="2018" id="2018">2018</option>
+	<option value="select">Select Year</option>
+	<option value="2013" id="2013">2013</option>
+	<option value="2014" id="2014">2014</option>
+	<option value="2015" id="2015">2015</option>
+	<option value="2016" id="2016">2016</option>
+	<option value="2017" id="2017">2017</option>
+	<option value="2018" id="2018">2018</option>
 </select>
 &nbsp;
 &nbsp;
 
 Semester:
 <select name="semester">
-<option value="select">Select Semester</option>
-<option value="sem1">1학기</option>
-<option value="sem2">2학기</option>
-<option value="summer">여름학기</option>
-<option value="winter">겨울학기</option>
+	<option value="select">Select Semester</option>
+	<option value="sem1">1학기</option>
+	<option value="sem2">2학기</option>
+	<option value="summer">여름학기</option>
+	<option value="winter">겨울학기</option>
 </select>
 
 &nbsp;
 &nbsp;
-<input type="submit" name="managerSubmit" value="Search">
+<input type="submit" name="managerSubmit" value="Search" onclick="list()">
 
 </p>
 <br>
-<!-- bring from database -->
-
-<div>
-</div>
 </body>
+
 </html>
