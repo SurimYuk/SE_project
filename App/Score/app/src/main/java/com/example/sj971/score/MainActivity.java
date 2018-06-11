@@ -77,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
 
 
                                         Intent intent = new Intent(getApplicationContext(), ManagerMainActivity.class);
+                                        Bundle bundle = new Bundle();
+                                        bundle.putString("ID",userID);
+                                        intent.putExtras(bundle);
                                         startActivity(intent);
                                         finish();
 
@@ -111,6 +114,9 @@ public class MainActivity extends AppCompatActivity {
                                         Toast.makeText(getApplicationContext(), "login success", Toast.LENGTH_SHORT).show();
 
                                         Intent intent = new Intent(getApplicationContext(), StudentActivity.class);
+                                        Bundle bundle2 = new Bundle();
+                                        bundle2.putString("ID",userID);
+                                        intent.putExtras(bundle2);
                                         startActivity(intent);
                                         finish();
 
@@ -146,6 +152,9 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.makeText(getApplicationContext(), "login success", Toast.LENGTH_SHORT).show();
 
                                     Intent intent = new Intent(getApplicationContext(), ProfessorActivity.class);
+                                    Bundle bundle3 = new Bundle();
+                                    bundle3.putString("ID",userID);
+                                    intent.putExtras(bundle3);
                                     startActivity(intent);
                                     finish();
 

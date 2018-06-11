@@ -111,8 +111,39 @@ Semester:
 
 </table> 
 
-<br>
+<p id="studentList">
+
 </p>
+
+<script>
+var students, text, sLength, i, student_id;
+
+students = ["김서연", "김민준", "박서현", "박민서", "배준서", "신서윤", "모하은",
+			"이예준", "이시우", "장지민", "장지후", "장현우", "정현우", "정지윤", "차수빈", "차지훈",
+			"하서준", "하건우", "황건우", "황하은"];
+
+student_id = ["201635801", "201635802", "201635803", "201635804", "201635805", "201635806",
+		"201635807", "201635808", "201635809", "201635810", "201635811", "201635812",
+		"201635813", "201635814", "201635815", "201635816", "201635817", "201635818",
+		"201635819", "201635820"];
+		
+sLength = students.length;
+text = "<table align=\"center\">";
+
+for (i = 0; i < sLength; i++) {
+	text += "<tr>"+"<td align=\"center\">"+student_id[i]+"</td>"+
+		"<td align=\"center\">"+"&nbsp;"+"&nbsp;"+"&nbsp;"+students[i]+"</td>"+
+		"<td align=\"center\">"+ "&#10005"+"</td>"+
+		"</tr>";
+}
+	text+="<tr>"+ "<td>"+"&nbsp;"+
+	"</td>"+"<td>"+"&nbsp;"+"</td>"+"<td>"+"<button>추가하기</button>"+"</td>"+"</tr>"+"</table>";
+	
+document.getElementById("studentList").innerHTML = text;
+</script>
+
+<br>
+
 <div id="first">
 <div id="second">
 <div id="third">

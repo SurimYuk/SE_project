@@ -1,22 +1,33 @@
 package com.example.sj971.score;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 
-public class ListStudentActivity extends AppCompatActivity {
+public class ListStudentActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    int line=4; //디비 속 row 개수
-    String[] number = new String[line];
-    String[] professor = new String[line];
+    FirebaseDatabase database;
+    DatabaseReference databaseReference;
 
     StudentAdapter adapter;
     ListView listView5;
+
+    String[] grade = new String[]{"확인"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,20 +38,41 @@ public class ListStudentActivity extends AppCompatActivity {
 
         adapter = new StudentAdapter();
 
-        number[0]="201635801";
-        professor[0]="강민선";
+        databaseReference = database.getReference("users/student/");
 
-        number[1]="201635802";
-        professor[1]="박민지";
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> userList = dataSnapshot.getChildren().iterator();
+                while (userList.hasNext()) {
+                    DataSnapshot data = userList.next();
 
-        number[2]="201635803";
-        professor[2]="홍길동";
+                    //학생 아이디 읽고 그 안에 name을 가져와서 출력
 
-        for(int i=0; i<3; i++){
-            adapter.addItem(new ListItem(number[i],professor[i]));
-        }
+                    //  adapter.addItem(new ListItem(number[i],student[i]));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         listView5.setAdapter(adapter);
+        listView5.setOnItemClickListener(this);
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        new AlertDialog.Builder(this).setTitle("삭제하시겠습니까?")
+                .setItems(grade, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int num) {
+
+
+                    }
+                }).setNegativeButton("", null).show();
     }
 
     private class StudentAdapter extends BaseAdapter {
