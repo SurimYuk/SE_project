@@ -24,6 +24,27 @@ tr.borderBottom td {
     messagingSenderId: "633807614764"
   };
   firebase.initializeApp(config);
+  
+  var a = location.href;
+  alert(a);
+  var b = location.href.lastIndexOf('=')+1;
+  alert(b);
+  var c = location.href.substring(b);
+  alert(c);
+  var UserID = c;
+
+	  /*alert('index: '+location.href.lastIndexOf('=')+1);
+	  var UserID = locationHref.substring(location.href.lastIndexOf('=')+1);
+	  alert('UserID: '+UserID);*/
+
+	  //var UserID = location.href.substr(location.href.lastIndexOf('=')+1);
+	  
+	  
+  
+
+  
+  
+  
   var firebaseDatabase;
   firebaseDatabase=firebase.database();
   
