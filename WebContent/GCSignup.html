@@ -7,6 +7,10 @@
 
 <body>
 <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+<script src="https://www.gstatic.com/firebase/4.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebase/4.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebase/4.10.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebase/4.10.1/firebase-messaging.js"></script>
 <script>
   // Initialize Firebase
   var config = {
@@ -40,11 +44,20 @@
 		  identify='manager';
 	  }
 	  
-      var usersRef = firebase.database().ref('users/'+identify+'/'+id);
+      /*var usersRef = firebase.database().ref('users/'+identify+'/\''+id+'\'');
       var data = {
-		  NAME:'\''+name+'\'',
-		  ID:'\''+id+'\'',
-		  PW:'\''+pw+'\'',
+		  name:'\''+name+'\'',
+		  id:'\''+id+'\'',
+		  password:'\''+pw+'\'',
+		  type:identify
+	  }
+	  usersRef.set(data);*/
+	  
+	  var usersRef = firebase.database().ref('users/'+identify+'/'+id);
+      var data = {
+		  name:name,
+		  id:id,
+		  password:pw,
 		  type:identify
 	  }
 	  usersRef.set(data);
@@ -52,7 +65,7 @@
   }
     
 </script>
-<h2 align="center"> Gachon University</h2>
+<h2 align="center"> Gachon University 111 </h2>
 
 <table width=50% align="center">
 
@@ -98,9 +111,9 @@
 
 <tr>
 <td>
-<form id="signupDone" action="index.html">
+<!--<form id="signupDone" action="GCSMS.html">-->
 <input type="submit" name="SignUp" value="Sign up" onclick="saveData()">
-<!-- </form>-->
+<!--</form>-->
 </td>
 </tr>
 

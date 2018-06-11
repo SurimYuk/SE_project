@@ -26,7 +26,7 @@ function loginCheck(){
 	  var id = userId.value;
 	  var pw = password.value;
 	  
-	  var messageRef = firebase.database().ref("users/student/201800001");
+	  /*var messageRef = firebase.database().ref("users/student/201800001");
 		//messageRef.on('child_added', function(snapshot) {
 			messageRef.on('ID', function(snapshot) {
 			var data = snapshot.val();
@@ -36,7 +36,20 @@ function loginCheck(){
 				//result.value += message + "\n";
 				alert(message);
 			}
-		});
+		});*/
+		alert("aaaaaaaaaaaaaaa");
+		/*var database = firebase.database().ref('users/professor/123456');
+		database.once('value', function(data){
+			alert("1"+data.val())
+		
+			})
+			
+			var database1 = firebase.database().ref('users/professor/123456');
+		database1.once('NAME', function(data){
+			alert("2"+data.val())
+		
+			})*/
+		
 
 	  
       
