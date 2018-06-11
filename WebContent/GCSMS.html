@@ -6,6 +6,10 @@
 </head>
 <body>
 <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+<script src="https://www.gstatic.com/firebase/4.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebase/4.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebase/4.10.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebase/4.10.1/firebase-messaging.js"></script>
 <script>
   // Initialize Firebase
   var config = {
@@ -18,10 +22,11 @@
   };
   firebase.initializeApp(config);
   
-function loginCheck(){
-      
+  function loginCheck(){
+	  alert('helllo');
+	  
 	  var userId = document.getElementById('userid');
-	  var password = document.getElementById('pwd');
+	  var password = document.getElementById('pw');
 	  
 	  var id = userId.value;
 	  var pw = password.value;
@@ -37,23 +42,31 @@ function loginCheck(){
 				alert(message);
 			}
 		});*/
-		alert("aaaaaaaaaaaaaaa");
+		alert('aaaaaaaaaaaaaaa');
 		/*var database = firebase.database().ref('users/professor/123456');
 		database.once('value', function(data){
-			alert("1"+data.val())
-		
-			})
-			
-			var database1 = firebase.database().ref('users/professor/123456');
-		database1.once('NAME', function(data){
-			alert("2"+data.val())
+			alert("1"+data.val());
 		
 			})*/
-		
-
+			firebase.database().ref('users/professor/123456/id').once('value', function(snapshot){
+				var message = snapshot.val();
+				alert("1"+message);
+			
+				});
 	  
-      
+	  
+	 
   }
+    
+</script>
+
+
+
+
+
+
+
+
 </script>
 
 
@@ -83,7 +96,7 @@ function loginCheck(){
 <td>
 <!-- <form action="Manager.html"> -->
 <input type="submit" name="LoginBtn" value="Log in" id="loginBtn" onclick="loginCheck()"> 
-</form>
+<!-- </form>-->
 
 <form action="GCSignup.html"> 
 <input type="submit" name="SignUpBtn" value="Sign Up"> 
