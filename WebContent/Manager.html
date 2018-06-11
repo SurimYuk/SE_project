@@ -40,9 +40,11 @@
 
 <p>
 <table align="center">
-<td><input type="radio" id="selectStudent" value="STUDENT">STUDENT&nbsp;&nbsp;
-<input type="radio" id="selectProf" value="PROFESSOR"> PROFESSOR&nbsp;&nbsp;
-<input type="radio" id="selectCourse" value="COURSES"> COURSES</td>
+<td>
+	<input type="radio" id="selectStudent" name="status" value="STUDENT">STUDENT&nbsp;&nbsp;
+	<input type="radio" id="selectProf" name="status" value="PROFESSOR"> PROFESSOR&nbsp;&nbsp;
+	<input type="radio" id="selectCourse" name="status" value="COURSES"> COURSES
+</td>
 </table>
 </p>
 <br><br>
@@ -51,24 +53,24 @@
 <p align="center">
 Year:
 <select name="year">
-<option value="select">Select Year</option>
-<option value="2013" id="2013">2013</option>
-<option value="2014" id="2014">2014</option>
-<option value="2015" id="2015">2015</option>
-<option value="2016" id="2016">2016</option>
-<option value="2017" id="2017">2017</option>
-<option value="2018" id="2018">2018</option>
+	<option value="select">Select Year</option>
+	<option value="2013" id="2013">2013</option>
+	<option value="2014" id="2014">2014</option>
+	<option value="2015" id="2015">2015</option>
+	<option value="2016" id="2016">2016</option>
+	<option value="2017" id="2017">2017</option>
+	<option value="2018" id="2018">2018</option>
 </select>
 &nbsp;
 &nbsp;
 
 Semester:
 <select name="semester">
-<option value="select">Select Semester</option>
-<option value="sem1">1학기</option>
-<option value="sem2">2학기</option>
-<option value="summer">여름학기</option>
-<option value="winter">겨울학기</option>
+	<option value="select">Select Semester</option>
+	<option value="sem1">1학기</option>
+	<option value="sem2">2학기</option>
+	<option value="summer">여름학기</option>
+	<option value="winter">겨울학기</option>
 </select>
 
 &nbsp;
@@ -80,39 +82,8 @@ Semester:
 
 <!--call from database -->
 <p>
-<table align="center" style="width:50%">
-<tr>
-<td>20180000</td>
-<td>소프트웨어 공학 </td>
-<td>홍길동</td>
-<td align="center">&#10005</td>
-</tr>
-
-<tr>
-<td>20180001</td>
-<td>컴퓨터 프로그래밍 </td>
-<td>홍길동</td>
-<td align="center">&#10005</td>
-</tr>
-
-<tr>
-<td>20180002</td>
-<td>모바일 프로그래밍  </td>
-<td>홍길동</td>
-<td align="center">&#10005</td>
-</tr>
-
-<tr>
-<td>&nbsp;</td>
-<td>&nbsp; </td>
-<td>&nbsp; </td>
-<td><button id="call_add">추가하기</button></td>
-</tr>
-
-</table> 
 
 <p id="studentList">
-
 </p>
 
 <script>
@@ -129,46 +100,34 @@ for (i = 0; i < sLength; i++) {
 }
 	text+="<tr>"+ "<td>"+"&nbsp;"+
 	"</td>"+"<td>"+"&nbsp;"+"</td>"+"<td>"+"<button>추가하기</button>"+"</td>"+"</tr>"+"</table>";
-	
-document.getElementById("studentList").innerHTML = text;
+document.getElementById("studentList").innerHTML = text; //값 보내주
 </script>
 
 <br>
+</body>
 
-<div id="first">
-<div id="second">
-<div id="third">
-
-<h3 align="center">추가하기 </h1>
-<table align="center">
-<tr>
-<td>학수번호: </td>
-<td><input type="text" id="added_course_id" name="new_id"></td>
-</tr>
-<tr>
-<td>과목명: </td>
-<td><input type="text" id="added_course_name" name="new_name"></td>
-</tr>
-<tr>
-<td>교수 성함: </td>
-<td><input type="text" id="added_course_prof" name="new_prof"></td>
-</tr>
-</table>
-<input type="submit" id="close" value="추가하기" style="float: right;">
-</div>
-</div>
-</div>
-
-<script>
-$(document.call_add).click(function() {
-	$("div:hidden:first").fadeIn("slow");
-	$("div:hidden:second").fadeIn("slow");
-	$("div:hidden:third").fadeIn("slow");
-});
-
+<!-- bring data from database -->
+<script type="text/javascript">
+	
+	/**radio button 값 가져오**/
+	var identify;
+	if(document.all["status"][0].checked){
+		  identify='student';
+	}
+	if(document.all["status"][1].checked){
+		  identify='professor';
+	}
+	if(document.all["status"][2].checked){
+		  identify='courses';
+	}
+	
+	/**select box 값 가져오기 **/
+	var yearTarget = document.getElementById("year"); //year 의 select box 지
+	var year_text = yearTarget.option[yearTarget.selectedIndex].text; //year box의 값을 가져온다. 
+	
+	var semesterTarget = document.getElementById("semester"); //semester 의 select box 지
+	var semester_text = semesterTarget.option[semesterTarget.selectedIndex].text; //semester box의 값을 가져온다. 
 
 </script>
 
-
-</body>
 </html>
