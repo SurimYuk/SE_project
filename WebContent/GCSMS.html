@@ -23,7 +23,6 @@
   firebase.initializeApp(config);
   
   function loginCheck(){
-	  alert('helllo');
 	  
 	  var userId = document.getElementById('userid');
 	  var password = document.getElementById('pw');
@@ -31,30 +30,31 @@
 	  var id = userId.value;
 	  var pw = password.value;
 	  
-	  /*var messageRef = firebase.database().ref("users/student/201800001");
-		//messageRef.on('child_added', function(snapshot) {
-			messageRef.on('ID', function(snapshot) {
-			var data = snapshot.val();
-			alert(data);
-			var message = data.PW;
-			if(message == '12345'){
-				//result.value += message + "\n";
-				alert(message);
-			}
+	  var status = false;
+	  var position = "";
+	  
+	  /*firebase.database().ref('users/professor/123456/id').once('value', function(snapshot){
+		var message = snapshot.val();
+		alert("1"+message);
 		});*/
-		alert('aaaaaaaaaaaaaaa');
-		/*var database = firebase.database().ref('users/professor/123456');
-		database.once('value', function(data){
-			alert("1"+data.val());
 		
-			})*/
-			firebase.database().ref('users/professor/123456/id').once('value', function(snapshot){
-				var message = snapshot.val();
-				alert("1"+message);
+		firebase.database().ref('WEBusers/'+id+'/password').once('value', function(snapshot){
+			var dbpassword = snapshot.val();
+			alert("db:"+dbpassword);
+			alert("input:"+pw);
+			if(dbpassword==pw){
+				status = true;
+				if(status){
+					alert("login success");
+				}
+				else{
+					alert("login fail");
+				}
+				
+			}
+		});
+		
 			
-				});
-	  
-	  
 	 
   }
     
