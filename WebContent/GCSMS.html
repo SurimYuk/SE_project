@@ -46,6 +46,23 @@
 				status = true;
 				if(status){
 					alert("login success");
+					firebase.database().ref('WEBusers/'+id+'/type').once('value', function(snapshot){
+						var dbposition = snapshot.val();
+						if(dbposition=='student'){
+							position = 'student';
+							alert('position: '+position);
+							window.location.href="/Student.html"
+						}
+						else if(dbposition=='manager'){
+							position = 'manager';
+							window.location.href="/Manager.html"
+						}
+						else if(dbposition=='professor'){
+							position = 'professor';
+							window.location.href="/Professor.html"
+						}
+						
+					});
 				}
 				else{
 					alert("login fail");
@@ -57,10 +74,10 @@
 			
 	 
   }
-    
-</script>
-
-
+  
+  function gotoSignup(){
+	  window.location.href="/GCSignup.html"
+  }
 
 
 
@@ -98,9 +115,9 @@
 <input type="submit" name="LoginBtn" value="Log in" id="loginBtn" onclick="loginCheck()"> 
 <!-- </form>-->
 
-<form action="GCSignup.html"> 
-<input type="submit" name="SignUpBtn" value="Sign Up"> 
-</form>
+<!-- <form action="GCSignup.html">--> 
+<input type="submit" name="SignUpBtn" value="Sign Up" onclick="gotoSignup()"> 
+<!-- </form>-->
 </td>
 </tr>
 

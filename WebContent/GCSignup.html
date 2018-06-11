@@ -44,7 +44,7 @@
 		  identify='manager';
 	  }
 	  
-      /*var usersRef = firebase.database().ref('users/'+identify+'/\''+id+'\'');
+      /*var usersRef = firebase.database().ref('users/'+identify+'/'+id+'\'');
       var data = {
 		  name:'\''+name+'\'',
 		  id:'\''+id+'\'',
@@ -52,15 +52,19 @@
 		  type:identify
 	  }
 	  usersRef.set(data);*/
-	  //identify
+	  
 	  var usersRef = firebase.database().ref('WEBusers/'+id);
-      var data = {
-		  name:name,
-		  id:id,
-		  password:pw,
-		  type:identify
-	  }
+	  var data = {
+			  name:name,
+			  id:id,
+			  password:pw,
+			  type:identify
+		  }
 	  usersRef.set(data);
+	  
+	  //window.location.href="https://seproject-5d1c4.firebaseapp.com/"
+	  //window.location.href="/index.html"
+	  
       
   }
     
