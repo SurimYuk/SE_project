@@ -24,6 +24,11 @@ a {
 
 <!-- bring data from database -->
 <script type="text/javascript">
+var a = location.href;
+var b = location.href.lastIndexOf('=')+1;
+var c = location.href.substring(b);
+var UserID = c;
+
 	var yearTarget = document.getElementById("year"); //year 의 select box 지
 	var year_text = yearTarget.option[yearTarget.selectedIndex].text; //year box의 값을 가져온다. 
 	

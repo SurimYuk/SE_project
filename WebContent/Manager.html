@@ -87,6 +87,11 @@ Semester:
 </p>
 
 <script>
+var a = location.href;
+var b = location.href.lastIndexOf('=')+1;
+var c = location.href.substring(b);
+var UserID = c;
+
 var students, text, sLength, i, student_id;
 		
 sLength = students.length;
