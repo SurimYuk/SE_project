@@ -52,8 +52,8 @@
 		  type:identify
 	  }
 	  usersRef.set(data);*/
-	  
-	  var usersRef = firebase.database().ref('users/'+identify+'/'+id);
+	  //identify
+	  var usersRef = firebase.database().ref('WEBusers/'+id);
       var data = {
 		  name:name,
 		  id:id,
