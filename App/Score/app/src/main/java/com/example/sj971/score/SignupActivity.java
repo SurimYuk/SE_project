@@ -46,7 +46,7 @@ public class SignupActivity extends AppCompatActivity {
         manager = (RadioButton) findViewById(R.id.manager);
 
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("users");
+        databaseReference = database.getReference("Mobile/users");
 
         user_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 

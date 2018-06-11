@@ -4,14 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.sj971.score.AddInfoActivity">
+    tools:context="com.example.sj971.score.AddStudentActivity">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:gravity="center">
-
 
         <TableLayout
             android:id="@+id/signupTable"
@@ -25,12 +24,13 @@
                 <TextView
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:text="과목번호" />
+                    android:text="학생 학번" />
 
                 <EditText
-                    android:id="@+id/subject_number"
+                    android:id="@+id/number"
                     android:layout_width="200dp"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:inputType="number"/>
             </TableRow>
 
             <TableRow>
@@ -38,40 +38,20 @@
                 <TextView
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:text="과목명" />
+                    android:text="학생 이름" />
 
                 <EditText
-                    android:id="@+id/subject_name"
+                    android:id="@+id/name"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content" />
             </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:layout_width="60dp"
-                    android:layout_height="wrap_content"
-                    android:text="교수 이름" />
-
-                <EditText
-                    android:id="@+id/professor_number"
-                    android:layout_width="200dp"
-                    android:layout_height="wrap_content" />
-            </TableRow>
-
-
         </TableLayout>
 
-        //DB랑 연동하기!
-
         <Button
-            android:id="@+id/store"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/signupTable"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:text="저장" />
+            android:text="추가하기"
+            android:id="@+id/add"/>
 
     </LinearLayout>
 </android.support.constraint.ConstraintLayout>

@@ -1,29 +1,18 @@
 package com.example.sj971.score;
 
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 
-public class ManagerActivity extends AppCompatActivity {
+public class TestActivity extends AppCompatActivity {
 
     ListView listView3;
     //ManageAdapter adapter;
@@ -43,44 +32,42 @@ public class ManagerActivity extends AppCompatActivity {
 
     Button addButton;
 
-    int line = 4; //디비 속 row 개수
+    ArrayList<String> items;
+    ArrayAdapter<String> adapter;
+
+    String[] value = new String[1000];
+
+    Button delete, add, addStudent;
+
+    int num = 0;
+
+    int line = 5; //디비 속 row 개수
     String[] number = new String[line];
     String[] subject = new String[line];
     String[] professor = new String[line];
 
-    FirebaseDatabase database;
-    DatabaseReference databaseReference;
-
-    String path, courseID, courseProfessor, courseName;
-
-    ArrayList<String> items;
-    ArrayAdapter<String> adapter;
-
-    //String[] value = new String[1000];
-
-    Button delete, add;
-
-    int num=0;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_manager);
+        setContentView(R.layout.activity_test);
 
         number[0] = "0939209";
         number[1] = "0939248";
         number[2] = "0939262";
         number[3] = "0939202";
+        number[4] = "0000000";
 
         subject[0] = "소프트웨어 공학";
         subject[1] = "컴퓨터 그래픽스";
         subject[2] = "모바일 프로그래밍";
         subject[3] = "경영학원론";
+        subject[4] = "졸업작품";
 
-        professor[0]="홍길동";
-        professor[1]="홍길동";
-        professor[2]="홍길동";
-        professor[3]="홍길동";
+        professor[0] = "홍길동";
+        professor[1] = "홍길동";
+        professor[2] = "홍길동";
+        professor[3] = "홍길동";
+        professor[4] = "홍길동";
 
         textYear = (TextView) findViewById(R.id.year);
         textSemester = (TextView) findViewById(R.id.semester);
@@ -88,7 +75,7 @@ public class ManagerActivity extends AppCompatActivity {
         selectButton = (Button) findViewById(R.id.select);
         add = (Button) findViewById(R.id.add);
         //addStudent = (Button) findViewById(R.id.studentadd);
-        delete= (Button) findViewById(R.id.delete);
+        delete = (Button) findViewById(R.id.delete);
 
         year_spinner = (Spinner) findViewById(R.id.select_year);
         semester_spinner = (Spinner) findViewById(R.id.select_semester);
@@ -133,18 +120,16 @@ public class ManagerActivity extends AppCompatActivity {
 
         items = new ArrayList<String>();
 
-        selectButton.setOnClickListener(new View.OnClickListener(){
-
+        selectButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(semester.equals("1학기") && year.equals("2018")){
-                    for(int i=0; i<line; i++){
-                        items.add("" + number[i]+" "+subject[i]+" "+professor[i]);
+                if (semester.equals("1학기") && year.equals("2018")) {
+                    for (int i = 0; i < line; i++) {
+                        items.add("" + number[i] + " " + subject[i] + " " + professor[i]);
                         num++;
                     }
                 }
-
-                adapter = new ArrayAdapter<String>(ManagerActivity.this,
+                adapter = new ArrayAdapter<String>(TestActivity.this,
                         android.R.layout.simple_list_item_single_choice, items);
 
                 // 어댑터 설정
@@ -171,23 +156,5 @@ public class ManagerActivity extends AppCompatActivity {
                 }
             }
         });
-
-
-        add.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View view) {
-
-                Intent intent = new Intent(getApplicationContext(), AddInfoActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putString("Year", year);
-                bundle.putString("Semester", semester);
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
-
-
     }
-
 }

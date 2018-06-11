@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -21,15 +22,26 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class ListProfessorActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
+public class ListProfessorActivity extends AppCompatActivity {
 
     FirebaseDatabase database;
     DatabaseReference databaseReference;
 
-    ProfessorAdapter adapter;
+   // ProfessorAdapter adapter;
     ListView listView4;
 
+    ArrayList<String> items;
+    ArrayAdapter<String> adapter;
+
+    String[] value = new String[1000];
+
+    Button delete;
+
+    int num=0;
+
     String[] grade = new String[]{"확인"};
+
+    String professorID, professorName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,10 +49,14 @@ public class ListProfessorActivity extends AppCompatActivity implements AdapterV
         setContentView(R.layout.activity_list_professor);
 
         listView4 = (ListView) findViewById(R.id.listView4);
+        delete = (Button) findViewById(R.id.delete);
 
-        adapter = new ProfessorAdapter();
+        //adapter = new ProfessorAdapter();
 
-        databaseReference = database.getReference("users/professor/");
+        items = new ArrayList<String>();
+
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference("Mobile/users/professor/");
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -50,9 +66,22 @@ public class ListProfessorActivity extends AppCompatActivity implements AdapterV
                     DataSnapshot data = userList.next();
 
                     //교수 아이디 읽고 그 안에 name을 가져와서 출력
+                    professorID = data.getKey();
 
-                    // adapter.addItem(new ScoreItem(subjectName, subjectScore));
+                    professorName = (String)dataSnapshot.child(professorID).child("NAME").getValue();
+
+                   // adapter.addItem(new ListItem(professorID, professorName));
+                    value[num] = " " + professorID + " " + professorName;
+                    items.add("" + value[num]);
+                    num++;
                 }
+
+                adapter = new ArrayAdapter<String>(ListProfessorActivity.this,
+                        android.R.layout.simple_list_item_single_choice, items);
+
+                // 어댑터 설정
+                listView4.setAdapter(adapter);
+                listView4.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
             }
 
             @Override
@@ -61,11 +90,26 @@ public class ListProfessorActivity extends AppCompatActivity implements AdapterV
             }
         });
 
-        listView4.setAdapter(adapter);
+        delete.setOnClickListener(new View.OnClickListener() {
 
-        listView4.setOnItemClickListener(this);
+            @Override
+            public void onClick(View view) {
+                int pos = listView4.getCheckedItemPosition(); // 현재 선택된 항목의 첨자(위치값) 얻기
+                if (pos != ListView.INVALID_POSITION) {      // 선택된 항목이 있으면
+
+                    //디비 값도 삭제해 줘야함
+
+
+                    items.remove(pos);                       // items 리스트에서 해당 위치의 요소 제거
+                    listView4.clearChoices();                 // 선택 해제
+                    adapter.notifyDataSetChanged();
+                    // 어답터와 연결된 원본데이터의 값이 변경된을 알려 리스트뷰 목록 갱신
+                }
+            }
+        });
     }
 
+    /*
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         new AlertDialog.Builder(this).setTitle("삭제하시겠습니까?")
@@ -113,4 +157,5 @@ public class ListProfessorActivity extends AppCompatActivity implements AdapterV
             return view;
         }
     }
+    */
 }

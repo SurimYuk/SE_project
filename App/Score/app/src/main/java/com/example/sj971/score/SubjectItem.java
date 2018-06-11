@@ -6,6 +6,7 @@ package com.example.sj971.score;
 
 public class SubjectItem {
 
+    String ID; //학생 아이디 -> 학번
     String number; //.학수번호
     String subject; //.과목 이름
 
@@ -14,6 +15,7 @@ public class SubjectItem {
     }
 
     public SubjectItem(String number, String subject) {
+        //this.ID=id;
         this.number = number;
         this.subject = subject;
     }
@@ -32,5 +34,13 @@ public class SubjectItem {
 
     public void setNumber(String score) {
         this.number = score;
+    }
+
+    public String getID() {
+        return ID;
+    }
+
+    public void setID(String id) {
+        this.ID = id;
     }
 }

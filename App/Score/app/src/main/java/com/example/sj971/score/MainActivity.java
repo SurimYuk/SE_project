@@ -43,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
         signupBtn = (Button) findViewById(R.id.signupBtn);
 
         database = FirebaseDatabase.getInstance();
-        databaseReference1 = database.getReference("users/manager");
-        databaseReference2 = database.getReference("users/student");
-        databaseReference3 = database.getReference("users/professor");
+        databaseReference1 = database.getReference("Mobile/users/manager");
+        databaseReference2 = database.getReference("Mobile/users/student");
+        databaseReference3 = database.getReference("Mobile/users/professor");
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override

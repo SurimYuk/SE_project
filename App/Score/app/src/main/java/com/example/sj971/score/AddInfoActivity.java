@@ -1,5 +1,6 @@
 package com.example.sj971.score;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -9,12 +10,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Iterator;
 
 public class AddInfoActivity extends AppCompatActivity {
 
@@ -33,16 +37,16 @@ public class AddInfoActivity extends AppCompatActivity {
 
     EditText numberEdit;
     EditText subjectEdit;
-    EditText professorEdit;
+    EditText professorEdit, professorNumber;
 
-    Button storeButton;
+    Button storeButton, addStudent;
 
     String number_value;
     String subject_value;
     String professor_value;
 
     FirebaseDatabase database;
-    DatabaseReference databaseReference;
+    DatabaseReference databaseReference, databaseReference1;
 
     int Index;
     String idx;
@@ -53,71 +57,74 @@ public class AddInfoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_info);
 
         storeButton = (Button) findViewById(R.id.store);
-        numberEdit = (EditText) findViewById(R.id.number);
+        numberEdit = (EditText) findViewById(R.id.subject_number);
         subjectEdit = (EditText) findViewById(R.id.subject_name);
-        professorEdit = (EditText) findViewById(R.id.professor_name);
+        //professorEdit = (EditText) findViewById(R.id.professor_name);
+        professorNumber = (EditText) findViewById(R.id.professor_number);
 
-        textYear=(TextView)findViewById(R.id.year);
-        textSemester  =(TextView)findViewById(R.id.semester);
-
-        selectButton = (Button)findViewById(R.id.select);
-
-        year_spinner = (Spinner)findViewById(R.id.select_year);
-        semester_spinner = (Spinner)findViewById(R.id.select_semester);
-
-        ArrayAdapter<String> adapter_year = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, year_value);
-        adapter_year.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        year_spinner.setAdapter(adapter_year);
-
-        year_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView adapterView, View view, int i, long id) {
-                year = year_value[i];
-                textYear.setText(year);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-
-            }
-        });
-
-        ArrayAdapter<String> adapter_semester = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, semester_value);
-        adapter_semester.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        semester_spinner.setAdapter(adapter_semester);
-
-        semester_spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView adapterView, View view, int i, long id) {
-                semester = semester_value[i];
-                textSemester.setText(semester);
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
-            }
-        });
+        final String number = professorNumber.getText().toString();
+        final String subjectNum = subjectEdit.getText().toString();
+        final String subjectName = numberEdit.getText().toString();
 
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("subject/");
+        databaseReference = database.getReference("Mobile/subject/");
+        databaseReference1 = database.getReference("Mobile/users/professor");
+
+
+        Intent intent = getIntent();
+        Bundle bundle = new Bundle();
+        bundle = intent.getExtras();
+        String year_value = bundle.getString("Year"); //학수번호
+        String semester_value = bundle.getString("Semester"); //과목 이름
 
         storeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                //Toast.makeText(getApplicationContext(),"저장되었습니다", Toast.LENGTH_SHORT).show();
+                Intent intent1 = new Intent(getApplication(), TestActivity.class);
+                startActivity(intent1);
+                finish();
+
+                /*
+                databaseReference1.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        Index = (int) dataSnapshot.getChildrenCount();
-                        idx = String.valueOf(Index + 1);
+                        Iterator<DataSnapshot> userList = dataSnapshot.getChildren().iterator();
 
-                        number_value = (String) numberEdit.getText().toString();
-                        subject_value = (String) subjectEdit.getText().toString();
-                        professor_value = (String) professorEdit.getText().toString();
+                        while (userList.hasNext()) {
+                            DataSnapshot data = userList.next();
 
-                        databaseReference.child(year).child(semester).child(number_value).child("number").setValue(number_value);
-                        databaseReference.child(year).child(semester).child(number_value).child("subject").setValue(subject_value);
-                        databaseReference.child(year).child(semester).child(number_value).child("professor").setValue(professor_value);
+                            if (data.getKey().equals(number)) {
+                                databaseReference1.child(number).child("subject").child(semester).child(number_value).child("id").setValue(subjectNum);
+                                databaseReference1.child(number).child("subject").child(semester).child(number_value).child("name").setValue(subjectName);
+
+                                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                                    @Override
+                                    public void onDataChange(DataSnapshot dataSnapshot) {
+                                        Index = (int) dataSnapshot.getChildrenCount();
+                                        idx = String.valueOf(Index + 1);
+
+                                        number_value = (String) numberEdit.getText().toString();
+                                        subject_value = (String) subjectEdit.getText().toString();
+                                        professor_value = (String) professorEdit.getText().toString();
+
+                                        databaseReference.child(year).child(semester).child(number_value).child("number").setValue(number_value);
+                                        databaseReference.child(year).child(semester).child(number_value).child("subject").setValue(subject_value);
+                                        databaseReference.child(year).child(semester).child(number_value).child("professor").setValue(professor_value);
+                                    }
+
+                                    @Override
+                                    public void onCancelled(DatabaseError databaseError) {
+
+                                    }
+                                });
+
+                            }
+                            else{
+                                Toast.makeText(getApplicationContext(),"교수정보를 잘 못 입력하셨습니다.",Toast.LENGTH_SHORT).show();
+                            }
+                        }
                     }
 
                     @Override
@@ -125,7 +132,18 @@ public class AddInfoActivity extends AppCompatActivity {
 
                     }
                 });
+                */
+
             }
         });
+
+        /*
+        addStudent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+            }
+        });
+        */
     }
 }

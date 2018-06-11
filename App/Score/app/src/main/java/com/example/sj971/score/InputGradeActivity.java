@@ -14,33 +14,24 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-
 import java.util.ArrayList;
-import java.util.Iterator;
 
 public class InputGradeActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
-    TextView list;
-
-    ListView listView;
+    ListView listView2;
     StudentAdapter adapter;
 
-    int line = 20; //디비 속 row 개수
+    int line = 6; //디비 속 row 개수
+    String[] student_id = new String[line];
     String[] student_name = new String[line];
     String[] student_grade = new String[line];
 
     String[] grade = new String[]{"A+", "A", "B+", "B", "C+", "C", "D", "F"};
-
+    TextView list;
     Button storeButton;
     String result;
 
-    FirebaseDatabase database;
-    DatabaseReference databaseReference;
+    String changed;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,61 +39,69 @@ public class InputGradeActivity extends AppCompatActivity implements AdapterView
         setContentView(R.layout.activity_input_grade);
 
         list=(TextView)findViewById(R.id.listName);
-        storeButton = (Button) findViewById(R.id.store);
 
         Intent intent = getIntent();
         Bundle bundle = new Bundle();
         bundle = intent.getExtras();
-        String number_value = bundle.getString("Number");
-        String subject_value = bundle.getString("Subject");
-        String year_value = bundle.getString("Year");
-        String semester_value = bundle.getString("Semester");
 
+        String number_value = bundle.getString("Number"); //학수번호
+        String subject_value = bundle.getString("Subject"); //과목 이름
+
+
+        storeButton = (Button) findViewById(R.id.store);
         list.setText(number_value+"  "+subject_value);
 
+        student_id[0] = "201835835";
+        student_id[1] = "201835845";
+        student_id[2] = "201835865";
+        student_id[3] = "201835824";
+        student_id[4] = "201835837";
+        student_id[5] = "201835838";
+
+        student_name[0] = "student1";
+        student_name[1] = "student2";
+        student_name[2] = "student3";
+        student_name[3] = "student4";
+        student_name[4] = "student5";
+        student_name[5] = "student6";
+
+        student_grade[0] = "";
+        student_grade[1] = "";
+        student_grade[2] = "";
+        student_grade[3] = "";
+        student_grade[4] = "";
+        student_grade[5] = "";
+
+
         //학수번호 Number의 강의를 듣는 학생들 리스트 뽑아서 출력
-        listView = (ListView) findViewById(R.id.listView2);
+        listView2 = (ListView) findViewById(R.id.listView2);
 
         adapter = new StudentAdapter();
 
-        //선택한 과목의 학생 목록 출력
-        databaseReference = database.getReference("subject/"+year_value+"/"+semester_value+"/"+number_value+"/student/");
+        //여기서 디비 값 읽어서 출력하면 됨
+        for (int i = 0; i < 4; i++) {
+            adapter.addItem(new StudentItem(student_id[i],student_name[i], student_grade[i]));
+        }
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Iterator<DataSnapshot> userList = dataSnapshot.getChildren().iterator();
-                while (userList.hasNext()) {
-                    DataSnapshot data = userList.next();
-
-                    //학생의 아이디를 읽어옴
-                    //그 후 그 학생의 아이디->subject항목 안에 있는 해당 과목의 점수를 가져와서 보여줌
-
-                    // adapter.addItem(new ScoreItem(subjectName, subjectScore));
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        listView.setAdapter(adapter);
+        listView2.setAdapter(adapter);
 
         /*
         listView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-
-
                 // listview 갱신
                 adapter.notifyDataSetChanged();
             }
-
         });
 */
-        listView.setOnItemClickListener(this);
+        listView2.setOnItemClickListener(this);
+
+        storeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     @Override
@@ -114,39 +113,51 @@ public class InputGradeActivity extends AppCompatActivity implements AdapterView
                     public void onClick(DialogInterface dialogInterface, int num) {
 
                         switch (num) {
-                            case 1:
+                            case 0:
                                 result = "A+";
                                 break;
 
-                            case 2:
+                            case 1:
                                 result = "A";
                                 break;
-                            case 3:
+                            case 2:
                                 result = "B+";
                                 break;
 
-                            case 4:
+                            case 3:
                                 result = "B";
                                 break;
-                            case 5:
+                            case 4:
                                 result = "C+";
                                 break;
 
-                            case 6:
+                            case 5:
                                 result = "C";
                                 break;
-                            case 7:
+                            case 6:
                                 result = "D";
                                 break;
 
-                            case 8:
+                            case 7:
                                 result = "F";
                                 break;
                         }
-
+                        Toast.makeText(getApplication(), result, Toast.LENGTH_LONG).show();
+                        changed=result;
                     }
                 }).setNegativeButton("", null).show();
-        Toast.makeText(getApplication(), i + result, Toast.LENGTH_LONG).show();
+       // Toast.makeText(getApplication(), i + result, Toast.LENGTH_LONG).show();
+        student_grade[i]=changed;
+
+        adapter = new StudentAdapter();
+
+        //여기서 디비 값 읽어서 출력하면 됨
+        for ( i = 0; i < 4; i++) {
+            adapter.addItem(new StudentItem(student_id[i],student_name[i], student_grade[i]));
+        }
+
+        listView2.setAdapter(adapter);
+        //adapter.notifyDataSetChanged();
     }
 
     private class StudentAdapter extends BaseAdapter {
@@ -180,6 +191,7 @@ public class InputGradeActivity extends AppCompatActivity implements AdapterView
 
             view.setName(item.getStudent_name());
             view.setScore(item.getStudent_score());
+            view.setID(item.getStudent_ID());
 
             return view;
         }

@@ -19,14 +19,16 @@
         <activity android:name=".StudentActivity" />
         <activity android:name=".ScoreItem" />
         <activity android:name=".SignupActivity" />
-        <activity android:name=".ProfessorActivity" />
         <activity android:name=".ManagerActivity" />
         <activity android:name=".InputGradeActivity" />
         <activity android:name=".ModifyInfoActivity" />
         <activity android:name=".AddInfoActivity" />
         <activity android:name=".ManagerMainActivity" />
         <activity android:name=".ListStudentActivity" />
-        <activity android:name=".ListProfessorActivity"></activity>
+        <activity android:name=".ListProfessorActivity" />
+        <activity android:name=".ProfessorActivity" />
+        <activity android:name=".AddStudentActivity" />
+        <activity android:name=".TestActivity"></activity>
     </application>
 
 </manifest>

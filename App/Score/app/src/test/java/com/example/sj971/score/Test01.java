@@ -26,7 +26,7 @@ public class Test01 {
     public void setUp(){
         scoreItem = new ScoreItem("소프트웨어 공학","A+");
         subjectItem = new SubjectItem("20180000","소프트웨어 공학");
-        studentItem = new StudentItem("201635835","A+");
+        //studentItem = new StudentItem("201635835","A+");
         listItem = new ListItem("201635835","이수정");
     }
 
@@ -54,16 +54,16 @@ public class Test01 {
         assertThat(result, is("소프트웨어 공학"));
     }
 
-    @Test
+    //@Test
     public void TestSample05() {
-        studentItem.setStudent_name("이수정");
+        //studentItem.setStudent_name("이수정");
         String result = studentItem.getStudent_name();
         assertThat(result, is("이수정"));
     }
 
-    @Test
+   // @Test
     public void TestSample06() {
-        studentItem.setStudent_score("B+");
+        //studentItem.setStudent_score("B+");
         String result = studentItem.getStudent_score();
         assertThat(result, is("B+"));
     }
