@@ -67,21 +67,6 @@ public class ManagerActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_manager);
 
-        number[0] = "0939209";
-        number[1] = "0939248";
-        number[2] = "0939262";
-        number[3] = "0939202";
-
-        subject[0] = "소프트웨어 공학";
-        subject[1] = "컴퓨터 그래픽스";
-        subject[2] = "모바일 프로그래밍";
-        subject[3] = "경영학원론";
-
-        professor[0]="홍길동";
-        professor[1]="홍길동";
-        professor[2]="홍길동";
-        professor[3]="홍길동";
-
         textYear = (TextView) findViewById(R.id.year);
         textSemester = (TextView) findViewById(R.id.semester);
 
@@ -137,6 +122,8 @@ public class ManagerActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
+
+
                 if(semester.equals("1학기") && year.equals("2018")){
                     for(int i=0; i<line; i++){
                         items.add("" + number[i]+" "+subject[i]+" "+professor[i]);
@@ -162,7 +149,7 @@ public class ManagerActivity extends AppCompatActivity {
                 if (pos != ListView.INVALID_POSITION) {      // 선택된 항목이 있으면
 
                     //디비 값도 삭제해 줘야함
-
+                    //items.get(i);
 
                     items.remove(pos);                       // items 리스트에서 해당 위치의 요소 제거
                     listView3.clearChoices();                 // 선택 해제

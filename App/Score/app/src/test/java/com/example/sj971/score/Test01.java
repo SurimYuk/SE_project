@@ -54,14 +54,14 @@ public class Test01 {
         assertThat(result, is("소프트웨어 공학"));
     }
 
-    //@Test
+    @Test
     public void TestSample05() {
         //studentItem.setStudent_name("이수정");
         String result = studentItem.getStudent_name();
         assertThat(result, is("이수정"));
     }
 
-   // @Test
+    @Test
     public void TestSample06() {
         //studentItem.setStudent_score("B+");
         String result = studentItem.getStudent_score();

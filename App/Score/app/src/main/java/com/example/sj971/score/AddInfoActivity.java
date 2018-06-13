@@ -3,6 +3,7 @@ package com.example.sj971.score;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -25,31 +26,19 @@ public class AddInfoActivity extends AppCompatActivity {
     TextView textYear;
     TextView textSemester;
 
-    Button selectButton;
-    Spinner year_spinner;
-    Spinner semester_spinner;
-
-    String[] year_value = {"2015","2016","2017","2018"};
-    String[] semester_value={"1학기", "여름학기","2학기","겨울학기"};
-
-    String year;
-    String semester;
-
     EditText numberEdit;
     EditText subjectEdit;
-    EditText professorEdit, professorNumber;
+    EditText professorEdit;
 
-    Button storeButton, addStudent;
-
-    String number_value;
-    String subject_value;
-    String professor_value;
+    Button storeButton;
 
     FirebaseDatabase database;
     DatabaseReference databaseReference, databaseReference1;
 
     int Index;
     String idx;
+
+    String professorName,subjectNum,subjectName, year_value, semester_value;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,32 +48,52 @@ public class AddInfoActivity extends AppCompatActivity {
         storeButton = (Button) findViewById(R.id.store);
         numberEdit = (EditText) findViewById(R.id.subject_number);
         subjectEdit = (EditText) findViewById(R.id.subject_name);
-        //professorEdit = (EditText) findViewById(R.id.professor_name);
-        professorNumber = (EditText) findViewById(R.id.professor_number);
+        professorEdit = (EditText) findViewById(R.id.professor_name);
 
-        final String number = professorNumber.getText().toString();
-        final String subjectNum = subjectEdit.getText().toString();
-        final String subjectName = numberEdit.getText().toString();
+        professorName = (String)professorEdit.getText().toString();
+        subjectName = (String)subjectEdit.getText().toString();
+        subjectNum = (String)numberEdit.getText().toString();
+        Log.i("SUBJECTNUM",""+subjectNum);
 
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("Mobile/subject/");
-        databaseReference1 = database.getReference("Mobile/users/professor");
-
 
         Intent intent = getIntent();
         Bundle bundle = new Bundle();
         bundle = intent.getExtras();
-        String year_value = bundle.getString("Year"); //학수번호
-        String semester_value = bundle.getString("Semester"); //과목 이름
+        year_value = bundle.getString("Year"); //학수번호
+        semester_value = bundle.getString("Semester"); //과목 이름
+
 
         storeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
-                //Toast.makeText(getApplicationContext(),"저장되었습니다", Toast.LENGTH_SHORT).show();
-                Intent intent1 = new Intent(getApplication(), TestActivity.class);
-                startActivity(intent1);
-                finish();
+                Toast.makeText(getApplicationContext(),""+subjectNum,Toast.LENGTH_SHORT).show();
+                //databaseReference = database.getReference("Mobile/subject/" + year_value + "/" + semester_value + "/"+subjectNum);
+                databaseReference = database.getReference("Mobile/subject/"+year_value+"/"+semester_value);
+                Log.i("HERE", "Mobile/subject/" + year_value + "/" + semester_value + "/"+subjectNum);
+
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Log.i("fff", subjectNum+subjectName+professorName);
+                        /*
+                        databaseReference.child(subjectNum).child("Number").setValue(""+subjectNum);
+                        databaseReference.child(subjectNum).child("subjectName").setValue(""+subjectName);
+                        databaseReference.child(subjectNum).child("professorNum").setValue(""+professorName);
+                        finish();
+                        */
+
+                        databaseReference.child(subjectNum).child("Number").setValue(subjectNum);
+                        databaseReference.child(subjectNum).child("subjectName").setValue(subjectName);
+                        databaseReference.child(subjectNum).child("professorNum").setValue(professorName);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
                 /*
                 databaseReference1.addListenerForSingleValueEvent(new ValueEventListener() {

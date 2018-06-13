@@ -47,14 +47,13 @@
             </TableRow>
 
             <TableRow>
-
                 <TextView
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
                     android:text="교수 이름" />
 
                 <EditText
-                    android:id="@+id/professor_number"
+                    android:id="@+id/professor_name"
                     android:layout_width="200dp"
                     android:layout_height="wrap_content" />
             </TableRow>

@@ -17,7 +17,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".StudentActivity" />
+        <!--
         <activity android:name=".ScoreItem" />
+        -->
         <activity android:name=".SignupActivity" />
         <activity android:name=".ManagerActivity" />
         <activity android:name=".InputGradeActivity" />

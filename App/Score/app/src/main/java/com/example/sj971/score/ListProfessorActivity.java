@@ -24,8 +24,8 @@ import java.util.Iterator;
 
 public class ListProfessorActivity extends AppCompatActivity {
 
-    FirebaseDatabase database;
-    DatabaseReference databaseReference;
+    FirebaseDatabase database, database2;
+    DatabaseReference databaseReference,databaseReference2;
 
    // ProfessorAdapter adapter;
     ListView listView4;
@@ -41,7 +41,7 @@ public class ListProfessorActivity extends AppCompatActivity {
 
     String[] grade = new String[]{"확인"};
 
-    String professorID, professorName;
+    String professorID, professorName, professor_number;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +98,31 @@ public class ListProfessorActivity extends AppCompatActivity {
                 if (pos != ListView.INVALID_POSITION) {      // 선택된 항목이 있으면
 
                     //디비 값도 삭제해 줘야함
+                    String line = (String)items.get(pos);
 
+                    professor_number = line.substring(1,9);
+
+                    database2 = FirebaseDatabase.getInstance();
+                    databaseReference2=database2.getReference("Mobile/users/professor/");
+
+
+                    databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            Iterator<DataSnapshot> userList = dataSnapshot.getChildren().iterator();
+                            while (userList.hasNext()) {
+                                DataSnapshot data = userList.next();
+                                if (data.getKey().equals(professor_number)) {
+                                    databaseReference2.child(professor_number).removeValue();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
 
                     items.remove(pos);                       // items 리스트에서 해당 위치의 요소 제거
                     listView4.clearChoices();                 // 선택 해제

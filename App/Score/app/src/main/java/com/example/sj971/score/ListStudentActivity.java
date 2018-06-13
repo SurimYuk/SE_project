@@ -4,6 +4,7 @@ import android.content.DialogInterface;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -24,15 +25,11 @@ import java.util.Iterator;
 
 public class ListStudentActivity extends AppCompatActivity {
 
-    FirebaseDatabase database;
-    DatabaseReference databaseReference;
+    FirebaseDatabase database,database2;
+    DatabaseReference databaseReference, databaseReference2;
 
     //StudentAdapter adapter1;
     ListView listView5;
-
-    Button addButton;
-
-    String[] grade = new String[]{"확인"};
 
     String studentID, studentName;
 
@@ -43,6 +40,8 @@ public class ListStudentActivity extends AppCompatActivity {
     String[] value = new String[1000];
 
     Button delete;
+
+    String student_number;
 
     int num=0;
 
@@ -56,6 +55,42 @@ public class ListStudentActivity extends AppCompatActivity {
 
         items = new ArrayList<String>();
 
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference("Mobile/users/student/");
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> userList = dataSnapshot.getChildren().iterator();
+                while (userList.hasNext()) {
+                    DataSnapshot data = userList.next();
+
+                    //교수 아이디 읽고 그 안에 name을 가져와서 출력
+                    studentID = data.getKey();
+
+                    studentName = (String)dataSnapshot.child(studentID).child("NAME").getValue();
+
+                    // adapter.addItem(new ListItem(professorID, professorName));
+                    value[num] = " " + studentID + " " + studentName;
+                    items.add("" + value[num]);
+                    num++;
+                }
+
+                adapter = new ArrayAdapter<String>(ListStudentActivity.this,
+                        android.R.layout.simple_list_item_single_choice, items);
+
+                // 어댑터 설정
+                listView5.setAdapter(adapter);
+                listView5.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        /*
         items.add("20183538 student1");
         items.add("201835416 student2");
         items.add("201835643 student3");
@@ -63,6 +98,7 @@ public class ListStudentActivity extends AppCompatActivity {
         items.add("201835836 student3");
         items.add("201835838 student4");
         items.add("201835839 student7");
+        */
 
 
         adapter = new ArrayAdapter<String>(ListStudentActivity.this,
@@ -71,6 +107,7 @@ public class ListStudentActivity extends AppCompatActivity {
         // 어댑터 설정
         listView5.setAdapter(adapter);
         listView5.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
         /*
         database = FirebaseDatabase.getInstance();
         databaseReference = database.getReference("Mobile/users/student/");
@@ -116,7 +153,14 @@ public class ListStudentActivity extends AppCompatActivity {
                 if (pos != ListView.INVALID_POSITION) {      // 선택된 항목이 있으면
 
                     //디비 값도 삭제해 줘야함
+                    String line = (String)items.get(pos);
 
+                    student_number = line.substring(1,9);
+
+
+                    database2 = FirebaseDatabase.getInstance();
+                    databaseReference2=database2.getReference("Mobile/users/student/");
+                    database2.getReference("Mobile/users/student/"+student_number).removeValue();
 
                     items.remove(pos);                       // items 리스트에서 해당 위치의 요소 제거
                     listView5.clearChoices();                 // 선택 해제

@@ -29,10 +29,6 @@ public class ProfessorActivity extends AppCompatActivity {
     ListView listView;
     SubjectAdapter adapter;
 
-    int line = 4; //디비 속 row 개수
-    String[] number = new String[line];
-    String[] subject = new String[line];
-
     FirebaseDatabase database;
     DatabaseReference databaseReference;
 
@@ -52,7 +48,7 @@ public class ProfessorActivity extends AppCompatActivity {
     private final int DYNAMIC_VIEW_ID = 0x8000;
     private LinearLayout dynamicLayout;
 
-    String id;
+    String professor_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +57,7 @@ public class ProfessorActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        id = bundle.getString("ID");
+        professor_id = bundle.getString("ID");
 
         textYear=(TextView)findViewById(R.id.year);
         textSemester=(TextView)findViewById(R.id.semester);
@@ -71,16 +67,6 @@ public class ProfessorActivity extends AppCompatActivity {
         semester_spinner = (Spinner) findViewById(R.id.select_semester);
 
         listView = (ListView) findViewById(R.id.listView);
-
-        number[0] = "0939209";
-        number[1] = "0939248";
-        number[2] = "0939262";
-        number[3] = "0939202";
-
-        subject[0] = "소프트웨어 공학";
-        subject[1] = "컴퓨터 그래픽스";
-        subject[2] = "모바일 프로그래밍";
-        subject[3] = "경영학원론";
 
         ArrayAdapter<String> adapter_year = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, year_value);
         adapter_year.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -128,15 +114,8 @@ public class ProfessorActivity extends AppCompatActivity {
 
                 adapter = new SubjectAdapter();
 
-                if(semester.equals("1학기") && year.equals("2018")){
-                    for(int i=0; i<line; i++){
-                        adapter.addItem(new SubjectItem(number[i], subject[i]));
-                    }
-                }
-
-                /*
                 //사용자가 선택한 연도와 학기에 따른 디비 값을 읽어서 출력
-                databaseReference = database.getReference("Mobile/users/professor/" + id + "/subject/" + year + "/" + semester);
+                databaseReference = database.getReference("Mobile/users/professor/" + professor_id + "/subject/" + year + "/" + semester);
 
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -158,7 +137,7 @@ public class ProfessorActivity extends AppCompatActivity {
 
                     }
                 });
-                */
+
                 listView.setAdapter(adapter);
             }
         });
@@ -174,6 +153,7 @@ public class ProfessorActivity extends AppCompatActivity {
 
                 Bundle select_number = new Bundle();
 
+                select_number.putString("ID", professor_id);
                 select_number.putString("Number", item.getNumber());
                 select_number.putString("Subject", item.getSubject());
                 select_number.putString("Year", year);

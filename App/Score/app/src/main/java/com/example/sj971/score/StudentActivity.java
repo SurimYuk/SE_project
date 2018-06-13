@@ -3,6 +3,7 @@ package com.example.sj971.score;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -144,6 +145,7 @@ public class StudentActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                /*
                 adapter = new ScoreAdapter();
 
                 if(semester.equals("1학기") && year.equals("2018")){
@@ -159,11 +161,8 @@ public class StudentActivity extends AppCompatActivity {
                 }
 
                 //adapter.addItem(new ScoreItem(subjectName, score));
+                */
 
-
-
-
-                /*
                 //여기서 사용자가 선택한 year와 semester에 따라 디비 값 읽도록 설정해주면 됨!
 
                 adapter = new ScoreAdapter();
@@ -179,10 +178,12 @@ public class StudentActivity extends AppCompatActivity {
                         while (userList.hasNext()) {
                             DataSnapshot data = userList.next();
 
-                            String subjectID = data.getKey();
+                            String subjectID = (String)data.getKey();
+                            Log.i("subjectID",subjectID);
 
                             String subjectName = (String)data.child(subjectID).child("subjectName").getValue();
                             String score =(String)data.child(subjectID).child("subjectScore").getValue();
+                            Log.i("subjectName, score",subjectName+score);
 
                             adapter.addItem(new ScoreItem(subjectName, score));
                         }
@@ -193,7 +194,6 @@ public class StudentActivity extends AppCompatActivity {
 
                     }
                 });
-                */
 
                 listView.setAdapter(adapter);
             }

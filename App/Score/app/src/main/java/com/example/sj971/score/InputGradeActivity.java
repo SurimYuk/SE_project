@@ -8,13 +8,21 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.Iterator;
 
 public class InputGradeActivity extends AppCompatActivity implements AdapterView.OnItemClickListener {
 
@@ -31,69 +39,127 @@ public class InputGradeActivity extends AppCompatActivity implements AdapterView
     Button storeButton;
     String result;
 
-    String changed;
+    int pos = -1;
+
+    String changed, studentID, studentName, studentScore, number_value, subject_value, professor_id, year, semester;
+
+    FirebaseDatabase database;
+    DatabaseReference databaseReference, databaseReference2;
+
+    ArrayList<String> items;
+    ArrayAdapter<String> adapter2;
+
+    int num = 0;
+    String[] value = new String[1000];
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_input_grade);
 
-        list=(TextView)findViewById(R.id.listName);
+        list = (TextView) findViewById(R.id.listName);
 
         Intent intent = getIntent();
         Bundle bundle = new Bundle();
         bundle = intent.getExtras();
 
-        String number_value = bundle.getString("Number"); //학수번호
-        String subject_value = bundle.getString("Subject"); //과목 이름
-
+        number_value = bundle.getString("Number"); //학수번호
+        subject_value = bundle.getString("Subject"); //과목 이름
+        professor_id = bundle.getString("professor_id"); //교수 ID
+        year = bundle.getString("Year");
+        semester = bundle.getString("Semester");
 
         storeButton = (Button) findViewById(R.id.store);
-        list.setText(number_value+"  "+subject_value);
-
-        student_id[0] = "201835835";
-        student_id[1] = "201835845";
-        student_id[2] = "201835865";
-        student_id[3] = "201835824";
-        student_id[4] = "201835837";
-        student_id[5] = "201835838";
-
-        student_name[0] = "student1";
-        student_name[1] = "student2";
-        student_name[2] = "student3";
-        student_name[3] = "student4";
-        student_name[4] = "student5";
-        student_name[5] = "student6";
-
-        student_grade[0] = "";
-        student_grade[1] = "";
-        student_grade[2] = "";
-        student_grade[3] = "";
-        student_grade[4] = "";
-        student_grade[5] = "";
-
+        list.setText(number_value + "  " + subject_value);
 
         //학수번호 Number의 강의를 듣는 학생들 리스트 뽑아서 출력
         listView2 = (ListView) findViewById(R.id.listView2);
 
+        items = new ArrayList<String>();
+
+        database = FirebaseDatabase.getInstance();
+        databaseReference = database.getReference("Mobile/subject/" + year + "/" + semester + "/subjectName/" + number_value+"/student/");
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> userList = dataSnapshot.getChildren().iterator();
+                while (userList.hasNext()) {
+                    DataSnapshot data = userList.next();
+
+                    studentID = data.getKey(); //과목 ID 값
+
+                    studentName = (String) data.child(studentID).child("studentName").getValue(); //과목 이름 가져옴
+                    studentScore = (String) data.child(studentID).child("studentScore").getValue(); //과목 성적 가져옴
+
+                    // adapter.addItem(new ListItem(professorID, professorName));
+                    value[num] = " " + studentName + " " + studentScore;
+                    items.add("" + value[num]);
+                    num++;
+                }
+
+                adapter2 = new ArrayAdapter<String>(InputGradeActivity.this,
+                        android.R.layout.simple_list_item_1, items);
+
+                // 어댑터 설정
+                listView2.setAdapter(adapter);
+                listView2.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        listView2.setOnItemLongClickListener(new ListViewItemLongClickListener());
+
+        /*
         adapter = new StudentAdapter();
 
-        //여기서 디비 값 읽어서 출력하면 됨
-        for (int i = 0; i < 4; i++) {
-            adapter.addItem(new StudentItem(student_id[i],student_name[i], student_grade[i]));
-        }
+        databaseReference = database.getReference("Mobile/users/professor/" + professor_id + "/subject/" + year + "/" + semester);
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Iterator<DataSnapshot> userList = dataSnapshot.getChildren().iterator();
+                while (userList.hasNext()) {
+                    DataSnapshot data = userList.next();
+
+                    subjectID = data.getKey(); //과목 ID 값
+
+                    subjectName = (String) data.child(subjectID).child("subjectName").getValue(); //과목 이름 가져옴
+                    subjectScore = (String) data.child(subjectID).child("subjectScore").getValue(); //과목 성적 가져옴
+
+                     adapter.addItem(new StudentItem(subjectID, subjectName, subjectScore));
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
         listView2.setAdapter(adapter);
 
-        /*
-        listView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listView2.setOnItemLongClickListener(new ListViewItemLongClickListener());
+        String name = adapter.getID(pos);
+
+        databaseReference = database.getReference("Mobile/users/professor/" + professor_id + "/subject/" + year + "/" + semester+"/"+name);
+
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                // listview 갱신
-                adapter.notifyDataSetChanged();
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                databaseReference.child("Score").setValue(result);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
-*/
+
         listView2.setOnItemClickListener(this);
 
         storeButton.setOnClickListener(new View.OnClickListener() {
@@ -102,6 +168,7 @@ public class InputGradeActivity extends AppCompatActivity implements AdapterView
                 finish();
             }
         });
+        */
     }
 
     @Override
@@ -143,21 +210,12 @@ public class InputGradeActivity extends AppCompatActivity implements AdapterView
                                 break;
                         }
                         Toast.makeText(getApplication(), result, Toast.LENGTH_LONG).show();
-                        changed=result;
+                        changed = result;
                     }
                 }).setNegativeButton("", null).show();
-       // Toast.makeText(getApplication(), i + result, Toast.LENGTH_LONG).show();
-        student_grade[i]=changed;
 
-        adapter = new StudentAdapter();
-
-        //여기서 디비 값 읽어서 출력하면 됨
-        for ( i = 0; i < 4; i++) {
-            adapter.addItem(new StudentItem(student_id[i],student_name[i], student_grade[i]));
-        }
-
-        listView2.setAdapter(adapter);
-        //adapter.notifyDataSetChanged();
+        // Toast.makeText(getApplication(), i + result, Toast.LENGTH_LONG).show();
+        pos = view.getId();
     }
 
     private class StudentAdapter extends BaseAdapter {
@@ -194,6 +252,90 @@ public class InputGradeActivity extends AppCompatActivity implements AdapterView
             view.setID(item.getStudent_ID());
 
             return view;
+        }
+
+        public String getID(int position) {
+            StudentItemView view = new StudentItemView(getApplicationContext());
+
+            StudentItem item = items.get(position);
+
+            return item.getStudent_ID();
+        }
+    }
+
+    private class ListViewItemLongClickListener implements AdapterView.OnItemLongClickListener {
+        @Override
+        public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+
+
+            int pos = listView2.getCheckedItemPosition(); // 현재 선택된 항목의 첨자(위치값) 얻기
+            if (pos != ListView.INVALID_POSITION) {      // 선택된 항목이 있으면
+                AlertDialog.Builder alertDlg = new AlertDialog.Builder(view.getContext());
+                alertDlg.setTitle("성적을 입력하세요")
+                        .setItems(grade, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int num) {
+
+                                switch (num) {
+                                    case 0:
+                                        result = "A+";
+                                        break;
+
+                                    case 1:
+                                        result = "A";
+                                        break;
+                                    case 2:
+                                        result = "B+";
+                                        break;
+
+                                    case 3:
+                                        result = "B";
+                                        break;
+                                    case 4:
+                                        result = "C+";
+                                        break;
+
+                                    case 5:
+                                        result = "C";
+                                        break;
+                                    case 6:
+                                        result = "D";
+                                        break;
+
+                                    case 7:
+                                        result = "F";
+                                        break;
+
+
+                                }
+                                Toast.makeText(getApplication(), result, Toast.LENGTH_LONG).show();
+                                changed = result;
+                            }
+                        }).setNegativeButton("", null).show();
+                items.set(pos, result);
+
+                String line = (String) items.get(pos);
+                final String student_number = line.substring(1, 9);
+
+                databaseReference2 = database.getReference("Mobile/subject/" + year + "/" + semester + "/" + number_value);
+
+                databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        databaseReference2.setValue(result);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+
+                adapter2.notifyDataSetChanged();
+
+            }
+            return false;
         }
     }
 }
