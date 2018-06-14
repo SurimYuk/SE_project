@@ -73,7 +73,11 @@ public class SignupActivity extends AppCompatActivity {
                 databaseReference.child(id.getText().toString()).child("id").setValue(id.getText().toString());
                 databaseReference.child(id.getText().toString()).child("name").setValue(name.getText().toString());
                 databaseReference.child(id.getText().toString()).child("password").setValue(pw.getText().toString());
+<<<<<<< HEAD
                 databaseReference.child(id.getText().toString()).child("type").setValue(user);
+=======
+                databaseReference.child(id.getText().toString()).child("type").child("id").setValue(user);
+>>>>>>> 1cc90868f8bc084a36c7f44388beed5bd6677390
 
 
                 if(user.equals("student")){
@@ -86,7 +90,7 @@ public class SignupActivity extends AppCompatActivity {
                     databaseReference.child("totalprofessor").child(name.getText().toString()).child("professornum").setValue(id.getText().toString());
                 }
 
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);
 
                 Toast.makeText(getApplicationContext(), "signup success, please login", Toast.LENGTH_SHORT).show();

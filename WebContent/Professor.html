@@ -3,126 +3,103 @@
 <head>
 <meta charset="UTF-8">
 <title>Professor</title>
-
-<style = "text/css>
-table {
-	border: 1px solid #444444;
-	border-collapse: collapse;
-}
-th, td {
-	border: 1px solid #444444;
-}
-
-a {
-	color: #000000;
-	text-decoration: none;
+<style>
+tr.borderBottom td {
+   border-bottom: 1pt solid black;
+   font-size:25px;
 }
 </style>
 </head>
 
 <body>
-
-<!-- bring data from database -->
-<script type="text/javascript">
-var a = location.href;
-var b = location.href.lastIndexOf('=')+1;
-var c = location.href.substring(b);
-var UserID = c;
-
-	var yearTarget = document.getElementById("year"); //year 의 select box 지
-	var year_text = yearTarget.option[yearTarget.selectedIndex].text; //year box의 값을 가져온다. 
-	
-	var semesterTarget = document.getElementById("semester"); //semester 의 select box 지
-	var semester_text = semesterTarget.option[semesterTarget.selectedIndex].text; //semester box의 값을 가져온다. 
-	
-	<!-- 과목들 저장  -->
-	var subject1 = '소프트웨어 공학';
-	var subject1_id='09392003';
-	var subject2 = '컴퓨터 그래픽스';	
-	var subject2_id='09392004';
-	var subject3 = '모바일 프로그래밍';
-	var subject3_id = '29802003';
-	var subject4 = '산업세미나';
-	var subject4_id='15635904';
-	
-	<!-- professor data 저장  -->
-	var usersRef = firebaseDatabase.ref('WEBusers/'+id +'/subjects');
-	//var usersRef = firebase.database().ref('WEBusers/'+id +'/subjects');
-	var data = {
-		  year:year_text,
-		  semester:semester_text
-		  subject1:subject1
-		  subject1_id:subject1_id
-		  subject2:subject2
-		  subject2_id:subject2_id
-		  subject3:subject3
-		  subject3_id:subject3_id
-		  subject4:subject4
-		  subject4_id:subject4_id
-	}
-	usersRef.set(data);
-	
-	function list(){
-	      
-	     var subjectRef = firebaseDatabase.ref('WEBusers/'+id+'/subjects');
-	     subjectRef.on('child_added', on_subject_list); //과목 다 불러오기!
-	     
-	  }
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCx0MniEWhgYchvmEaJjg1iVh_V5AgjWJ4",
+    authDomain: "seproject-5d1c4.firebaseapp.com",
+    databaseURL: "https://seproject-5d1c4.firebaseio.com",
+    projectId: "seproject-5d1c4",
+    storageBucket: "seproject-5d1c4.appspot.com",
+    messagingSenderId: "633807614764"
+  };
+  firebase.initializeApp(config);
+  
+  var a = location.href;
+  var b = location.href.lastIndexOf('=')+1;
+  var c = location.href.substring(b);
+  var UserID = c;
+  
+  var firebaseDatabase;
+  firebaseDatabase=firebase.database();
+  
+  var yearTarget;
+  var year_text;
+  var semesterTarget;
+  var semester_tex;
+  
+  function thanksList(){
+	  yearTarget = document.getElementById("year"); 
+	  year_text = yearTarget.options[yearTarget.selectedIndex].value;
+	  	
+	  semesterTarget = document.getElementById("semester"); 
+	  semester_text = semesterTarget.options[semesterTarget.selectedIndex].value; 
 	  
-	  function on_subject_list(data){
-	     var key = data.key;
-	     
-	     var Data = data.val();
-	     
-	     var year = Data.year;
-	     var semester = Data.semester;
-	     var subject_id = Data.subject_id;
-	     var subject = Data.subject;
-	     
-	     //alert(name +"/"+ number + "/"+score);     
-	     if((year == year_text) && (semester == semester_text)) { //만약 년도랑 학기가 맞으면 정보를 불러와서 띄워줌.  
-	     	var text = 
-	        	"<tr class=\"borderBottom\" align=\"center\"><td>"+subject_id+"</td><td>"+subject+"</td></tr>";  
-	     	document.getElementById("subjectList").innerHTML += text;
-	     }
-
-	  }
-
+	  document.getElementById("subjectList").innerHTML = "";
+     var subjectRef = firebaseDatabase.ref('WEBusers/'+UserID+'/'+year_text+'/'+semester_text);
+     subjectRef.on('child_added', on_subject_list);
+     
+  }
+  
+  function on_subject_list(data){
+     var key = data.key;
+     
+     var Data = data.val();
+     var name = Data.name;
+     var subejctnum = Data.score;
+          
+     var text = 
+        "<tr class=\"borderBottom\" align=\"center\"><td>"+subejctnum+"</td><td>"+name+
+        "</td><td><input type=\"button\" id=\""+subejctnum+"\" name=\"selectSubject\" value=\"Search\" onclick=\"showList("+subejctnum+")\"></td></tr>";
+        
+     document.getElementById("subjectList").innerHTML += text;
+  }
+  
+  function showList(subejctnum){
+     window.location.href="/StudentList.html?index="+UserID+"&"+year_text+"&"+semester_text+"&"+subejctnum;
+  }
+  
+  
 </script>
 
-<h1 id="profName" align="center">홍길동 </h1>
+<h1 align="center">강의목록</h1>
 <br>
-
-<p align="center">
+<p>
 Year:
-<select name="year">
-	<option value="select">Select Year</option>
-	<option value="2013" id="2013">2013</option>
-	<option value="2014" id="2014">2014</option>
-	<option value="2015" id="2015">2015</option>
-	<option value="2016" id="2016">2016</option>
-	<option value="2017" id="2017">2017</option>
-	<option value="2018" id="2018">2018</option>
+<select name="year" id="year">
+<option value="select">Select Year</option>
+<option value="2013">2013</option>
+<option value="2014">2014</option>
+<option value="2015">2015</option>
+<option value="2016">2016</option>
+<option value="2017">2017</option>
+<option value="2018">2018</option>
 </select>
-&nbsp;
 &nbsp;
 
 Semester:
-<select name="semester">
-	<option value="select">Select Semester</option>
-	<option value="sem1">1학기</option>
-	<option value="sem2">2학기</option>
-	<option value="summer">여름학기</option>
-	<option value="winter">겨울학기</option>
+<select name="semester" id="semester">
+<option value="select">Select Semester</option>
+<option value="spring">1학기</option>
+<option value="fall">2학기</option>
+<option value="summer">여름학기</option>
+<option value="winter">겨울학기</option>
 </select>
+&nbsp;
+<input type="button" name="managerSubmit" value="Search" onclick="thanksList()">
 
-&nbsp;
-&nbsp;
-<input type="submit" name="managerSubmit" value="Search" onclick="list()">
 </p>
 <br><br>
-<table id="subjectList" align="center"></table>
-
-</body>
+  <table id="subjectList" align="center"></table>
 
 </html>

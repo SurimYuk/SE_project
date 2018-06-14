@@ -32,16 +32,9 @@
 	  
 	  var status = false;
 	  var position = "";
-	  
-	  /*firebase.database().ref('users/professor/123456/id').once('value', function(snapshot){
-		var message = snapshot.val();
-		alert("1"+message);
-		});*/
 		
 		firebase.database().ref('WEBusers/'+id+'/password').once('value', function(snapshot){
 			var dbpassword = snapshot.val();
-			alert("db:"+dbpassword);
-			alert("input:"+pw);
 			if(dbpassword==pw){
 				status = true;
 				if(status){
@@ -50,8 +43,6 @@
 						var dbposition = snapshot.val();
 						if(dbposition=='student'){
 							position = 'student';
-							alert('position: '+position);
-							
 							window.location.href="/Student.html?index="+id;
 						}
 						else if(dbposition=='manager'){
@@ -64,11 +55,10 @@
 						}
 						
 					});
-				}
-				else{
-					alert("login fail");
-				}
-				
+				}				
+			}
+			else{
+				alert("login fail");
 			}
 		});
 		
@@ -105,16 +95,14 @@
 <td><input type="Password" size=35 name="pwd" id="pw"></td>
 </tr>
 
-<!-- buttons -->
 <tr>
 <td>
-<!-- <form action="Manager.html"> -->
-<input type="submit" name="LoginBtn" value="Log in" id="loginBtn" onclick="loginCheck()"> 
-<!-- </form>-->
 
-<!-- <form action="GCSignup.html">--> 
+<input type="submit" name="LoginBtn" value="Log in" id="loginBtn" onclick="loginCheck()"> 
+
+
 <input type="submit" name="SignUpBtn" value="Sign Up" onclick="gotoSignup()"> 
-<!-- </form>-->
+
 </td>
 </tr>
 

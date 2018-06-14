@@ -24,6 +24,7 @@
   firebase.initializeApp(config);
   
   function saveData(){
+	  var status = false;
       
 	  var userId = document.getElementById('userid');
 	  var userName = document.getElementById('user_name');
@@ -44,14 +45,6 @@
 		  identify='manager';
 	  }
 	  
-      /*var usersRef = firebase.database().ref('users/'+identify+'/'+id+'\'');
-      var data = {
-		  name:'\''+name+'\'',
-		  id:'\''+id+'\'',
-		  password:'\''+pw+'\'',
-		  type:identify
-	  }
-	  usersRef.set(data);*/
 	  
 	  var usersRef = firebase.database().ref('WEBusers/'+id);
 	  var data = {
@@ -61,15 +54,38 @@
 			  type:identify
 		  }
 	  usersRef.set(data);
+	  	  
+	  if(identify=='student'){
+		  var usersRef1 = firebase.database().ref('WEBusers/totalstudent/'+name);
+		  var data1 = {
+				  name:name,
+				  studentnum:id
+			  }
+		  usersRef1.set(data1);
+		  status = true;
+	  }
+	  if(identify=='professor'){
+		  var usersRef2 = firebase.database().ref('WEBusers/totalprofessor/'+name);
+		  var data2 = {
+				  name:name,
+				  professornum:id
+			  }
+		  usersRef2.set(data2);
+		  status = true;
+	  }
 	  
-	  //window.location.href="https://seproject-5d1c4.firebaseapp.com/"
-	  //window.location.href="/index.html"
+	  status = true;
+	  
+	  if(status){
+		  //window.location.href="https://seproject-5d1c4.firebaseapp.com/";
+		  alert('sign up success: please return to the loging page');	
+	  }
 	  
       
   }
     
 </script>
-<h2 align="center"> Gachon University 111 </h2>
+<h2 align="center"> Gachon University </h2>
 
 <table width=50% align="center">
 

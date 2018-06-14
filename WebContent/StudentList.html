@@ -1,0 +1,82 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Student</title>
+<style>
+tr.borderBottom td {
+   border-bottom: 1pt solid black;
+   font-size:25px;
+}
+</style>
+</head>
+
+<body>
+ 
+<p id="studentList">
+
+</p>
+
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+<script>
+
+var a = location.href;
+var b = location.href.lastIndexOf('=')+1;
+var info = location.href.substring(b);
+
+var d = info.indexOf('&');
+var UserID = info.substring(0, d);
+info = info.substring(d+1);
+
+d = info.indexOf('&');
+var passedYear = info.substring(0, d);
+info = info.substring(d+1);
+
+d = info.indexOf('&');
+var passedSemester = info.substring(0, d);
+var passedSubjectNum = info.substring(d+1);
+  
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCx0MniEWhgYchvmEaJjg1iVh_V5AgjWJ4",
+    authDomain: "seproject-5d1c4.firebaseapp.com",
+    databaseURL: "https://seproject-5d1c4.firebaseio.com",
+    projectId: "seproject-5d1c4",
+    storageBucket: "seproject-5d1c4.appspot.com",
+    messagingSenderId: "633807614764"
+  };
+  firebase.initializeApp(config);
+  var firebaseDatabase;
+  firebaseDatabase=firebase.database();
+      
+	  var subjectRef = firebaseDatabase.ref('WEBusers/'+UserID+'/'+passedYear+'/'+passedSemester+'/0'+passedSubjectNum+'/students');
+     subjectRef.on('child_added', on_subject_list);
+
+  function on_subject_list(data){	  
+     var key = data.key;
+     
+     var Data = data.val();
+     var name = Data.name;
+     var score = Data.score;
+     
+	  var Button = "<input type=\"button\" id=\""+name+"\" value=\"enter\" onclick=\"scoreInput(this.id)\">";
+     
+     var text = 
+        "<tr><td>"+name+"</td><td><input type=\"text\" id=\"modified"+name+"\" value=\""+score+"\" id=\"scoreIn\"></td><td>"+Button+"</td></tr>";
+     document.getElementById("subjectList").innerHTML += text;
+  }
+  
+  function scoreInput(name) {
+	    var usersRef = firebaseDatabase.ref('WEBusers/'+UserID+'/'+passedYear+'/'+passedSemester+'/0'+passedSubjectNum+'/students/'+name+'/score');
+		var modified = document.getElementById("modified"+name).value;
+		usersRef.set(modified);
+  }
+  
+  
+</script>
+
+<br><br>
+  <table id="subjectList"></table>
+
+</html>
