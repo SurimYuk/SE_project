@@ -73,12 +73,8 @@ public class SignupActivity extends AppCompatActivity {
                 databaseReference.child(id.getText().toString()).child("id").setValue(id.getText().toString());
                 databaseReference.child(id.getText().toString()).child("name").setValue(name.getText().toString());
                 databaseReference.child(id.getText().toString()).child("password").setValue(pw.getText().toString());
-<<<<<<< HEAD
-                databaseReference.child(id.getText().toString()).child("type").setValue(user);
-=======
-                databaseReference.child(id.getText().toString()).child("type").child("id").setValue(user);
->>>>>>> 1cc90868f8bc084a36c7f44388beed5bd6677390
 
+                databaseReference.child(id.getText().toString()).child("type").setValue(user);
 
                 if(user.equals("student")){
                     databaseReference.child("totalstudent").child(name.getText().toString()).child("name").setValue(name.getText().toString());

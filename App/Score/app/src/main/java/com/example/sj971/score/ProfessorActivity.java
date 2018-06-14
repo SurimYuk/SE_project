@@ -3,6 +3,7 @@ package com.example.sj971.score;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -56,6 +57,8 @@ public class ProfessorActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_professor);
+
+        database = FirebaseDatabase.getInstance();
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
@@ -113,7 +116,7 @@ public class ProfessorActivity extends AppCompatActivity {
 
             @Override
             public void onClick(View view) {
-
+                Log.i("-----", year + semester);
                 adapter = new SubjectAdapter();
 
                 //사용자가 선택한 연도와 학기에 따른 디비 값을 읽어서 출력
@@ -128,10 +131,11 @@ public class ProfessorActivity extends AppCompatActivity {
 
                             String subjectID = data.getKey().toString(); //과목 ID 값
 
-                            String subjectName = (String)data.child(subjectID).child("name").getValue(); //과목 이름 가져옴
+                            String subjectName = (String)data.child("name").getValue(); //과목 이름 가져옴
 
                             adapter.addItem(new SubjectItem(subjectID, subjectName));
                         }
+                        listView.setAdapter(adapter);
                     }
 
                     @Override
@@ -140,7 +144,7 @@ public class ProfessorActivity extends AppCompatActivity {
                     }
                 });
 
-                listView.setAdapter(adapter);
+                //listView.setAdapter(adapter);
             }
         });
 

@@ -128,11 +128,9 @@ public class StudentActivity extends AppCompatActivity {
                 adapter = new ScoreAdapter();
 
                 //사용자가 선택한 연도와 학기에 따른 디비 값을 읽어서 출력
-<<<<<<< HEAD
+
                 databaseReference = database.getReference("WEBusers/" + id +"/"+year+"/"+semester+"/");
-=======
-                databaseReference = database.getReference("WEBusers/" + id + "/" +year+ "/" + semester);
->>>>>>> 1cc90868f8bc084a36c7f44388beed5bd6677390
+
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
