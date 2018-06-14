@@ -62,6 +62,7 @@ public class AddInfoActivity extends AppCompatActivity {
         bundle = intent.getExtras();
         year_value = bundle.getString("Year"); //학수번호
         semester_value = bundle.getString("Semester"); //과목 이름
+        Log.i("addinfor", year_value+semester_value);
 
 
         storeButton.setOnClickListener(new View.OnClickListener() {
@@ -70,23 +71,13 @@ public class AddInfoActivity extends AppCompatActivity {
 
                 Toast.makeText(getApplicationContext(),""+subjectNum,Toast.LENGTH_SHORT).show();
                 //databaseReference = database.getReference("Mobile/subject/" + year_value + "/" + semester_value + "/"+subjectNum);
-                databaseReference = database.getReference("Mobile/subject/"+year_value+"/"+semester_value);
-                Log.i("HERE", "Mobile/subject/" + year_value + "/" + semester_value + "/"+subjectNum);
+                databaseReference = database.getReference("MWEBusers/totalcourse/"+year_value+"/"+semester_value);
 
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
-                        Log.i("fff", subjectNum+subjectName+professorName);
-                        /*
-                        databaseReference.child(subjectNum).child("Number").setValue(""+subjectNum);
-                        databaseReference.child(subjectNum).child("subjectName").setValue(""+subjectName);
-                        databaseReference.child(subjectNum).child("professorNum").setValue(""+professorName);
-                        finish();
-                        */
-
-                        databaseReference.child(subjectNum).child("Number").setValue(subjectNum);
-                        databaseReference.child(subjectNum).child("subjectName").setValue(subjectName);
-                        databaseReference.child(subjectNum).child("professorNum").setValue(professorName);
+                        databaseReference.child(subjectNum).child("name").setValue(subjectName);
+                        databaseReference.child(subjectNum).child("studentnum").setValue(subjectNum);
                     }
 
                     @Override

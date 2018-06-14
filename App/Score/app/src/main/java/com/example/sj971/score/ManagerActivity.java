@@ -26,7 +26,6 @@ import java.util.Iterator;
 public class ManagerActivity extends AppCompatActivity {
 
     ListView listView3;
-    //ManageAdapter adapter;
 
     TextView textYear;
     TextView textSemester;
@@ -36,12 +35,10 @@ public class ManagerActivity extends AppCompatActivity {
     Spinner semester_spinner;
 
     String[] year_value = {"2015", "2016", "2017", "2018"};
-    String[] semester_value = {"1학기", "여름학기", "2학기", "겨울학기"};
+    String[] semester_value = {"spring", "summer", "fall", "winter"};
 
     String year;
     String semester;
-
-    Button addButton;
 
     int line = 4; //디비 속 row 개수
     String[] number = new String[line];
@@ -51,12 +48,12 @@ public class ManagerActivity extends AppCompatActivity {
     FirebaseDatabase database;
     DatabaseReference databaseReference;
 
-    String path, courseID, courseProfessor, courseName;
+    String courseID, courseName;
 
     ArrayList<String> items;
     ArrayAdapter<String> adapter;
 
-    //String[] value = new String[1000];
+    String[] value = new String[1000];
 
     Button delete, add;
 
@@ -77,8 +74,6 @@ public class ManagerActivity extends AppCompatActivity {
 
         year_spinner = (Spinner) findViewById(R.id.select_year);
         semester_spinner = (Spinner) findViewById(R.id.select_semester);
-
-        //addButton = (Button) findViewById(R.id.addButton);
 
         listView3 = (ListView) findViewById(R.id.listView3);
 
@@ -123,13 +118,40 @@ public class ManagerActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                database = FirebaseDatabase.getInstance();
+                databaseReference = database.getReference("WEBusers/totalcourse/"+year+"/"+semester);
 
-                if(semester.equals("1학기") && year.equals("2018")){
-                    for(int i=0; i<line; i++){
-                        items.add("" + number[i]+" "+subject[i]+" "+professor[i]);
-                        num++;
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Iterator<DataSnapshot> userList = dataSnapshot.getChildren().iterator();
+                        while (userList.hasNext()) {
+                            DataSnapshot data = userList.next();
+
+                            //교수 아이디 읽고 그 안에 name을 가져와서 출력
+                            courseID = data.getKey();
+
+                            courseName = (String)dataSnapshot.child(courseID).child("name").getValue();
+
+                            // adapter.addItem(new ListItem(professorID, professorName));
+                            value[num] = " " + courseID + " " + courseName;
+                            items.add("" + value[num]);
+                            num++;
+                        }
+
+                        adapter = new ArrayAdapter<String>(ManagerActivity.this,
+                                android.R.layout.simple_list_item_single_choice, items);
+
+                        // 어댑터 설정
+                        listView3.setAdapter(adapter);
+                        listView3.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
                     }
-                }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
 
                 adapter = new ArrayAdapter<String>(ManagerActivity.this,
                         android.R.layout.simple_list_item_single_choice, items);
@@ -137,6 +159,7 @@ public class ManagerActivity extends AppCompatActivity {
                 // 어댑터 설정
                 listView3.setAdapter(adapter);
                 listView3.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
             }
         });
 
@@ -173,8 +196,5 @@ public class ManagerActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-
     }
-
 }

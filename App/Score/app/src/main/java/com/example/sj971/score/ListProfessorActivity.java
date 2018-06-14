@@ -56,7 +56,7 @@ public class ListProfessorActivity extends AppCompatActivity {
         items = new ArrayList<String>();
 
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("Mobile/users/professor/");
+        databaseReference = database.getReference("WEBusers/totalprofessor/");
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -66,9 +66,9 @@ public class ListProfessorActivity extends AppCompatActivity {
                     DataSnapshot data = userList.next();
 
                     //교수 아이디 읽고 그 안에 name을 가져와서 출력
-                    professorID = data.getKey();
+                    professorName = data.getKey();
 
-                    professorName = (String)dataSnapshot.child(professorID).child("NAME").getValue();
+                    professorID = (String)dataSnapshot.child(professorName).child("professornum").getValue();
 
                    // adapter.addItem(new ListItem(professorID, professorName));
                     value[num] = " " + professorID + " " + professorName;
@@ -103,7 +103,7 @@ public class ListProfessorActivity extends AppCompatActivity {
                     professor_number = line.substring(1,9);
 
                     database2 = FirebaseDatabase.getInstance();
-                    databaseReference2=database2.getReference("Mobile/users/professor/");
+                    databaseReference2=database2.getReference("WEBusers/totalprofessor/");
 
 
                     databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -132,54 +132,4 @@ public class ListProfessorActivity extends AppCompatActivity {
             }
         });
     }
-
-    /*
-    @Override
-    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        new AlertDialog.Builder(this).setTitle("삭제하시겠습니까?")
-                .setItems(grade, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int num) {
-
-
-                    }
-                }).setNegativeButton("", null).show();
-    }
-
-    private class ProfessorAdapter extends BaseAdapter{
-        ArrayList<ListItem> items = new ArrayList<ListItem>();
-
-        @Override
-        public int getCount() {
-            return items.size();
-        }
-
-        public void addItem(ListItem item) {
-            items.add(item);
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return items.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(int position, View convertView, ViewGroup viewGroup) {
-
-            ListItemView view = new ListItemView(getApplicationContext());
-
-            ListItem item = items.get(position);
-
-            view.setNumber(item.getNumber());
-            view.setName(item.getName());
-
-            return view;
-        }
-    }
-    */
 }

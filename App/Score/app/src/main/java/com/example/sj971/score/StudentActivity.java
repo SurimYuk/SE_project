@@ -39,7 +39,7 @@ public class StudentActivity extends AppCompatActivity {
     Spinner semester_spinner;
 
     String[] year_value = {"2015", "2016", "2017", "2018"};
-    String[] semester_value = {"1학기", "여름학기", "2학기", "겨울학기"};
+    String[] semester_value = {"spring", "summer", "fall", "winter"};
 
     String year;
     String semester;
@@ -84,26 +84,6 @@ public class StudentActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         id = bundle.getString("ID");
 
-        score[0] = "A0";
-        score[1] = "B+";
-        score[2] = "B0";
-        score[3] = "A0";
-
-        subject[0] = "소프트웨어 공학";
-        subject[1] = "컴퓨터 그래픽스";
-        subject[2] = "모바일 프로그래밍";
-        subject[3] = "경영학원론";
-
-        score2[0] = "B0";
-        score2[1] = "A+";
-        score2[2] = "B0";
-        score2[3] = "A0";
-
-        subject2[0] = "알고리즘";
-        subject2[1] = "데이타베이스";
-        subject2[2] = "로봇공학";
-        subject2[3] = "네트워크";
-
         database = FirebaseDatabase.getInstance();
 
         ArrayAdapter<String> adapter_year = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, year_value);
@@ -145,32 +125,10 @@ public class StudentActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
-                /*
                 adapter = new ScoreAdapter();
-
-                if(semester.equals("1학기") && year.equals("2018")){
-                    for(int i=0; i<line; i++){
-                        adapter.addItem(new ScoreItem(subject[i], score[i]));
-                    }
-                }
-
-                if(semester.equals("2학기") && year.equals("2017")){
-                    for(int i=0; i<line; i++){
-                        adapter.addItem(new ScoreItem(subject2[i], score2[i]));
-                    }
-                }
-
-                //adapter.addItem(new ScoreItem(subjectName, score));
-                */
-
-                //여기서 사용자가 선택한 year와 semester에 따라 디비 값 읽도록 설정해주면 됨!
-
-                adapter = new ScoreAdapter();
-
-                path="Mobile/users/" + id + "/subject/"+year+"/"+semester;
 
                 //사용자가 선택한 연도와 학기에 따른 디비 값을 읽어서 출력
-                databaseReference = database.getReference("Mobile/users/student/" + id + "/subject/"+year+"/"+semester);
+                databaseReference = database.getReference("WEBusers/" + id +"/"+year+"/"+semester+"/");
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -178,11 +136,10 @@ public class StudentActivity extends AppCompatActivity {
                         while (userList.hasNext()) {
                             DataSnapshot data = userList.next();
 
-                            String subjectID = (String)data.getKey();
+                            String subjectName = (String)data.getKey();
                             Log.i("subjectID",subjectID);
 
-                            String subjectName = (String)data.child(subjectID).child("subjectName").getValue();
-                            String score =(String)data.child(subjectID).child("subjectScore").getValue();
+                            String score = (String)data.child("score").getValue();
                             Log.i("subjectName, score",subjectName+score);
 
                             adapter.addItem(new ScoreItem(subjectName, score));
