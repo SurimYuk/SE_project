@@ -36,7 +36,7 @@ public class ManagerActivity extends AppCompatActivity {
     Spinner semester_spinner;
 
     String[] year_value = {"2015", "2016", "2017", "2018"};
-    String[] semester_value = {"1학기", "여름학기", "2학기", "겨울학기"};
+    String[] semester_value = {"spring", "summer", "fall", "winter"};
 
     String year;
     String semester;

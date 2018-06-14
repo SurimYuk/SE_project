@@ -24,6 +24,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.security.auth.Subject;
+
 public class ProfessorActivity extends AppCompatActivity {
 
     ListView listView;
@@ -40,7 +42,7 @@ public class ProfessorActivity extends AppCompatActivity {
     Spinner semester_spinner;
 
     String[] year_value = {"2015", "2016", "2017", "2018"};
-    String[] semester_value = {"1학기", "여름학기", "2학기", "겨울학기"};
+    String[] semester_value = {"spring", "summer", "fall", "winter"};
 
     String year;
     String semester;
@@ -57,7 +59,7 @@ public class ProfessorActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        professor_id = bundle.getString("ID");
+        professor_id = bundle.getString("ID"); //로그인 화면에서 넘어온
 
         textYear=(TextView)findViewById(R.id.year);
         textSemester=(TextView)findViewById(R.id.semester);
@@ -115,7 +117,7 @@ public class ProfessorActivity extends AppCompatActivity {
                 adapter = new SubjectAdapter();
 
                 //사용자가 선택한 연도와 학기에 따른 디비 값을 읽어서 출력
-                databaseReference = database.getReference("Mobile/users/professor/" + professor_id + "/subject/" + year + "/" + semester);
+                databaseReference = database.getReference("WEBusers/"+ professor_id + "/" + year + "/" + semester + "/");
 
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -124,9 +126,9 @@ public class ProfessorActivity extends AppCompatActivity {
                         while (userList.hasNext()) {
                             DataSnapshot data = userList.next();
 
-                            String subjectID = data.getKey(); //과목 ID 값
+                            String subjectID = data.getKey().toString(); //과목 ID 값
 
-                            String subjectName = (String)data.child(subjectID).child("subjectName").getValue(); //과목 이름 가져옴
+                            String subjectName = (String)data.child(subjectID).child("name").getValue(); //과목 이름 가져옴
 
                             adapter.addItem(new SubjectItem(subjectID, subjectName));
                         }
@@ -146,7 +148,7 @@ public class ProfessorActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long id) {
 
-                SubjectItem item = (SubjectItem) adapter.getItem(position);
+                SubjectItem item = (SubjectItem)adapter.getItem(position);
 
 
                 Intent intent = new Intent(getApplicationContext(), InputGradeActivity.class);
@@ -196,8 +198,8 @@ public class ProfessorActivity extends AppCompatActivity {
 
             SubjectItem item = items.get(position);
 
-            view.setScore(item.getNumber());
-            view.setSubject(item.getSubject());
+            view.setScore(item.getNumber());  //과목 id
+            view.setSubject(item.getSubject()); // 과목명
 
             return view;
         }

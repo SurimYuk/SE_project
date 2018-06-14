@@ -39,7 +39,7 @@ public class StudentActivity extends AppCompatActivity {
     Spinner semester_spinner;
 
     String[] year_value = {"2015", "2016", "2017", "2018"};
-    String[] semester_value = {"1학기", "여름학기", "2학기", "겨울학기"};
+    String[] semester_value = {"spring", "summer", "fall", "winter"};
 
     String year;
     String semester;
@@ -170,7 +170,7 @@ public class StudentActivity extends AppCompatActivity {
                 path="Mobile/users/" + id + "/subject/"+year+"/"+semester;
 
                 //사용자가 선택한 연도와 학기에 따른 디비 값을 읽어서 출력
-                databaseReference = database.getReference("Mobile/users/student/" + id + "/subject/"+year+"/"+semester);
+                databaseReference = database.getReference("WEBusers/" + id + "/" +year+ "/" + semester);
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {

@@ -65,7 +65,8 @@ public class InputGradeActivity extends AppCompatActivity implements AdapterView
 
         number_value = bundle.getString("Number"); //학수번호
         subject_value = bundle.getString("Subject"); //과목 이름
-        professor_id = bundle.getString("professor_id"); //교수 ID
+        //professor_id = bundle.getString("professor_id"); //교수 ID
+        professor_id = bundle.getString("ID"); //교수 ID
         year = bundle.getString("Year");
         semester = bundle.getString("Semester");
 
@@ -78,7 +79,7 @@ public class InputGradeActivity extends AppCompatActivity implements AdapterView
         items = new ArrayList<String>();
 
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("Mobile/subject/" + year + "/" + semester + "/subjectName/" + number_value+"/student/");
+        databaseReference = database.getReference("WEBusers/"  + professor_id + "/" + year + "/" + semester + "/" + number_value + "/");
 
         databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -89,8 +90,8 @@ public class InputGradeActivity extends AppCompatActivity implements AdapterView
 
                     studentID = data.getKey(); //과목 ID 값
 
-                    studentName = (String) data.child(studentID).child("studentName").getValue(); //과목 이름 가져옴
-                    studentScore = (String) data.child(studentID).child("studentScore").getValue(); //과목 성적 가져옴
+                    studentName = (String) data.child(studentID).child("name").getValue(); //과목 이름 가져옴
+                    studentScore = (String) data.child(studentID).child("score").getValue(); //과목 성적 가져옴
 
                     // adapter.addItem(new ListItem(professorID, professorName));
                     value[num] = " " + studentName + " " + studentScore;
@@ -114,61 +115,6 @@ public class InputGradeActivity extends AppCompatActivity implements AdapterView
 
         listView2.setOnItemLongClickListener(new ListViewItemLongClickListener());
 
-        /*
-        adapter = new StudentAdapter();
-
-        databaseReference = database.getReference("Mobile/users/professor/" + professor_id + "/subject/" + year + "/" + semester);
-
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Iterator<DataSnapshot> userList = dataSnapshot.getChildren().iterator();
-                while (userList.hasNext()) {
-                    DataSnapshot data = userList.next();
-
-                    subjectID = data.getKey(); //과목 ID 값
-
-                    subjectName = (String) data.child(subjectID).child("subjectName").getValue(); //과목 이름 가져옴
-                    subjectScore = (String) data.child(subjectID).child("subjectScore").getValue(); //과목 성적 가져옴
-
-                     adapter.addItem(new StudentItem(subjectID, subjectName, subjectScore));
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        listView2.setAdapter(adapter);
-
-        listView2.setOnItemLongClickListener(new ListViewItemLongClickListener());
-        String name = adapter.getID(pos);
-
-        databaseReference = database.getReference("Mobile/users/professor/" + professor_id + "/subject/" + year + "/" + semester+"/"+name);
-
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                databaseReference.child("Score").setValue(result);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-
-        listView2.setOnItemClickListener(this);
-
-        storeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                finish();
-            }
-        });
-        */
     }
 
     @Override
@@ -317,7 +263,8 @@ public class InputGradeActivity extends AppCompatActivity implements AdapterView
                 String line = (String) items.get(pos);
                 final String student_number = line.substring(1, 9);
 
-                databaseReference2 = database.getReference("Mobile/subject/" + year + "/" + semester + "/" + number_value);
+                //semester: spring
+                databaseReference2 = database.getReference("WEBusers/"  + professor_id + "/" + year + "/" + semester + "/" + number_value + "/students/" + studentName + "/score");
 
                 databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
