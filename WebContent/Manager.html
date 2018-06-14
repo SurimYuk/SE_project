@@ -2,7 +2,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Manager</title>
+<title>Student</title>
 <style>
 #first {
 	width:100%;
@@ -31,108 +31,187 @@
 	}
 	
 </style>
-<script src="https://code.jquery.com/jquery-1.10.2.js"></script>
+<style>
+tr.borderBottom td {
+   border-bottom: 1pt solid black;
+   font-size:25px;
+}
+</style>
 </head>
 
 <body>
-<h2 align="center">Managing System</h2>
-<br>
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCx0MniEWhgYchvmEaJjg1iVh_V5AgjWJ4",
+    authDomain: "seproject-5d1c4.firebaseapp.com",
+    databaseURL: "https://seproject-5d1c4.firebaseio.com",
+    projectId: "seproject-5d1c4",
+    storageBucket: "seproject-5d1c4.appspot.com",
+    messagingSenderId: "633807614764"
+  };
+  firebase.initializeApp(config);
+  var firebaseDatabase;
+  firebaseDatabase=firebase.database();
+  
+  var selectstatus = false;
+  
+  var yearTarget;
+  var year_text;
+  var semesterTarget;
+  var semester_text;
+  
+  function thanksList1(){
+	  document.getElementById("addArea").innerHTML = "";
+	  document.getElementById("selectionArea").innerHTML = "";
+	  document.getElementById("subjectList").innerHTML = "";
+      
+     var subjectRef = firebaseDatabase.ref('WEBusers/totalstudent');
+     subjectRef.on('child_added', on_subject_list1);
+     
+  }
+  
+  function on_subject_list1(data){
+     var key = data.key;
+     
+     var Data = data.val();
+     var name = Data.name;
+     
+     var studentnum = Data.studentnum;
+     
+     var Button = "<input type=\"button\" id=\'"+name+"\' value=\"delete\" onclick=\"thanksListDelete1(this.id)\">";     
+     
+     var text = 
+    	 "<tr><td>"+studentnum+"</td><td>"+name+"</td><td>"+Button+"</td></tr>";  
+     document.getElementById("subjectList").innerHTML += text;
+  }
+  
+  function thanksListDelete1(name){
+	  var deletename = name;
+	  var profRef = firebaseDatabase.ref('WEBusers/totalstudent/'+deletename);
+	  profRef.remove();
+	  alert('remove success');
+	  location.reload();
+  }
+  
+  function thanksList2(){
+	  document.getElementById("addArea").innerHTML = "";
+	  document.getElementById("selectionArea").innerHTML = "";
+	  document.getElementById("subjectList").innerHTML = "";
+      
+	     var subjectRef = firebaseDatabase.ref('WEBusers/totalprofessor');
+	     subjectRef.on('child_added', on_subject_list2);
+	     
+	  }
+	  
+	  function on_subject_list2(data){
+	     var key = data.key;
+	     
+	     var Data = data.val();
+	     var name = Data.name;
+	     var professornum = Data.professornum;
+	     
+	     var Button = "<input type=\"button\" id=\'"+name+"\' value=\"delete\" onclick=\"thanksListDelete2(this.id)\">";
+	     var text = 
+	    	 "<tr><td>"+professornum+"</td><td>"+name+"</td><td>"+Button+"</td></tr>";  
+	     document.getElementById("subjectList").innerHTML += text;
+	  }
+	  
+	  function thanksListDelete2(name){
+		  var deletename = name;
+		  var profRef = firebaseDatabase.ref('WEBusers/totalprofessor/'+deletename);
+		  profRef.remove();
+		  alert('remove success');
+		  location.reload();
+	  }
+	  
+	  function thanksList3(){
+		  document.getElementById("selectionArea").innerHTML = "";
+		  document.getElementById("subjectList").innerHTML = "";
+		  
+		  var text = 
+			  "<p>Year:&nbsp;<select name=\"year\" id=\"year\"><option value=\"select\">Select Year</option><option value=\"2013\">2013</option><option value=\"2014\">2014</option>"+
+			  "<option value=\"2015\">2015</option><option value=\"2016\">2016</option><option value=\"2017\">2017</option><option value=\"2018\">2018</option>"+
+			  "</select>&nbsp;&nbsp;&nbsp;Semester:&nbsp;<select name=\"semester\" id=\"semester\"><option value=\"select\">Select Semester</option>"+
+			  "<option value=\"spring\">1학기</option><option value=\"fall\">2학기</option><option value=\"summer\">여름학기</option><option value=\"winter\">겨울학기</option>"+
+			  "</select>&nbsp;&nbsp;&nbsp;<input type=\"button\" name=\"managerSubmit\" value=\"Search\" onclick=\"thanksList()\"></p>";
+		  document.getElementById("selectionArea").innerHTML += text;
+	  }
+	  
+	  function thanksList(){
+		  document.getElementById("addArea").innerHTML = "";
+		  document.getElementById("subjectList").innerHTML = "";
+		  
+		  var text = "<tr><td>학수번호</td><td>과목명</td></tr>" +
+			  "<tr><td><input type=\"text\" id=\"coursenumber\" name=\"coursenumber\">&nbsp;&nbsp;</td><td><input type=\"text\" id=\"subjectname\" name=\"subjectname\">&nbsp;&nbsp;</td><td><input type=\"button\" value=\"add\" onclick=\"addCourse()\"></td></tr>";
+		  document.getElementById("addArea").innerHTML += text;
+		  
+		  yearTarget = document.getElementById("year");
+		  year_text = yearTarget.options[yearTarget.selectedIndex].value; 
+		  	
+		  semesterTarget = document.getElementById("semester");
+		  semester_text = semesterTarget.options[semesterTarget.selectedIndex].value;
+	      
+		     var subjectRef = firebaseDatabase.ref('WEBusers/totalcourse/'+year_text+'/'+semester_text);
+		     
+		     subjectRef.on('child_added', on_subject_list);
+		     
+		  }
+	  function addCourse(){
+		  var inputcoursenum = document.getElementById("coursenumber").value;
+		  var inputsubjectname = document.getElementById("subjectname").value;
+		  
+		  var subRef = firebase.database().ref('WEBusers/totalcourse/'+year_text+'/'+semester_text+'/'+inputcoursenum);
+		  var data = {
+				  name:inputsubjectname,
+				  studentnum:inputcoursenum
+			  }
+		  subRef.set(data);
+	  }
+		  
+		  function on_subject_list(data){
+		     var key = data.key;
+		     
+		     var Data = data.val();
+		     var name = Data.name;
+		     
+		     var subjectnumber = Data.studentnum;
+		          
+		     var Button = "<input type=\"button\" id=\'"+subjectnumber+"\'value=\"delete\"onclick=\"thanksListDelete3(this.id)\">";
+		     
+		     var text = 
+		    	 "<tr><td>"+subjectnumber+"</td><td>"+name+"</td><td>"+Button+"</td></tr>";  
+		     document.getElementById("subjectList").innerHTML += text;
+		  }
+		  
+		  function thanksListDelete3(name){
+			  
+			  var deletename = name;
+			  var subjectRef = firebaseDatabase.ref('WEBusers/totalcourse/'+year_text+'/'+semester_text+'/'+deletename);
+			  subjectRef.remove();
+			  alert('remove success');
+			  location.reload();
+		  }
+  
+  
+</script>
 
+<h1 align="center">Managing System</h1>
 <p>
 <table align="center">
 <td>
-	<input type="radio" id="selectStudent" name="status" value="STUDENT">STUDENT&nbsp;&nbsp;
-	<input type="radio" id="selectProf" name="status" value="PROFESSOR"> PROFESSOR&nbsp;&nbsp;
-	<input type="radio" id="selectCourse" name="status" value="COURSES"> COURSES
+	<input type="radio" id="selectStudent" name="status" value="STUDENT" onclick="thanksList1()">STUDENT&nbsp;&nbsp;
+	<input type="radio" id="selectProf" name="status" value="PROFESSOR" onclick="thanksList2()"> PROFESSOR&nbsp;&nbsp;
+	<input type="radio" id="selectCourse" name="status" value="COURSES" onclick="thanksList3()"> COURSES
 </td>
 </table>
 </p>
-<br><br>
-
-<!--<form action="#">-->
-<p align="center">
-Year:
-<select name="year">
-	<option value="select">Select Year</option>
-	<option value="2013" id="2013">2013</option>
-	<option value="2014" id="2014">2014</option>
-	<option value="2015" id="2015">2015</option>
-	<option value="2016" id="2016">2016</option>
-	<option value="2017" id="2017">2017</option>
-	<option value="2018" id="2018">2018</option>
-</select>
-&nbsp;
-&nbsp;
-
-Semester:
-<select name="semester">
-	<option value="select">Select Semester</option>
-	<option value="sem1">1학기</option>
-	<option value="sem2">2학기</option>
-	<option value="summer">여름학기</option>
-	<option value="winter">겨울학기</option>
-</select>
-
-&nbsp;
-&nbsp;
-<input type="submit" name="managerSubmit" value="Search">
-
-</p>
 <br>
-
-<!--call from database -->
-<p>
-
-<p id="studentList">
-</p>
-
-<script>
-var a = location.href;
-var b = location.href.lastIndexOf('=')+1;
-var c = location.href.substring(b);
-var UserID = c;
-
-var students, text, sLength, i, student_id;
-		
-sLength = students.length;
-text = "<table align=\"center\">";
-
-for (i = 0; i < sLength; i++) {
-	text += "<tr>"+"<td align=\"center\">"+student_id[i]+"</td>"+
-		"<td align=\"center\">"+"&nbsp;"+"&nbsp;"+"&nbsp;"+students[i]+"</td>"+
-		"<td align=\"center\">"+ "&#10005"+"</td>"+
-		"</tr>";
-}
-	text+="<tr>"+ "<td>"+"&nbsp;"+
-	"</td>"+"<td>"+"&nbsp;"+"</td>"+"<td>"+"<button>추가하기</button>"+"</td>"+"</tr>"+"</table>";
-document.getElementById("studentList").innerHTML = text; //값 보내주
-</script>
-
+<table id="selectionArea" align="center"></table>
 <br>
-</body>
-
-<!-- bring data from database -->
-<script type="text/javascript">
-	
-	/**radio button 값 가져오**/
-	var identify;
-	if(document.all["status"][0].checked){
-		  identify='student';
-	}
-	if(document.all["status"][1].checked){
-		  identify='professor';
-	}
-	if(document.all["status"][2].checked){
-		  identify='courses';
-	}
-	
-	/**select box 값 가져오기 **/
-	var yearTarget = document.getElementById("year"); //year 의 select box 지
-	var year_text = yearTarget.option[yearTarget.selectedIndex].text; //year box의 값을 가져온다. 
-	
-	var semesterTarget = document.getElementById("semester"); //semester 의 select box 지
-	var semester_text = semesterTarget.option[semesterTarget.selectedIndex].text; //semester box의 값을 가져온다. 
-
-</script>
+<table id="addArea" align="center"></table>
+<br>
+  <table id="subjectList" align="center"></table>
 
 </html>

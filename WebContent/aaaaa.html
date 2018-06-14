@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Gachon Score Management System</title>
+</head>
+
+<body>
+<script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script>
+<script src="https://www.gstatic.com/firebase/4.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebase/4.10.1/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebase/4.10.1/firebase-database.js"></script>
+<script src="https://www.gstatic.com/firebase/4.10.1/firebase-messaging.js"></script>
+<script>
+  // Initialize Firebase
+  var config = {
+    apiKey: "AIzaSyCx0MniEWhgYchvmEaJjg1iVh_V5AgjWJ4",
+    authDomain: "seproject-5d1c4.firebaseapp.com",
+    databaseURL: "https://seproject-5d1c4.firebaseio.com",
+    projectId: "seproject-5d1c4",
+    storageBucket: "seproject-5d1c4.appspot.com",
+    messagingSenderId: "633807614764"
+  };
+  firebase.initializeApp(config);
+  
+  function saveData(){
+      
+	  var userId = document.getElementById('userid');
+	  var userName = document.getElementById('user_name');
+	  var password = document.getElementById('pwd');
+	  
+	  var id = 'B';
+	  var pw = 'A';
+	  //var name = 'A+';
+	  var namen = 'B+';
+	  
+	  var identify;
+	  if(document.all["identification"][0].checked){
+		  identify='student';
+	  }
+	  if(document.all["identification"][1].checked){
+		  identify='professor';
+	  }
+	  if(document.all["identification"][2].checked){
+		  identify='manager';
+	  }
+	  
+      /*var usersRef = firebase.database().ref('users/'+identify+'/'+id+'\'');
+      var data = {
+		  name:'\''+name+'\'',
+		  id:'\''+id+'\'',
+		  password:'\''+pw+'\'',
+		  type:identify
+	  }
+	  usersRef.set(data);*/
+	  
+	  /*var subjectname='홍길동1';
+	  var name = '201535801';
+	  var usersRef = firebase.database().ref('WEBusers/totalprofessor/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  professornum:name
+		  }
+	  usersRef.set(data);
+	  var subjectname='홍길동2';
+	  var name = '201535802';
+	  var usersRef = firebase.database().ref('WEBusers/totalprofessor/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  professornum:name
+		  }
+	  usersRef.set(data);
+	  var subjectname='홍길동3';
+	  var name = '201535803';
+	  var usersRef = firebase.database().ref('WEBusers/totalprofessor/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  professornum:name
+		  }
+	  usersRef.set(data);
+	  var subjectname='홍길동4';
+	  var name = '201535804';
+	  var usersRef = firebase.database().ref('WEBusers/totalprofessor/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  professornum:name
+		  }
+	  usersRef.set(data);
+	  var subjectname='홍길동5';
+	  var name = '201535805';
+	  var usersRef = firebase.database().ref('WEBusers/totalprofessor/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  professornum:name
+		  }
+	  usersRef.set(data);*/
+	  
+	  var subjectname='소프트웨어공학';
+	  var name = '09392003';
+	  var usersRef = firebase.database().ref('WEBusers/totalcourse/2018/spring/'+name);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='컴퓨터프로그래밍';
+	  var name = '15635904';
+	  var usersRef = firebase.database().ref('WEBusers/totalcourse/2018/spring/'+name);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='컴퓨터프로그래밍';
+	  var name = '15635903';
+	  var usersRef = firebase.database().ref('WEBusers/totalcourse/2018/spring/'+name);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='웹프로그래밍';
+	  var name = '29802003';
+	  var usersRef = firebase.database().ref('WEBusers/totalcourse/2018/spring/'+name);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='웹프로그래밍';
+	  var name = '29802004';
+	  var usersRef = firebase.database().ref('WEBusers/totalcourse/2018/spring/'+name);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  
+	  /*var subjectname='김서연';
+	  var name = '201635801';
+	  var usersRef = firebase.database().ref('WEBusers/totalstudent/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='김민준';
+	  var name = '201635802';
+	  var usersRef = firebase.database().ref('WEBusers/totalstudent/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='모하은';
+	  var name = '201635803';
+	  var usersRef = firebase.database().ref('WEBusers/totalstudent/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='박민서';
+	  var name = '201635804';
+	  var usersRef = firebase.database().ref('WEBusers/totalstudent/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='박서현';
+	  var name = '201635805';
+	  var usersRef = firebase.database().ref('WEBusers/totalstudent/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='배준서';
+	  var name = '201635806';
+	  var usersRef = firebase.database().ref('WEBusers/totalstudent/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='신서윤';
+	  var name = '201635807';
+	  var usersRef = firebase.database().ref('WEBusers/totalstudent/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='이시우';
+	  var name = '201635808';
+	  var usersRef = firebase.database().ref('WEBusers/totalstudent/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='이예준';
+	  var name = '201635809';
+	  var usersRef = firebase.database().ref('WEBusers/totalstudent/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='장지민';
+	  var name = '201635810';
+	  var usersRef = firebase.database().ref('WEBusers/totalstudent/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='장지후';
+	  var name = '201635811';
+	  var usersRef = firebase.database().ref('WEBusers/totalstudent/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='장현우';
+	  var name = '201635812';
+	  var usersRef = firebase.database().ref('WEBusers/totalstudent/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='정지윤';
+	  var name = '201635813';
+	  var usersRef = firebase.database().ref('WEBusers/totalstudent/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='정현우';
+	  var name = '201635814';
+	  var usersRef = firebase.database().ref('WEBusers/totalstudent/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='차수빈';
+	  var name = '201635815';
+	  var usersRef = firebase.database().ref('WEBusers/totalstudent/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='차지훈';
+	  var name = '201635816';
+	  var usersRef = firebase.database().ref('WEBusers/totalstudent/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='하건우';
+	  var name = '201635817';
+	  var usersRef = firebase.database().ref('WEBusers/totalstudent/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='하서준';
+	  var name = '201635818';
+	  var usersRef = firebase.database().ref('WEBusers/totalstudent/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='황건우';
+	  var name = '201635819';
+	  var usersRef = firebase.database().ref('WEBusers/totalstudent/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='황하은';
+	  var name = '201635820';
+	  var usersRef = firebase.database().ref('WEBusers/totalstudent/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  studentnum:name
+		  }
+	  usersRef.set(data);*/
+	  
+	  /*var subjectname='김민준';
+	  var name = 'A+';
+	  var usersRef = firebase.database().ref('WEBusers/201535801/2018/spring/09392003/students/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  score:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='박서현';
+	  var name = 'A+';
+	  var usersRef = firebase.database().ref('WEBusers/201535801/2018/spring/09392003/students/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  score:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='박민서';
+	  var name = 'F';
+	  var usersRef = firebase.database().ref('WEBusers/201535801/2018/spring/09392003/students/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  score:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='배준서';
+	  var name = 'C+';
+	  var usersRef = firebase.database().ref('WEBusers/201535801/2018/spring/09392003/students/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  score:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='신서윤';
+	  var name = 'B+';
+	  var usersRef = firebase.database().ref('WEBusers/201535801/2018/spring/09392003/students/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  score:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='모하은';
+	  var name = 'B+';
+	  var usersRef = firebase.database().ref('WEBusers/201535801/2018/spring/09392003/students/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  score:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='이예준';
+	  var name = 'B+';
+	  var usersRef = firebase.database().ref('WEBusers/201535801/2018/spring/09392003/students/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  score:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='이시우';
+	  var name = 'C+';
+	  var usersRef = firebase.database().ref('WEBusers/201535801/2018/spring/09392003/students/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  score:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='장지민';
+	  var name = 'B';
+	  var usersRef = firebase.database().ref('WEBusers/201535801/2018/spring/09392003/students/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  score:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='장지후';
+	  var name = 'C+';
+	  var usersRef = firebase.database().ref('WEBusers/201535801/2018/spring/09392003/students/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  score:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='장현우';
+	  var name = 'C+';
+	  var usersRef = firebase.database().ref('WEBusers/201535801/2018/spring/09392003/students/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  score:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='정현우';
+	  var name = 'F';
+	  var usersRef = firebase.database().ref('WEBusers/201535801/2018/spring/09392003/students/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  score:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='정지윤';
+	  var name = 'A';
+	  var usersRef = firebase.database().ref('WEBusers/201535801/2018/spring/09392003/students/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  score:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='차수빈';
+	  var name = 'C+';
+	  var usersRef = firebase.database().ref('WEBusers/201535801/2018/spring/09392003/students/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  score:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='차지훈';
+	  var name = 'A+';
+	  var usersRef = firebase.database().ref('WEBusers/201535801/2018/spring/09392003/students/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  score:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='하서준';
+	  var name = 'B+';
+	  var usersRef = firebase.database().ref('WEBusers/201535801/2018/spring/09392003/students/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  score:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='하건우';
+	  var name = 'C+';
+	  var usersRef = firebase.database().ref('WEBusers/201535801/2018/spring/09392003/students/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  score:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='황건우';
+	  var name = 'A+';
+	  var usersRef = firebase.database().ref('WEBusers/201535801/2018/spring/09392003/students/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  score:name
+		  }
+	  usersRef.set(data);
+	  
+	  var subjectname='황하은';
+	  var name = 'A+';
+	  var usersRef = firebase.database().ref('WEBusers/201535801/2018/spring/09392003/students/'+subjectname);
+	  var data = {
+			  name:subjectname,
+			  score:name
+		  }
+	  usersRef.set(data);*/
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  //window.location.href="https://seproject-5d1c4.firebaseapp.com/"
+	  //window.location.href="/index.html"
+	  
+      
+  }
+    
+</script>
+<h2 align="center"> 12345 111 </h2>
+
+<table width=50% align="center">
+
+<!-- user name -->
+<tr>
+<td>Name</td>
+</tr>
+<tr>
+<td><input type="text" size=35 id="user_name"></td>
+</tr>
+
+<!-- user id -->
+<tr>
+<td>Id</td>
+</tr>
+
+<tr>
+<td><input type="text" size=35 id="userid"></td>
+</tr>
+
+<!-- password -->
+<tr>
+<td>Password</td>
+</tr>
+
+<tr>
+<td><input type="Password" size=35 id="pwd"></td>
+</tr>
+
+<!-- Identification -->
+<tr>  
+<td>Identification</td>
+</tr>
+<tr>
+<td><input type="radio" id="id1" name=identification value="Student">Student</td>
+</tr>
+<tr>
+<td><input type="radio" id="id2" name=identification value="Professor">Professor</td>
+</tr>
+<tr>
+<td><input type="radio" id="id3" name=identification value="Manager">Manager</td>
+</tr>
+
+<tr>
+<td>
+<!--<form id="signupDone" action="GCSMS.html">-->
+<input type="submit" name="SignUp" value="Sign up" onclick="saveData()">
+<!--</form>-->
+</td>
+</tr>
+
+</table>
+
+</body>
+
+</html>
