@@ -43,9 +43,9 @@ public class MainActivity extends AppCompatActivity {
         signupBtn = (Button) findViewById(R.id.signupBtn);
 
         database = FirebaseDatabase.getInstance();
-        databaseReference1 = database.getReference("Mobile/users/manager");
-        databaseReference2 = database.getReference("Mobile/users/student");
-        databaseReference3 = database.getReference("Mobile/users/professor");
+        databaseReference1 = database.getReference("WEBusers/");
+        //databaseReference2 = database.getReference("Mobile/users/student");
+        //databaseReference3 = database.getReference("Mobile/users/professor");
 
         loginBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -69,56 +69,41 @@ public class MainActivity extends AppCompatActivity {
 
                                 if (data.getKey().equals(inputId)) {
                                     String userID = (String) data.getKey();
-                                    String storedPw = (String) data.child("PW").getValue();
+                                    String storedPw = (String) data.child("password").getValue();
 
                                     if (storedPw.equals(inputPw)) {
-                                        String userName = (String) data.child("NAME").getValue();
+                                        String userName = (String) data.child("name").getValue();
                                         Toast.makeText(getApplicationContext(), "login success", Toast.LENGTH_SHORT).show();
 
+                                        String type = (String) data.child("type").getValue();
 
-                                        Intent intent = new Intent(getApplicationContext(), ManagerMainActivity.class);
-                                        Bundle bundle = new Bundle();
-                                        bundle.putString("ID",userID);
-                                        intent.putExtras(bundle);
-                                        startActivity(intent);
-                                        finish();
+                                        if(type.equals("student")){
+                                            Intent intent = new Intent(getApplicationContext(), StudentActivity.class);
+                                            Bundle bundle = new Bundle();
+                                            bundle.putString("ID", userID);
+                                            intent.putExtras(bundle);
+                                            startActivity(intent);
+                                            finish();
+                                        }
 
-                                        return;
-                                    } else {
-                                        Toast.makeText(getApplicationContext(), "wrong password", Toast.LENGTH_SHORT).show();
-                                        return;
-                                    }
-                                }
-                            }
-                        }
+                                        else if(type.equals("professor"))
+                                        {
+                                            Intent intent = new Intent(getApplicationContext(), ProfessorActivity.class);
+                                            Bundle bundle = new Bundle();
+                                            bundle.putString("ID", userID);
+                                            intent.putExtras(bundle);
+                                            startActivity(intent);
+                                            finish();
+                                        }
 
-                        @Override
-                        public void onCancelled(DatabaseError databaseError) {
-
-                        }
-                    });
-
-                    databaseReference2.addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(DataSnapshot dataSnapshot) {
-                            Iterator<DataSnapshot> userList = dataSnapshot.getChildren().iterator();
-                            while (userList.hasNext()) {
-                                DataSnapshot data = userList.next();
-
-                                if (data.getKey().equals(inputId)) {
-                                    String userID = (String) data.getKey();
-                                    String storedPw = (String) data.child("PW").getValue();
-
-                                    if (storedPw.equals(inputPw)) {
-                                        String userName = (String) data.child("NAME").getValue();
-                                        Toast.makeText(getApplicationContext(), "login success", Toast.LENGTH_SHORT).show();
-
-                                        Intent intent = new Intent(getApplicationContext(), StudentActivity.class);
-                                        Bundle bundle2 = new Bundle();
-                                        bundle2.putString("ID",userID);
-                                        intent.putExtras(bundle2);
-                                        startActivity(intent);
-                                        finish();
+                                        else {
+                                            Intent intent = new Intent(getApplicationContext(), ManagerMainActivity.class);
+                                            Bundle bundle = new Bundle();
+                                            bundle.putString("ID", userID);
+                                            intent.putExtras(bundle);
+                                            startActivity(intent);
+                                            finish();
+                                        }
 
                                         return;
                                     } else {
@@ -135,43 +120,6 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }
-
-                databaseReference3.addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        Iterator<DataSnapshot> userList = dataSnapshot.getChildren().iterator();
-                        while (userList.hasNext()) {
-                            DataSnapshot data = userList.next();
-
-                            if (data.getKey().equals(inputId)) {
-                                String userID = (String) data.getKey();
-                                String storedPw = (String) data.child("PW").getValue();
-
-                                if (storedPw.equals(inputPw)) {
-                                    String userName = (String) data.child("NAME").getValue();
-                                    Toast.makeText(getApplicationContext(), "login success", Toast.LENGTH_SHORT).show();
-
-                                    Intent intent = new Intent(getApplicationContext(), ProfessorActivity.class);
-                                    Bundle bundle3 = new Bundle();
-                                    bundle3.putString("ID",userID);
-                                    intent.putExtras(bundle3);
-                                    startActivity(intent);
-                                    finish();
-
-                                    return;
-                                } else {
-                                    Toast.makeText(getApplicationContext(), "wrong password", Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
-                            }
-                        }
-                    }
-
-                    @Override
-                    public void onCancelled(DatabaseError databaseError) {
-
-                    }
-                });
             }
         });
 
