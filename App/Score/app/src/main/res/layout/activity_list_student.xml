@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context="com.example.sj971.score.ListStudentActivity">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,10 +19,12 @@
             android:layout_marginTop="10dp" />
 
         <Button
-            android:layout_marginTop="10dp"
+            android:id="@+id/delete"
+            android:layout_gravity="center"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:text="추가"/>
+            android:text="삭제"/>
+
     </LinearLayout>
+
 </android.support.constraint.ConstraintLayout>

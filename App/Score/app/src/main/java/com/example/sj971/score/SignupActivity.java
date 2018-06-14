@@ -46,7 +46,7 @@ public class SignupActivity extends AppCompatActivity {
         manager = (RadioButton) findViewById(R.id.manager);
 
         database = FirebaseDatabase.getInstance();
-        databaseReference = database.getReference("users");
+        databaseReference = database.getReference("Mobile/");
 
         user_type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
 
@@ -70,10 +70,30 @@ public class SignupActivity extends AppCompatActivity {
 
                 String id_num = id.getText().toString();
 
-                databaseReference.child(user).child(id_num).child("ID").setValue(id.getText().toString());
-                databaseReference.child(user).child(id_num).child("PW").setValue(pw.getText().toString());
-                databaseReference.child(user).child(id_num).child("NAME").setValue(name.getText().toString());
-                databaseReference.child(user).child(id_num).child("type").setValue(user);
+                databaseReference.child("users").child(user).child(id_num).child("ID").setValue(id.getText().toString());
+                databaseReference.child("users").child(user).child(id_num).child("PW").setValue(pw.getText().toString());
+                databaseReference.child("users").child(user).child(id_num).child("NAME").setValue(name.getText().toString());
+                databaseReference.child("users").child(user).child(id_num).child("type").setValue(user);
+
+                if(user.equals("student")) {
+                    //추가 기능이 없어 임의로 값을 넣어줌
+                    databaseReference.child("users").child(user).child(id_num).child("subject").child("2018").child("1학기").child("00000").child("subjectName").setValue("과목1");
+                    databaseReference.child("users").child(user).child(id_num).child("subject").child("2018").child("1학기").child("00000").child("subjectNumber").setValue("00000");
+                    databaseReference.child("users").child(user).child(id_num).child("subject").child("2018").child("1학기").child("00000").child("subjectScore").setValue("A");
+                }
+
+                if(user.equals("professor")) {
+                    //추가 기능이 없어 임의로 값을 넣어줌
+                    databaseReference.child("users").child(user).child(id.getText().toString()).child("subject").child("2018").child("1학기").child("00001000").setValue("00001000");
+                    databaseReference.child("users").child(user).child(id.getText().toString()).child("subject").child("2018").child("1학기").child("00001000").child("subjectName").setValue("과목1");
+
+                    databaseReference.child("subject").child("2018").child("1학기").child("subjectName").child("00001000").child("subject_name").setValue("과목1");
+                    databaseReference.child("subject").child("2018").child("1학기").child("subjectName").child("00001000").child("student").child("1").child("name").setValue("홍길동");
+                    databaseReference.child("subject").child("2018").child("1학기").child("subjectName").child("00001000").child("student").child("1").child("score").setValue("A+");
+
+                    databaseReference.child("subject").child("2018").child("1학기").child("subjectName").child("00001000").child("student").child("2").child("name").setValue("홍길동");
+                    databaseReference.child("subject").child("2018").child("1학기").child("subjectName").child("00001000").child("student").child("2").child("score").setValue("A+");
+                }
 
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 startActivity(intent);

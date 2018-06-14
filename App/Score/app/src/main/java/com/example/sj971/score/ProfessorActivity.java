@@ -29,10 +29,6 @@ public class ProfessorActivity extends AppCompatActivity {
     ListView listView;
     SubjectAdapter adapter;
 
-    int line = 4; //디비 속 row 개수
-    String[] number = new String[line];
-    String[] subject = new String[line];
-
     FirebaseDatabase database;
     DatabaseReference databaseReference;
 
@@ -52,26 +48,23 @@ public class ProfessorActivity extends AppCompatActivity {
     private final int DYNAMIC_VIEW_ID = 0x8000;
     private LinearLayout dynamicLayout;
 
-    String id;
+    String professor_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_professor);
 
-        subject[0] = "소프트웨어 공학";
-        subject[1] = "소프트웨어 공학";
-        subject[2] = "웹 프로그래밍";
-        subject[3] = "컴퓨터 프로그래밍";
-
-        number[0] = "09392003";
-        number[1] = "09392004";
-        number[2] = "29802003";
-        number[3] = "15635904";
-
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
-        id = bundle.getString("ID");
+        professor_id = bundle.getString("ID");
+
+        textYear=(TextView)findViewById(R.id.year);
+        textSemester=(TextView)findViewById(R.id.semester);
+
+        selectButton = (Button) findViewById(R.id.select);
+        year_spinner = (Spinner) findViewById(R.id.select_year);
+        semester_spinner = (Spinner) findViewById(R.id.select_semester);
 
         listView = (ListView) findViewById(R.id.listView);
 
@@ -109,34 +102,45 @@ public class ProfessorActivity extends AppCompatActivity {
             }
         });
 
+
         adapter = new SubjectAdapter();
 
-        //사용자가 선택한 연도와 학기에 따른 디비 값을 읽어서 출력
-        databaseReference = database.getReference("users/professor/" + id + "/subject/" + year + "/" + semester);
+        selectButton=(Button)findViewById(R.id.select);
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Iterator<DataSnapshot> userList = dataSnapshot.getChildren().iterator();
-                while (userList.hasNext()) {
-                    DataSnapshot data = userList.next();
-
-                    //과목 아이디를 가져와서 그 child의 값인 과목 아이디와 과목 이름을 적어서 리스트뷰 생성
-                    //subjectNum++;
-
-                    //subjectName = databaseReference.child();
-
-                    // adapter.addItem(new ScoreItem(subjectName, subjectScore));
-                }
-            }
+        selectButton.setOnClickListener(new View.OnClickListener(){
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
+            public void onClick(View view) {
 
+                adapter = new SubjectAdapter();
+
+                //사용자가 선택한 연도와 학기에 따른 디비 값을 읽어서 출력
+                databaseReference = database.getReference("Mobile/users/professor/" + professor_id + "/subject/" + year + "/" + semester);
+
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Iterator<DataSnapshot> userList = dataSnapshot.getChildren().iterator();
+                        while (userList.hasNext()) {
+                            DataSnapshot data = userList.next();
+
+                            String subjectID = data.getKey(); //과목 ID 값
+
+                            String subjectName = (String)data.child(subjectID).child("subjectName").getValue(); //과목 이름 가져옴
+
+                            adapter.addItem(new SubjectItem(subjectID, subjectName));
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
+
+                listView.setAdapter(adapter);
             }
         });
-
-        listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -149,6 +153,7 @@ public class ProfessorActivity extends AppCompatActivity {
 
                 Bundle select_number = new Bundle();
 
+                select_number.putString("ID", professor_id);
                 select_number.putString("Number", item.getNumber());
                 select_number.putString("Subject", item.getSubject());
                 select_number.putString("Year", year);
@@ -159,6 +164,7 @@ public class ProfessorActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
     }
 
     class SubjectAdapter extends BaseAdapter {

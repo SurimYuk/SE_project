@@ -3,6 +3,7 @@ package com.example.sj971.score;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -52,6 +53,9 @@ public class StudentActivity extends AppCompatActivity {
     String[] subject = new String[line];
     String[] score = new String[line];
 
+    String[] subject2 = new String[line];
+    String[] score2 = new String[line];
+
     ListView listView;
     ScoreAdapter adapter;
 
@@ -80,17 +84,27 @@ public class StudentActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         id = bundle.getString("ID");
 
-        database = FirebaseDatabase.getInstance();
+        score[0] = "A0";
+        score[1] = "B+";
+        score[2] = "B0";
+        score[3] = "A0";
 
         subject[0] = "소프트웨어 공학";
         subject[1] = "컴퓨터 그래픽스";
         subject[2] = "모바일 프로그래밍";
-        subject[3] = "산업세미나";
+        subject[3] = "경영학원론";
 
-        score[0] = "A+";
-        score[1] = "B";
-        score[2] = "A";
-        score[3] = "B+";
+        score2[0] = "B0";
+        score2[1] = "A+";
+        score2[2] = "B0";
+        score2[3] = "A0";
+
+        subject2[0] = "알고리즘";
+        subject2[1] = "데이타베이스";
+        subject2[2] = "로봇공학";
+        subject2[3] = "네트워크";
+
+        database = FirebaseDatabase.getInstance();
 
         ArrayAdapter<String> adapter_year = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, year_value);
         adapter_year.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -131,14 +145,32 @@ public class StudentActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
 
+                /*
+                adapter = new ScoreAdapter();
+
+                if(semester.equals("1학기") && year.equals("2018")){
+                    for(int i=0; i<line; i++){
+                        adapter.addItem(new ScoreItem(subject[i], score[i]));
+                    }
+                }
+
+                if(semester.equals("2학기") && year.equals("2017")){
+                    for(int i=0; i<line; i++){
+                        adapter.addItem(new ScoreItem(subject2[i], score2[i]));
+                    }
+                }
+
+                //adapter.addItem(new ScoreItem(subjectName, score));
+                */
+
                 //여기서 사용자가 선택한 year와 semester에 따라 디비 값 읽도록 설정해주면 됨!
 
                 adapter = new ScoreAdapter();
 
-                path="users/" + id + "/subject/"+year+"/"+semester;
+                path="Mobile/users/" + id + "/subject/"+year+"/"+semester;
 
                 //사용자가 선택한 연도와 학기에 따른 디비 값을 읽어서 출력
-                databaseReference = database.getReference("users/student/" + id + "/subject/"+year+"/"+semester);
+                databaseReference = database.getReference("Mobile/users/student/" + id + "/subject/"+year+"/"+semester);
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
@@ -146,12 +178,14 @@ public class StudentActivity extends AppCompatActivity {
                         while (userList.hasNext()) {
                             DataSnapshot data = userList.next();
 
-                            //과목 아이디를 가져와서 그 child의 값인 과목 이름과 성적을 적어서 리스트뷰 생성
-                            subjectNum++;
+                            String subjectID = (String)data.getKey();
+                            Log.i("subjectID",subjectID);
 
-                            //subjectName = databaseReference.child();
+                            String subjectName = (String)data.child(subjectID).child("subjectName").getValue();
+                            String score =(String)data.child(subjectID).child("subjectScore").getValue();
+                            Log.i("subjectName, score",subjectName+score);
 
-                            adapter.addItem(new ScoreItem(subjectName, subjectScore));
+                            adapter.addItem(new ScoreItem(subjectName, score));
                         }
                     }
 

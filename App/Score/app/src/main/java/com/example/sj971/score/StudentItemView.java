@@ -13,9 +13,10 @@ import android.widget.TextView;
 
 public class StudentItemView extends LinearLayout {
 
+    TextView id;
     TextView name;
     TextView score;
-    Spinner grade;
+    //Spinner grade;
 
     public StudentItemView(Context context) {
         super(context);
@@ -35,6 +36,7 @@ public class StudentItemView extends LinearLayout {
 
         name = (TextView) findViewById(R.id.name);
         score=(TextView)findViewById(R.id.score);
+        id=(TextView)findViewById(R.id.ID);
     }
 
     public void setName(String student_name) {
@@ -45,4 +47,7 @@ public class StudentItemView extends LinearLayout {
         score.setText(student_score);
     }
 
+    public void setID(String ID){
+        id.setText(ID);
+    }
 }
